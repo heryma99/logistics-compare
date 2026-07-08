@@ -1,0 +1,286 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>云途三渠道对比：THPHR vs QYTHPH vs A01特惠普货</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,'Microsoft YaHei',sans-serif;background:#f4f6f9;color:#1f2d3d;line-height:1.6}
+.wrap{max-width:1100px;margin:0 auto;padding:22px 18px 60px}
+
+/* Hero */
+.hero{background:linear-gradient(135deg,#1a2a6c,#2a5298,#b21f1f);color:#fff;border-radius:16px;padding:28px 30px;margin-bottom:22px}
+.hero h1{font-size:22px;margin:0 0 6px}.hero .sub{opacity:.85;font-size:13px}
+
+/* Banner */
+.banner{background:#fff7ed;border:1px solid #fdba74;border-left:5px solid #ea580c;border-radius:12px;padding:16px 20px;margin-bottom:22px;font-size:14px;line-height:1.7}
+.banner b{color:#ea580c}
+.banner.green{background:#ecfdf5;border-color:#86efac;border-left-color:#16a34a}
+.banner.green b{color:#16a34a}
+
+/* Section */
+.section{background:#fff;border-radius:14px;padding:22px 24px;margin-bottom:22px;box-shadow:0 2px 12px rgba(0,0,0,.05)}
+.sec-title{font-size:18px;font-weight:700;margin-bottom:4px}.sec-sub{font-size:13px;color:#8a94a6;margin-bottom:14px}
+
+/* 3-channel cards */
+.cards3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:18px}
+.c3{border-radius:14px;padding:20px 16px;text-align:center;border:2px solid #e2e8f0;position:relative;transition:all .2s}
+.c3:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.1)}
+.c3.th{border-top:4px solid #3b82f6}.c3.qy{border-top:4px solid #8b5cf6}.c3.a01{border-top:4px solid #f59e0b}
+.c3 .tag{display:inline-block;font-size:11px;padding:2px 10px;border-radius:20px;font-weight:600;margin-bottom:8px}
+.c3.th .tag{background:#dbeafe;color:#1d4ed8}.c3.qy .tag{background:#ede9fe;color:#6d28d9}.c3.a01 .tag{background:#fef3c7;color:#b45309}
+.c3 .pname{font-size:16px;font-weight:700;margin-bottom:4px}
+.c3 .eff{font-size:12px;color:#8a94a6;margin-bottom:10px}
+.c3 .stat{font-size:13px;display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #f1f5f9}
+.c3 .stat:last-child{border:none}
+.c3 .stat .val{font-weight:700;font-variant-numeric:tabular-nums}
+.c3.th .stat .val{color:#2563eb}.c3.qy .stat .val{color:#7c3aed}.c3.a01 .stat .val{color:#d97706}
+
+/* Table */
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{padding:9px 10px;text-align:center;border-bottom:1px solid #eef1f5}
+th{background:#f8fafc;color:#5a6577;font-weight:600;font-size:12px;position:sticky;top:0}
+td.pl{text-align:left;font-weight:600;color:#2d3748}
+td.num{font-variant-numeric:tabular-nums}
+td.best-b{background:#e6f9ef;color:#1a8c6e;font-weight:700;border-radius:6px}
+td.best-r{background:#fef2f2;color:#dc2626;font-weight:700;border-radius:6px}
+td.win-tag{font-size:11px;padding:2px 8px;border-radius:10px;font-weight:700}
+td.win-tag.wb{background:#d1fae5;color:#065f46}
+td.win-tag.wr{background:#fee2e2;color:#991b1b}
+
+/* 维度对比表 */
+.dim-table th:first-child{width:140px}
+.dim-table td{text-align:left;font-size:13px}
+.dim-label{font-weight:600;color:#374151;background:#f8fafc}
+
+/* 独家覆盖 */
+.ex-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.ex-box{border-radius:12px;padding:16px;font-size:13px}
+.ex-box.th{background:#eff6ff;border:1px solid #bfdbfe}.ex-box.qy{background:#f5f3ff;border:1px solid #ddd6fe}.ex-box.a01{background:#fffbeb;border:1px solid #fde68a}
+.ex-box h4{margin:0 0 8px;font-size:14px}
+.ex-box ul{margin:0;padding-left:18px;color:#4b5563}
+.ex-box li{padding:2px 0}
+
+/* 结论 */
+.conclusion{background:linear-gradient(135deg,#ecfdf5,#f0fdf4);border:1px solid #86efac;border-left:5px solid #16a34a;border-radius:12px;padding:20px 24px;margin-bottom:22px}
+.conclusion h3{margin:0 0 10px;color:#166534;font-size:17px}
+.conclusion p{margin:4px 0;font-size:14px;color:#15803d}
+.rule-item{display:flex;gap:12px;align-items:flex-start;margin:8px 0}
+.rule-icon{flex-shrink:0;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700}
+.rule-icon.b{background:#dbeafe;color:#1d4ed8}.rule-icon.p{background:#ede9fe;color:#6d28d9}.rule-icon.y{background:#fef3c7;color:#b45309}
+.rule-text{font-size:13px;line-height:1.6}
+.rule-text b{color:#1e40af}
+
+.note{font-size:13px;color:#5a6577;background:#f0f4ff;border-radius:10px;padding:14px 18px;margin-top:12px;line-height:1.7}
+.note b{color:#2a5298}
+.note.warn{background:#fffbeb;border-left:4px solid #f59e0b;color:#92400e}
+
+.foot{color:#9ca3af;font-size:12px;margin-top:20px;text-align:center}
+
+/* Tab for overlap sections */
+.tab-bar{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap}
+.tab-btn{padding:7px 16px;border-radius:20px;border:1px solid #d1d5db;background:#fff;font-size:13px;cursor:pointer;transition:all .15s;font-weight:600;color:#4b5563}
+.tab-btn:hover{background:#f3f4f6}
+.tab-btn.active{background:#2563eb;color:#fff;border-color:#2563eb}
+
+@media(max-width:720px){
+  .cards3{grid-template-columns:1fr}
+  .ex-grid{grid-template-columns:1fr}
+  table{font-size:11px}
+  th,td{padding:6px 4px}
+}
+</style></head>
+<body>
+<div class="wrap">
+
+<div class="hero">
+  <h1>☁️ 云途三渠道横向对比：THPHR · QYTHPH · A01特惠普货</h1>
+  <div class="sub">同承运商（云途物流）三条产品线的价格、覆盖与条款全维度比较</div>
+</div>
+
+<div class="banner green">
+  <b>核心结论：</b>三个渠道各有明确适用场景——<b>QYTHPH（特殊方案）在墨/巴/澳运费最低且巴西DDP包税</b>；<b>A01在美国运费比THPHR便宜约7~18元/kg</b>；THPHR 覆盖最广（13国），是走其他国家的唯一选择。根据目的国和重量段选渠道，不要混用。
+</div>
+
+<!-- 渠道概览 -->
+<div class="section">
+  <div class="sec-title">📦 三渠道基本概况</div>
+  <div class="sec-sub">点击卡片可快速了解每条渠道的定位</div>
+  <div class="cards3">
+    <div class="c3 th">
+      <div class="tag">全球通用</div>
+      <div class="pname">THPHR 全球特惠普货</div>
+      <div class="eff">生效：2026-07-07</div>
+      <div class="stat"><span>覆盖国家</span><span class="val">13 国</span></div>
+      <div class="stat"><span>代表运费</span><span class="val">54–115 元/kg</span></div>
+      <div class="stat"><span>清关(巴)</span><span class="val">DDU（收货人缴）</span></div>
+      <div class="stat"><span>保价</span><span class="val">可选 0.7%</span></div>
+    </div>
+    <div class="c3 qy">
+      <div class="tag">JW PEI 专属</div>
+      <div class="pname">QYTHPH 特殊方案</div>
+      <div class="eff">生效：2026-07-07</div>
+      <div class="stat"><span>覆盖国家</span><span class="val">3 国</span></div>
+      <div class="stat"><span>代表运费</span><span class="val">28–86 元/kg</span></div>
+      <div class="stat"><span>清关(巴)</span><span class="val">DDP（代缴包税）</span></div>
+      <div class="stat"><span>保价</span><span class="val">不提供</span></div>
+    </div>
+    <div class="c3 a01">
+      <div class="tag">区域专属</div>
+      <div class="pname">A01 特惠普货</div>
+      <div class="eff">生效：2026-06-29</div>
+      <div class="stat"><span>覆盖国家</span><span class="val">1 国（美国）</span></div>
+      <div class="stat"><span>代表运费</span><span class="val">93–97 元/kg</span></div>
+      <div class="stat"><span>清关</span><span class="val">见条款文件</span></div>
+      <div class="stat"><span>保价</span><span class="val">见条款文件</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- 重叠国家价格对比 -->
+<div class="section">
+  <div class="sec-title">💰 重叠路线价格逐档对比</div>
+  <div class="sec-sub">墨/巴/澳 = THPHR ↔ QYTHPH 两两对比 | 美国 = THPHR ↔ A01 两方对比</div>
+
+  <!-- 墨西哥 -->
+  <div style="margin-bottom:20px">
+    <div style="font-weight:700;font-size:15px;margin-bottom:8px;color:#1e40af">🇲🇽 墨西哥 — THPHR vs QYTHPH</div>
+    <table>
+    <thead><tr><th>重量段(kg)</th><th>THPHR 运费元/kg</th><th>THPHR 挂号元/票</th><th>QYTHPH 运费元/kg</th><th>QYTHPH 挂号元/票</th><th>差价(元/kg)</th><th>更低</th></tr></thead>
+    <tbody>
+    <tr><td class="pl">0.5kg 档</td><td class="num">65</td><td class="num">18</td><td class="num best-b">55–60</td><td class="num">15</td><td class="num best-b">−5 ~ −10</td><td><span class="win-tag wb">QYTHPH ✅</span></td></tr>
+    <tr><td class="pl">1 kg 档</td><td class="num">65</td><td class="num">18</td><td class="num best-b">60</td><td class="num">15</td><td class="num best-b">−5</td><td><span class="win-tag wb">QYTHPH ✅</span></td></tr>
+    <tr><td class="pl">2 kg 档</td><td class="num">65</td><td class="num">20</td><td class="num best-b">60</td><td class="num">15</td><td class="num best-b">−5</td><td><span class="win-tag wb">QYTHPH ✅</span></td></tr>
+    <tr><td class="pl">3+ kg 档</td><td class="num">65</td><td class="num">20</td><td class="num best-b">60</td><td class="num">15</td><td class="num best-b">−5</td><td><span class="win-tag wb">QYTHPH ✅</span></td></tr>
+    </tbody>
+    </table>
+    <div class="note" style="margin-top:8px"><b>墨西哥结论：</b>QYTHPH 全档位比 THPHR 便宜 5–10 元/kg，挂号费也低 3–5 元。走墨西哥优先用 QYTHPH。</div>
+  </div>
+
+  <!-- 巴西 -->
+  <div style="margin-bottom:20px">
+    <div style="font-weight:700;font-size:15px;margin-bottom:8px;color:#1e40af">🇧🇷 巴西 — THPHR(DDU) vs QYTHPH(DDP)</div>
+    <table>
+    <thead><tr><th>重量段(kg)</th><th>THPHR 运费元/kg</th><th>THPHR 挂号元/票</th><th>QYTHPH 运费元/kg</th><th>QYTHPH 挂号元/票</th><th>差价(元/kg)</th><th>更低</th></tr></thead>
+    <tbody>
+    <tr><td class="pl">1 kg 档</td><td class="num">102</td><td class="num">46</td><td class="num best-b">86</td><td class="num">30</td><td class="num best-b">−16</td><td><span class="win-tag wb">QYTHPH ✅</span></td></tr>
+    <tr><td class="pl">2 kg 档</td><td class="num">102</td><td class="num">49</td><td class="num best-b">86</td><td class="num">35</td><td class="num best-b">−16</td><td><span class="win-tag wb">QYTHPH ✅</span></td></tr>
+    <tr><td class="pl">4 kg 档</td><td class="num">102</td><td class="num">60</td><td class="num best-b">86</td><td class="num">40</td><td class="num best-b">−16</td><td><span class="win-tag wb">QYTHPH ✅</span></td></tr>
+    </tbody>
+    </table>
+    <div class="note" style="margin-top:8px"><b>巴西结论：</b>QYTHPH 比 THPHR 便宜 16 元/kg + 挂号省 10–16 元 + <b>DDP 包税</b>（THPHR 是 DDU 收货人自缴）。综合优势巨大，走巴西强烈推荐 QYTHPH。</div>
+  </div>
+
+  <!-- 澳大利亚 -->
+  <div style="margin-bottom:20px">
+    <div style="font-weight:700;font-size:15px;margin-bottom:8px;color:#1e40af">🇦🇺 澳大利亚 — THPHR vs QYTHPH</div>
+    <table>
+    <thead><tr><th>重量段(kg)</th><th>THPHR 运费元/kg</th><th>THPHR 挂号元/票</th><th>QYTHPH 运费元/kg</th><th>QYTHPH 挂号元/票</th><th>差价(元/kg)</th><th>更低</th></tr></thead>
+    <tbody>
+    <tr><td class="pl">0.5kg 档</td><td class="num">30</td><td class="num">25</td><td class="num best-b">28</td><td class="num">25</td><td class="num best-b">−2</td><td><span class="win-tag wb">QYTHPH ✅</span></td></tr>
+    <tr><td class="pl">1 kg 档</td><td class="num">30</td><td class="num">27</td><td class="num best-b">28</td><td class="num">27</td><td class="num best-r">+2</td><td><span class="win-tag wr">THPHR 更优 ⚠️</span></td></tr>
+    <tr><td class="pl">3+ kg 档</td><td class="num">30</td><td class="num">42</td><td class="num best-b">28</td><td class="num">42</td><td class="num best-b">−2</td><td><span class="win-tag wb">QYTHPH ✅</span></td></tr>
+    </tbody>
+    </table>
+    <div class="note" style="margin-top:8px"><b>澳大利亚结论：</b>两者接近——小重 QYTHPH 略便宜 2 元/kg，1kg 左右 THPHR 反而低 2 元。差异不大，按账号资格选即可。</div>
+  </div>
+
+  <!-- 美国 THPHR vs A01 -->
+  <div style="margin-bottom:0">
+    <div style="font-weight:700;font-size:15px;margin-bottom:8px;color:#1e40af">🇺🇸 美国 — THPHR vs A01特惠普货</div>
+    <table>
+    <thead><tr><th>重量段(kg)</th><th>THPHR 运费元/kg</th><th>THPHR 挂号元/票</th><th>A01 运费元/kg</th><th>A01 挂号元/票</th><th>差价(元/kg)</th><th>更低</th></tr></thead>
+    <tbody>
+    <tr><td class="pl">0.2kg 档（小包）</td><td class="num">108</td><td class="num">19</td><td class="num best-b">93</td><td class="num">22</td><td class="num best-b">−15</td><td><span class="win-tag wb">A01 ✅</span></td></tr>
+    <tr><td class="pl">0.5kg 档</td><td class="num">105–107</td><td class="num">19</td><td class="num best-b">93–97</td><td class="num">20–22</td><td class="num best-b">−7 ~ −12</td><td><span class="win-tag wb">A01 ✅</span></td></tr>
+    <tr><td class="pl">1 kg 档</td><td class="num">105</td><td class="num">12</td><td class="num best-b">97</td><td class="num best-b">9</td><td class="num best-b">−8</td><td><span class="win-tag wb">A01 ✅</span></td></tr>
+    <tr><td class="pl">2+ kg 档</td><td class="num">100</td><td class="num">12</td><td class="num best-b">96</td><td class="num best-b">9</td><td class="num best-b">−4</td><td><span class="win-tag wb">A01 ✅</span></td></tr>
+    </tbody>
+    </table>
+    <div class="note" style="margin-top:8px"><b>美国结论：</b>A01 在所有重量段都比 THPHR 便宜，小包差距最大（−15元/kg），大货也有 −4 元/kg。走美国优先用 A01。⚠️ 但注意 A01 仅限 JW PEI 授权账号使用。</div>
+  </div>
+</div>
+
+<!-- 全维度对比总表 -->
+<div class="section">
+  <div class="sec-title">📋 全维度条款对比</div>
+  <div class="sec-sub">除运费外，清关 / 税费 / 体积重 / 保价等关键差异</div>
+  <table class="dim-table">
+  <thead><tr><th>维度</th><th>THPHR 全球特惠普货</th><th>QYTHPH 特殊方案</th><th>A01 特惠普货</th></tr></thead>
+  <tbody>
+  <tr><td class="dim-label">产品代码</td><td>THPHR</td><td>QYTHPH</td><td>A01PH</td></tr>
+  <tr><td class="dim-label">生效日期</td><td>2026-07-07</td><td>2026-07-07</td><td>2026-06-29</td></tr>
+  <tr><td class="dim-label">覆盖范围</td><td>13 国（全球通用）</td><td>仅墨 / 巴 / 澳 3 国</td><td>仅美国 1 国</td></tr>
+  <tr><td class="dim-label">账号要求</td><td>通用云途账号</td><td>JW PEI 授权账号</td><td>JW PEI 区域授权</td></tr>
+  <tr><td class="dim-label">体积重除数<br><small>(用户固化口径)</small></td><td>默认 ÷10000<br><small>巴西唯一例外 ÷8000</small></td><td>墨÷8000 巴÷6000 澳÷8000</td><td>见源文件</td></tr>
+  <tr><td class="dim-label">巴西清关方式</td><td><b style="color:#dc2626">DDU</b><br><small>收货人自行向海关缴 60%关税+ICMS</small></td><td><b style="color:#16a34a">DDP</b><br><small>云途代缴 60%关税+ICMS+5元/票手续费</small></td><td>—（不含巴西）</td></tr>
+  <tr><td class="dim-label">墨西哥清关</td><td>DDP式（代收33.5%）</td><td>DDP式（代收33.5%）</td><td>—（不含墨西哥）</td></tr>
+  <tr><td class="dim-label">保价服务费</td><td>可选 0.7%（最低5元/票）</td><td>未提供</td><td>见源文件</td></tr>
+  <tr><td class="dim-label">申报限制</td><td>各国不同（见报价单）</td><td>各国不同</td><td>见源文件</td></tr>
+  <tr><td class="dim-label">时效参考</td><td>墨8-12天 巴15-25天<br>澳7-12天 美7-12天</td><td>墨10-15天 巴15-25天<br>澳5-10天</td><td>见源文件</td></tr>
+  </tbody>
+  </table>
+</div>
+
+<!-- 独家覆盖 -->
+<div class="section">
+  <div class="sec-title">🗺️ 各渠道独家覆盖国家</div>
+  <div class="sec-sub">仅该渠道可达的目的地，其他两条渠道不支持</div>
+  <div class="ex-grid">
+    <div class="ex-box th">
+      <h4>🔵 THPHR 独家（10 国）</h4>
+      <ul>
+        <li>🇬🇧 英国</li><li>🇫🇷 法国</li><li>🇩🇪 德国</li><li>🇮🇹 意大利</li>
+        <li>🇪🇸 西班牙</li><li>🇳🇱 荷兰</li><li>🇳🇿 新西兰</li>
+        <li>🇨🇦 加拿大</li><li>🇯🇵 日本</li><li>🇺🇸 美国（也可走A01）</li>
+      </ul>
+      <p style="margin:8px 0 0;font-size:12px;color:#6b7280">→ 走这 10 国只能选 THPHR（美国可选 A01 替代）</p>
+    </div>
+    <div class="ex-box qy">
+      <h4>🟣 QYTHPH 独家</h4>
+      <p style="color:#6b7280">无独家国家 — 墨/巴/澳 三国均与 THPHR 重叠</p>
+      <p style="margin:6px 0 0;font-size:12px;color:#6b7280">→ QYTHPH 的价值不在覆盖广度，而在重叠路线的<strong style="color:#7c3aed">更低运费+巴西DDP</strong></p>
+    </div>
+    <div class="ex-box a01">
+      <h4>🟡 A01 独家</h4>
+      <p style="color:#6b7280">无独家国家 — 仅覆盖美国，与 THPHR 重叠</p>
+      <p style="margin:6px 0 0;font-size:12px;color:#6b7280">→ A01 的价值在于美国的<strong style="color:#b45309">更低价位</strong>（比 THPHR 低 4–15 元/kg）</p>
+    </div>
+  </div>
+</div>
+
+<!-- 选渠建议 -->
+<div class="conclusion">
+  <h3>🎯 一句话选渠指南</h3>
+  <div class="rule-item">
+    <div class="rule-icon b">1</div>
+    <div class="rule-text"><b>去巴西 → 必选 QYTHPH</b>：运费低 16 元/kg + DDP 包税（THPHR 是 DDU 收货人自缴）。除非你没有 JW PEI 授权账号。</div>
+  </div>
+  <div class="rule-item">
+    <div class="rule-icon p">2</div>
+    <div class="rule-text"><b>去墨西哥 → 优选 QYTHPH</b>：运费低 5–10 元/kg + 挂号费也更低。两者清关方式相同（都是代收 33.5%），无其他差异。</div>
+  </div>
+  <div class="rule-item">
+    <div class="rule-icon y">3</div>
+    <div class="rule-text"><b>去澳大利亚 → 两者均可</b>：运费差仅 ±2 元/kg，差异极小。有 JW PEI 账号就走 QYTHPH，没有就走 THPHR。</div>
+  </div>
+  <div class="rule-item">
+    <div class="rule-icon b">4</div>
+    <div class="rule-text"><b>去美国 → 优选 A01</b>：比 THPHR 便宜 4–15 元/kg，挂号费也略低。A01 同样需要 JW PEI 授权。</div>
+  </div>
+  <div class="rule-item">
+    <div class="rule-icon b">5</div>
+    <div class="rule-text"><b>去其他国家（英法德意西荷加新日）→ 只能走 THPHR</b>：这是唯一覆盖这 10 个国家的渠道，别无选择。</div>
+  </div>
+</div>
+
+<!-- 数据说明 -->
+<div class="note warn">
+  <b>⚠️ 数据口径说明：</b><br>
+  • 运费单价取自各渠道最新生效报价单（THPHR/QYTHPH = 2026-07-07，A01 = 2026-06-29）<br>
+  • 体积重除数采用用户固化口径（THPHR 默认÷10000 / 巴西÷8000），与官方 20260629 文件实测值可能不同<br>
+  • 对比为「报价表原始运费元/kg + 挂号费元/票」，未代入具体包裹重量计算总价<br>
+  • A01 当前仅有 6-29 一版报价（该产品 6-29 才上线），后续更新后建议重新比对
+</div>
+
+<div class="foot">由 price_history.py 引擎提取数据 ｜ 三方对比页 ｜ 生成于 2026-07-08</div>
+
+</div></body></html>
