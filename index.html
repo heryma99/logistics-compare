@@ -29,14 +29,17 @@
   summary::before { content: "▸"; color: #9aa4b5; transition: transform .15s; }
   details[open] summary::before { transform: rotate(90deg); }
   .flag { font-size: 17px; }
-  .ch { display: block; text-decoration: none; color: #1f2733; background: #fff;
-        border: 1px solid #e6eaf2; border-radius: 8px; padding: 10px 14px; margin: 8px 0 8px 18px;
+  .ch { display:flex; align-items:center; justify-content:space-between; gap:16px;
+        text-decoration: none; color: #1f2733; background: #fff;
+        border: 1px solid #e6eaf2; border-radius: 8px; padding: 11px 16px; margin: 8px 0 8px 18px;
         transition: .15s; }
   .ch:hover { border-color: #4a8cff; box-shadow: 0 2px 8px rgba(74,140,255,.15); transform: translateX(2px); }
+  .ch-main { flex: 1 1 auto; min-width: 0; }
   .ch .name { font-weight: 600; }
   .ch .meta { font-size: 12px; color: #8a93a3; margin-top: 2px; }
   .vs { display:inline-block; font-size:11px; color:#fff; background:#4a8cff; border-radius:4px; padding:1px 6px; margin-left:6px;}
-  .adv { display:inline-block; font-size:12px; font-weight:600; padding:3px 10px; border-radius:20px; margin-top:8px; }
+  .adv { flex: 0 0 auto; text-align: right; font-size:12px; font-weight:600; padding:5px 12px;
+         border-radius:20px; max-width:230px; line-height:1.45; }
   .adv-yun { background:#e8f1ff; color:#1f6fe0; }
   .adv-feit { background:#e6f9ef; color:#1a8c6e; }
   .adv-dy { background:#eef0ff; color:#4a4ad8; }
@@ -50,7 +53,8 @@
   <div class="sub">按 <b>小包 / 大货 → 国家 → 渠道</b> 组织</div>
   <div class="legend">
     <b>小包</b>：按挂号小包计费、轻小件渠道（飞特 EY、云途小包等）&nbsp;·&nbsp;
-    <b>大货</b>：21KG 起、空运 / 海派 / 美森等大宗渠道（德翼、中运通达等）
+    <b>大货</b>：21KG 起、空运 / 海派 / 美森等大宗渠道（德翼、中运通达等）<br>
+    每行<b>右侧色标</b> = 当前综合优势方（颜色对应赢家：云途蓝 / 飞特绿 / 德翼靛 / 中运橙），括号内为前提条件。
   </div>
 
   <!-- 小包 -->
@@ -60,8 +64,10 @@
     <details open>
       <summary><span class="flag">🇨🇦</span> 加拿大</summary>
       <a class="ch" href="ca_ey_yuntu.html">
-        <div class="name">飞特(EY)标准挂号普货 <span class="vs">vs</span> 云途全球专线挂号特惠普货</div>
-        <div class="meta">渠道：加拿大专线挂号小包 · 飞特计实重 / 云途体积重≥2倍÷8000 · 含20CAD关税门槛</div>
+        <div class="ch-main">
+          <div class="name">飞特(EY)标准挂号普货 <span class="vs">vs</span> 云途全球专线挂号特惠普货</div>
+          <div class="meta">渠道：加拿大专线挂号小包 · 飞特计实重 / 云途体积重≥2倍÷8000 · 含20CAD关税门槛</div>
+        </div>
         <span class="adv adv-yun">💡 优势：云途更省（≥0.5kg；&lt;0.3kg 飞特略低）</span>
       </a>
     </details>
@@ -69,8 +75,10 @@
     <details open>
       <summary><span class="flag">🇪🇺</span> 欧洲</summary>
       <a class="ch" href="eu_small.html">
-        <div class="name">飞特(EY) <span class="vs">vs</span> 云途 欧洲小包</div>
-        <div class="meta">渠道：欧洲挂号小包 · 欧盟7.1新政(3€/HS CODE+IOSS 2%) · 飞特计实重/云途÷10000</div>
+        <div class="ch-main">
+          <div class="name">飞特(EY) <span class="vs">vs</span> 云途 欧洲小包</div>
+          <div class="meta">渠道：欧洲挂号小包 · 欧盟7.1新政(3€/HS CODE+IOSS 2%) · 飞特计实重/云途÷10000</div>
+        </div>
         <span class="adv adv-feit">💡 优势：飞特更省（轻小件首重）</span>
       </a>
     </details>
@@ -83,13 +91,17 @@
     <details open>
       <summary><span class="flag">🇺🇸</span> 美国</summary>
       <a class="ch" href="us_air.html">
-        <div class="name">德翼 <span class="vs">vs</span> 中运通达 · 美国空派</div>
-        <div class="meta">渠道：美国空运专线 · 含产品附加费/体积重÷6000/邮编分区</div>
+        <div class="ch-main">
+          <div class="name">德翼 <span class="vs">vs</span> 中运通达 · 美国空派</div>
+          <div class="meta">渠道：美国空运专线 · 含产品附加费/体积重÷6000/邮编分区</div>
+        </div>
         <span class="adv adv-dy">💡 优势：德翼占优（服装/鞋/包；手机壳持平）</span>
       </a>
       <a class="ch" href="us_clx.html">
-        <div class="name">德翼 <span class="vs">vs</span> 中运通达 · 美森 CLX</div>
-        <div class="meta">渠道：美森限时达海派 · 含产品附加费/体积重÷6000/邮编分区</div>
+        <div class="ch-main">
+          <div class="name">德翼 <span class="vs">vs</span> 中运通达 · 美森 CLX</div>
+          <div class="meta">渠道：美森限时达海派 · 含产品附加费/体积重÷6000/邮编分区</div>
+        </div>
         <span class="adv adv-dy">💡 优势：德翼占优（服装/鞋/包；手机壳平手）</span>
       </a>
     </details>
@@ -97,8 +109,10 @@
     <details open>
       <summary><span class="flag">🇪🇺</span> 欧洲</summary>
       <a class="ch" href="eu_air_21kg.html">
-        <div class="name">德翼 <span class="vs">vs</span> 中运通达 · 欧洲空运 21KG</div>
-        <div class="meta">渠道：欧洲空运包税 · 含固定费+产品附加费/体积重÷6000/DE·FR·IT·ES</div>
+        <div class="ch-main">
+          <div class="name">德翼 <span class="vs">vs</span> 中运通达 · 欧洲空运 21KG</div>
+          <div class="meta">渠道：欧洲空运包税 · 含固定费+产品附加费/体积重÷6000/DE·FR·IT·ES</div>
+        </div>
         <span class="adv adv-zy">💡 优势：中运通达更优（21KG档）</span>
       </a>
     </details>
