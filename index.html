@@ -3,75 +3,98 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>跨境物流报价对比 · 总览</title>
+<title>跨境物流报价对比 · 目录</title>
 <style>
-*{box-sizing:border-box}
-body{margin:0;font-family:-apple-system,'Microsoft YaHei',sans-serif;background:#f4f6f9;color:#1f2d3d;line-height:1.6}
-.wrap{max-width:880px;margin:0 auto;padding:30px 20px 60px}
-.hero{background:linear-gradient(135deg,#1a2a6c,#2a5298);color:#fff;border-radius:16px;padding:26px 30px;margin-bottom:26px}
-.hero h1{margin:0 0 8px;font-size:24px}
-.hero .sub{opacity:.85;font-size:13px}
-.note{background:#fff7ed;border:1px solid #fdba74;border-left:5px solid #ea580c;border-radius:12px;padding:14px 18px;margin-bottom:24px;font-size:13px}
-.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
-.card{background:#fff;border-radius:14px;padding:20px 22px;box-shadow:0 2px 12px rgba(0,0,0,.05);transition:.15s;border:1px solid #eef1f5}
-.card:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.08)}
-.card .tag{display:inline-block;font-size:11px;font-weight:700;color:#fff;background:#2a5298;padding:3px 10px;border-radius:20px;margin-bottom:10px}
-.card h2{margin:0 0 6px;font-size:17px}
-.card p{margin:0 0 14px;font-size:13px;color:#6b7686}
-.card a{display:inline-block;text-decoration:none;background:#1a8c6e;color:#fff;font-size:13px;font-weight:600;padding:8px 16px;border-radius:8px}
-.card a:hover{background:#15795f}
-.foot{margin-top:28px;font-size:12px;color:#9aa4b2;text-align:center}
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+         background: #f4f6fb; color: #1f2733; line-height: 1.6; padding: 28px 16px; }
+  .wrap { max-width: 880px; margin: 0 auto; }
+  h1 { font-size: 24px; font-weight: 700; margin-bottom: 4px; }
+  .sub { color: #6b7585; font-size: 14px; margin-bottom: 6px; }
+  .legend { font-size: 13px; color: #8a93a3; background: #eef1f7; border-radius: 8px;
+            padding: 10px 14px; margin: 14px 0 22px; }
+  .legend b { color: #43506a; }
+  .group { border-radius: 14px; padding: 18px 20px; margin-bottom: 18px; box-shadow: 0 2px 10px rgba(30,40,60,.06); }
+  .group.small { background: linear-gradient(135deg,#eafaf1,#dff3ff); border-left: 5px solid #2bb673; }
+  .group.big   { background: linear-gradient(135deg,#fff4ea,#ffeef2); border-left: 5px solid #f0883e; }
+  .group > .gt { font-size: 19px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+  .group.small .gt { color: #1d8a55; }
+  .group.big   .gt { color: #d9651f; }
+  .gt .tag { font-size: 12px; font-weight: 500; color: #fff; background: rgba(0,0,0,.18);
+             padding: 2px 8px; border-radius: 20px; }
+  details { margin-top: 12px; background: rgba(255,255,255,.7); border-radius: 10px; padding: 4px 12px; }
+  summary { cursor: pointer; font-weight: 600; font-size: 15px; padding: 8px 2px; color: #33405a;
+            list-style: none; display: flex; align-items: center; gap: 8px; }
+  summary::-webkit-details-marker { display: none; }
+  summary::before { content: "▸"; color: #9aa4b5; transition: transform .15s; }
+  details[open] summary::before { transform: rotate(90deg); }
+  .flag { font-size: 17px; }
+  .ch { display: block; text-decoration: none; color: #1f2733; background: #fff;
+        border: 1px solid #e6eaf2; border-radius: 8px; padding: 10px 14px; margin: 8px 0 8px 18px;
+        transition: .15s; }
+  .ch:hover { border-color: #4a8cff; box-shadow: 0 2px 8px rgba(74,140,255,.15); transform: translateX(2px); }
+  .ch .name { font-weight: 600; }
+  .ch .meta { font-size: 12px; color: #8a93a3; margin-top: 2px; }
+  .vs { display:inline-block; font-size:11px; color:#fff; background:#4a8cff; border-radius:4px; padding:1px 6px; margin-left:6px;}
+  .foot { text-align:center; color:#9aa4b5; font-size:12px; margin-top:24px; }
 </style>
 </head>
 <body>
 <div class="wrap">
-  <div class="hero">
-    <h1>跨境物流报价对比 · 总览</h1>
-    <div class="sub">飞特 / 云途 / 德翼(璞景) / 中运通达 · 自动化每季度核对</div>
+  <h1>跨境物流报价对比</h1>
+  <div class="sub">按 <b>小包 / 大货 → 国家 → 渠道</b> 组织</div>
+  <div class="legend">
+    <b>小包</b>：按挂号小包计费、轻小件渠道（飞特 EY、云途小包等）&nbsp;·&nbsp;
+    <b>大货</b>：21KG 起、空运 / 海派 / 美森等大宗渠道（德翼、中运通达等）
   </div>
-  <div class="note">
-    <b>更新机制：</b>自动化任务「物流报价自动对比」每周二 16:00 自动拉取飞书最新报价、重算以下 5 张页。
-    若某家报价有变动，会自动推飞书消息通知（需在 <code>notify_config.json</code> 配置群机器人 Webhook）。
+
+  <!-- 小包 -->
+  <div class="group small">
+    <div class="gt">📦 小包 <span class="tag">轻小件 · 挂号小包</span></div>
+
+    <details open>
+      <summary><span class="flag">🇨🇦</span> 加拿大</summary>
+      <a class="ch" href="ca_ey_yuntu.html">
+        <div class="name">飞特(EY)标准挂号普货 <span class="vs">vs</span> 云途全球专线挂号特惠普货</div>
+        <div class="meta">渠道：加拿大专线挂号小包 · 飞特计实重 / 云途体积重≥2倍÷8000 · 含20CAD关税门槛</div>
+      </a>
+    </details>
+
+    <details open>
+      <summary><span class="flag">🇪🇺</span> 欧洲</summary>
+      <a class="ch" href="eu_small.html">
+        <div class="name">飞特(EY) <span class="vs">vs</span> 云途 欧洲小包</div>
+        <div class="meta">渠道：欧洲挂号小包 · 欧盟7.1新政(3€/HS CODE+IOSS 2%) · 飞特计实重/云途÷10000</div>
+      </a>
+    </details>
   </div>
-  <div class="grid">
-    <div class="card">
-      <span class="tag">加拿大</span>
-      <h2>飞特(EY) vs 云途</h2>
-      <p>特惠普货加拿大段 · 飞特计实重、云途体积重≥2倍÷8000、关税>20CAD×18%</p>
-      <a href="ca_ey_yuntu.html">查看对比 →</a>
-    </div>
-    <div class="card">
-      <span class="tag">欧洲空运 21KG</span>
-      <h2>德翼 vs 中运通达</h2>
-      <p>德/法/意/西 · 中运全面更优（固定费100 vs 180）</p>
-      <a href="eu_air_21kg.html">查看对比 →</a>
-    </div>
-    <div class="card">
-      <span class="tag">美国空派</span>
-      <h2>德翼 vs 中运通达</h2>
-      <p>按产品细分 · 服装/鞋/包选德翼，手机壳持平</p>
-      <a href="us_air.html">查看对比 →</a>
-    </div>
-    <div class="card">
-      <span class="tag">美国 CLX(美森)</span>
-      <h2>德翼 vs 中运通达</h2>
-      <p>美森限时达 · 按邮编分区(美西/中/东) + 产品附加费</p>
-      <a href="us_clx.html">查看对比 →</a>
-    </div>
-    <div class="card">
-      <span class="tag">欧洲小包</span>
-      <h2>飞特 vs 云途</h2>
-      <p>欧盟7.1新政(3EUR/HS+IOSS 2%) · 飞特轻小件更省</p>
-      <a href="eu_small.html">查看对比 →</a>
-    </div>
-    <div class="card">
-      <span class="tag">早期手工版</span>
-      <h2>历史对比页（备查）</h2>
-      <p>clx_compare / air_compare / ey_vs_yuntu / combined_clx_air / eu_air_compare</p>
-      <a href="clx_compare.html">查看 CLX →</a>
-    </div>
+
+  <!-- 大货 -->
+  <div class="group big">
+    <div class="gt">🚢 大货 <span class="tag">21KG+ · 空运/海派/美森</span></div>
+
+    <details open>
+      <summary><span class="flag">🇺🇸</span> 美国</summary>
+      <a class="ch" href="us_air.html">
+        <div class="name">德翼 <span class="vs">vs</span> 中运通达 · 美国空派</div>
+        <div class="meta">渠道：美国空运专线 · 含产品附加费/体积重÷6000/邮编分区</div>
+      </a>
+      <a class="ch" href="us_clx.html">
+        <div class="name">德翼 <span class="vs">vs</span> 中运通达 · 美森 CLX</div>
+        <div class="meta">渠道：美森限时达海派 · 含产品附加费/体积重÷6000/邮编分区</div>
+      </a>
+    </details>
+
+    <details open>
+      <summary><span class="flag">🇪🇺</span> 欧洲</summary>
+      <a class="ch" href="eu_air_21kg.html">
+        <div class="name">德翼 <span class="vs">vs</span> 中运通达 · 欧洲空运 21KG</div>
+        <div class="meta">渠道：欧洲空运包税 · 含固定费+产品附加费/体积重÷6000/DE·FR·IT·ES</div>
+      </a>
+    </details>
   </div>
-  <div class="foot">文件目录：D:\WB文件\2026-07-06-09-29-10\ · 数据时效见各页顶部标注</div>
+
+  <div class="foot">数据时效见各页顶部 · 每周二 16:00 自动核对，报价变动将飞书通知</div>
 </div>
 </body>
 </html>
