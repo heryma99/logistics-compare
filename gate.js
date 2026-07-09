@@ -2,8 +2,8 @@
   'use strict';
   // 访问密码的 SHA-256（小写十六进制）。密码: LogiView@2026
   // 修改密码：替换下方 EXPECTED，并把 PW_VERSION +1（旧会话因版本不符被强制重输 = 强制登出）。
-  var EXPECTED = '53d8b63f7a28ff45f69d23c9c091556375d65b184c50b0c6cfc6ad42c0dff7fd';
-  var PW_VERSION = 2;            // 每次改密码 +1；旧已登录会话版本不符 → 立即失效
+  var EXPECTED = '152f4de658cdfdb69229c96b0b8c48513ca05ff066ad143316375abfdc6b39cc';
+  var PW_VERSION = 3;            // 每次改密码 +1；旧已登录会话版本不符 → 立即失效
   var LS_KEY = 'lc_gate_v1';
   var TRIES_KEY = 'lc_gate_tries';
   var LOCK_KEY = 'lc_gate_lock';
