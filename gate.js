@@ -1,9 +1,10 @@
 (function(){
   'use strict';
   // 访问密码的 SHA-256（小写十六进制）。密码: LogiView@2026
-  // 修改密码：用 sha256(新密码) 替换下方 EXPECTED 即可。
+  // 修改密码：替换下方 EXPECTED，并把 PW_VERSION +1（旧会话因版本不符被强制重输 = 强制登出）。
   var EXPECTED = 'dd4f17d0395c2e94ff61a0239bdd614cf1c05af3fe3feb0e7d98f01a0d2a27b6';
-  var LS_KEY = 'lc_gate_token';
+  var PW_VERSION = 1;            // 每次改密码 +1；旧已登录会话版本不符 → 立即失效
+  var LS_KEY = 'lc_gate_v1';
   var TRIES_KEY = 'lc_gate_tries';
   var LOCK_KEY = 'lc_gate_lock';
   var MAX_TRIES = 5;
@@ -12,6 +13,19 @@
 
   function getLS(k){ try { return localStorage.getItem(k); } catch(e){ return null; } }
   function setLS(k,v){ try { localStorage.setItem(k,v); } catch(e){} }
+  function clearLS(){ try { localStorage.removeItem(LS_KEY); } catch(e){} }
+
+  // 读取本地令牌：版本与哈希都匹配才视为已授权；否则清除（实现强制登出）
+  function readToken(){
+    try {
+      var raw = getLS(LS_KEY);
+      if(!raw) return null;
+      var o = JSON.parse(raw);
+      if(o && o.v === PW_VERSION && o.h === EXPECTED) return o;
+    } catch(e){}
+    clearLS();
+    return null;
+  }
 
   function sha256Hex(str){
     if(!window.crypto || !crypto.subtle){ return Promise.reject('no crypto'); }
@@ -22,8 +36,8 @@
     });
   }
 
-  // 同一浏览器已解锁过（同域共享）则直接放行
-  if(getLS(LS_KEY) === EXPECTED){
+  // 已解锁过（同域共享）且版本匹配 → 直接放行
+  if(readToken()){
     if(body) body.classList.remove('locked');
     return;
   }
@@ -51,7 +65,7 @@
     if(!val){ if(errEl) errEl.textContent = '请输入密码'; return; }
     sha256Hex(val).then(function(hex){
       if(hex === EXPECTED){
-        setLS(LS_KEY, EXPECTED);
+        setLS(LS_KEY, JSON.stringify({ v: PW_VERSION, h: EXPECTED }));
         setLS(TRIES_KEY, '0');
         if(body) body.classList.remove('locked');
         if(ov) ov.style.display = 'none';
