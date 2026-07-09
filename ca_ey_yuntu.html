@@ -20,7 +20,33 @@ tr:hover{background:#fafbfc}
 .tag{display:inline-block;background:#eef7f1;color:#1f9d55;border-radius:6px;padding:2px 8px;font-size:12px;margin:2px 3px}
 .warn{background:#fff7ed;border-left:4px solid #f59e0b}
 .qa{background:#eef4ff;border-left:4px solid #3b82f6}
-</style></head><body><div class="wrap">
+</style><meta name="robots" content="noindex, nofollow">
+<style>
+body.locked > *:not(#gate-overlay){display:none !important;}
+#gate-overlay{position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#0f172a,#1e293b);font-family:-apple-system,"Microsoft YaHei",sans-serif;}
+body:not(.locked) #gate-overlay{display:none !important;}
+.gate-box{background:#fff;border-radius:16px;padding:34px 38px;width:330px;max-width:90vw;box-shadow:0 24px 70px rgba(0,0,0,.5);text-align:center;}
+.gate-title{font-size:21px;font-weight:800;color:#0f172a;margin-bottom:6px;}
+.gate-sub{font-size:13px;color:#64748b;margin-bottom:20px;}
+#gate-pwd{width:100%;box-sizing:border-box;padding:12px 14px;border:1.5px solid #cbd5e1;border-radius:10px;font-size:15px;outline:none;transition:border-color .15s;}
+#gate-pwd:focus{border-color:#2563eb;}
+#gate-btn{margin-top:16px;width:100%;padding:12px;border:none;border-radius:10px;background:#2563eb;color:#fff;font-size:15px;font-weight:700;cursor:pointer;transition:background .15s;}
+#gate-btn:hover{background:#1d4ed8;}
+.gate-err{color:#dc2626;font-size:12.5px;margin-top:12px;min-height:16px;}
+.gate-foot{margin-top:16px;font-size:11px;color:#94a3b8;}
+</style>
+</head><body class="locked">
+<div id="gate-overlay">
+  <div class="gate-box">
+    <div class="gate-title">🔒 受限访问</div>
+    <div class="gate-sub">跨境物流比价看板 · 请输入访问密码</div>
+    <input id="gate-pwd" type="password" placeholder="访问密码" autocomplete="off" />
+    <button id="gate-btn" type="button">进入看板</button>
+    <div id="gate-err" class="gate-err"></div>
+    <div class="gate-foot">密码请联系管理员获取</div>
+  </div>
+</div>
+<div class="wrap">
 <h1>加拿大线路对比：飞特(EY) 标准挂号普货 vs 云途 全球专线挂号(特惠普货)</h1>
 <div class="sub">数据源：飞特标准挂号普货价格表 7-9（2026-07-09 邮件，生效 7月13日 10:00） ｜ 云途整合渠道报价 2026-07-07（特惠普货 THPHR）｜ 均为 DDP 包税渠道</div>
 
@@ -90,4 +116,5 @@ tr:hover{background:#fafbfc}
 <b>云途 特惠普货 加拿大</b>：0–0.3kg 61–62/kg·21 ｜ 0.3–1 63–64/22 ｜ 1–2 64/23 ｜ 2–30 68/23（元/KG+元/票）；关税：仅申报＞20CAD时按申报价值×18%代收(0.7%为带电渠道费率，不适用此处)；体积重=长×宽×高/8000，＜实重2倍按实重。
 </p>
 </div>
-</div></body></html>
+</div><script src="./gate.js"></script>
+</body></html>
