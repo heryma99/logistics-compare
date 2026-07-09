@@ -43,6 +43,12 @@
   .w-truck .wtag { background: #f39c12; }
   .w-rail  .wtag { background: #7c3aed; }
   .empty { color: #aab3c2; font-size: 13px; font-style: italic; padding: 8px 2px; }
+  /* ── 四级：大货运输方式下的国家维度 ── */
+  .country { font-size: 12.5px; font-weight: 700; color: #1f2733; margin: 12px 0 7px;
+             display: flex; align-items: center; gap: 7px; }
+  .country:first-of-type { margin-top: 2px; }
+  .country .ctag { font-size: 10px; font-weight: 600; color: #fff; border-radius: 12px; padding: 1px 9px; background: #43506a; }
+  .country .csub { font-size: 11px; font-weight: 500; color: #8a93a3; }
 
   /* ── 链接卡片（复用） ── */
   .ch { display: flex; align-items: center; justify-content: space-between; gap: 16px;
@@ -69,10 +75,10 @@
 <body>
 <div class="wrap">
   <h1>跨境物流报价对比 · 目录</h1>
-  <div class="sub">按 <b>货物类型 → 对比方式 → 运输方式</b> 三级指引，请按需进入</div>
+  <div class="sub">按 <b>货物类型 → 对比方式 → 运输方式 → 国家</b> 四级指引，请按需进入</div>
   <div class="legend">
     <b>📦 小包</b>：邮政 / 专线小包类轻小件渠道对比（飞特 vs 云途、云途内部多渠道）。<br>
-    <b>🚢 大货</b>：按运输方式分 海运 / 空运 / 卡航 / 铁运，各方式下再分「横向比较」与「环比看板」。<br>
+    <b>🚢 大货</b>：按运输方式分 海运 / 空运 / 卡航 / 铁运，各方式下<b>再按国家</b>细分「横向比较」（点「海运 → 美国」即可看物流商谁更优）与「环比看板」。<br>
     <b>🚀 快递</b>：商业快递渠道（DHL / 联邦IP / UPS）含油综合价比价。<br>
     <span style="color:#8a93a3">横向比较 = 不同承运商 / 渠道在相同或对标线路上的比价；环比看板 = 同一渠道不同报价时间点之间的涨跌。</span>
   </div>
@@ -134,6 +140,7 @@
       <div class="ways">
         <div class="way w-sea">
           <div class="way-h">🌊 海运 <span class="wtag">海运</span></div>
+          <div class="country">🇺🇸 美国 <span class="ctag">美国</span> <span class="csub">— 美森限时达海派</span></div>
           <a class="ch" href="us_clx.html">
             <div class="ch-main">
               <div class="name">德翼 <span class="vs">vs</span> 中运通达 · 美森 CLX</div>
@@ -144,6 +151,7 @@
         </div>
         <div class="way w-air">
           <div class="way-h">✈️ 空运 <span class="wtag">空运</span></div>
+          <div class="country">🇺🇸 美国 <span class="ctag">美国</span> <span class="csub">— 美国空派</span></div>
           <a class="ch" href="us_air.html">
             <div class="ch-main">
               <div class="name">德翼 <span class="vs">vs</span> 中运通达 · 美国空派</div>
@@ -151,6 +159,7 @@
             </div>
             <span class="adv adv-dy">💡 德翼占优</span>
           </a>
+          <div class="country">🇪🇺 欧洲 <span class="ctag">欧洲</span> <span class="csub">— 欧洲空运包税</span></div>
           <a class="ch" href="eu_air_21kg.html">
             <div class="ch-main">
               <div class="name">德翼 <span class="vs">vs</span> 中运通达 · 欧洲空运 21KG</div>
