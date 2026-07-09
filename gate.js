@@ -91,5 +91,3 @@
     pwd.addEventListener('keydown', function(e){ if(e.key === 'Enter') unlock(); });
   }
 })();
-
-// test-marker
