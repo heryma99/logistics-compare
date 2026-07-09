@@ -57,7 +57,7 @@ td.num{font-variant-numeric:tabular-nums}
 </style></head>
 <body><div class="wrap">
 <div class="hero"><h1>物流价格变动看板 · 环比对比</h1>
-<div class="sub">每个渠道报价分版本存档，可切换「对比基准版本」逐（国家×重量段）比对运费/kg ｜ 生成于 2026-07-09 09:25</div></div>
+<div class="sub">每个渠道报价分版本存档，可切换「对比基准版本」逐（国家×重量段）比对运费/kg ｜ 生成于 2026-07-09 09:32</div></div>
 <div class="banner"><b>说明：</b>本看板追踪云途 3 个产品渠道（<b>THPHR / QYTHPH / A01特惠普货</b>）及飞特、德翼、中运通达等核心渠道。
 云途渠道已载入多版报价（THPHR / QYTHPH：<b>6-15 / 6-29 / 7-6 / 7-7</b> 四版；A01：<b>2026-01-05 ~ 2026-06-29 共 10 版</b>），可下拉切换基准做真实环比；
 <b style="color:#c0392b">红＝涨价</b>、<b style="color:#1a8c6e">绿＝降价</b>（均指运费/kg 变动）。
@@ -93,7 +93,7 @@ function renderCard(code){
       if(dir=='涨')u++;else if(dir=='跌')d++;else e++;
       mj=Math.max(mj,Math.abs(delta));
       if(dir=='平') return; // 持平行不显示，只呈现有变动的国家×重量段
-      var cls='up';
+      var cls=dir=='涨'?'up':'down'; // 涨=红(up) 跌=绿(down)
       var ds=delta>0?('+'+delta.toFixed(1)):delta.toFixed(1);
       var ps=pct==null?'—':(pct>0?('+'+pct.toFixed(1)+'%'):pct.toFixed(1)+'%');
       trs+='<tr><td class="pl">'+c+'</td><td>'+band+'</td><td class="num">'+of.toFixed(1)+'</td><td class="num">'+nf.toFixed(1)+'</td><td class="num '+cls+'">'+ds+'</td><td class="num '+cls+'">'+ps+'</td><td class="'+cls+'">'+dir+'</td></tr>';
