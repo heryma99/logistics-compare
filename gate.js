@@ -2,7 +2,7 @@
   'use strict';
   // 访问密码的 SHA-256（小写十六进制）。密码: LogiView@2026
   // 修改密码：用 sha256(新密码) 替换下方 EXPECTED 即可。
-  var EXPECTED = 'dd4f17d0395c2e94ff61a0239bdd614cf1c05af3fe3feb0e7d98f01a0d2a27b6';
+  var EXPECTED = '8d15f701ac0eaac01ecba7db3ab6914460091eb3cc1e7f813344c7907db7c570';
   var LS_KEY = 'lc_gate_token';
   var TRIES_KEY = 'lc_gate_tries';
   var LOCK_KEY = 'lc_gate_lock';
