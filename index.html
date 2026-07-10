@@ -12,10 +12,21 @@
   h1 { font-size: 24px; font-weight: 700; margin-bottom: 4px; }
   .sub { color: #6b7585; font-size: 14px; margin-bottom: 6px; }
   .legend { font-size: 13px; color: #6b7585; background: #eef1f7; border-radius: 8px;
-            padding: 12px 16px; margin: 14px 0 22px; line-height: 1.85; }
+            padding: 12px 16px; margin: 14px 0 18px; line-height: 1.85; }
   .legend b { color: #43506a; }
 
-  /* ── 一级分类 ── */
+  /* ── 视图切换 tab ── */
+  .vtabs { display: flex; flex-wrap: wrap; gap: 9px; margin: 4px 0 24px; }
+  .vtab { cursor: pointer; font-size: 13.5px; font-weight: 700; padding: 9px 17px;
+          border-radius: 22px; border: 1.5px solid #d5deec; background: #fff;
+          color: #5a677f; transition: .15s; user-select: none; }
+  .vtab:hover { border-color: #4a8cff; color: #2563eb; }
+  .vtab.active { background: #2563eb; color: #fff; border-color: #2563eb; box-shadow: 0 3px 10px rgba(37,99,235,.28); }
+
+  .view { display: none; }
+  .view.active { display: block; }
+
+  /* ── 一级分类（货物类型视图） ── */
   .cat { border-radius: 16px; padding: 22px 24px; margin-bottom: 26px;
          box-shadow: 0 2px 10px rgba(30,40,60,.06); }
   .cat-small { background: linear-gradient(135deg,#eaf2ff,#f5f9ff); border: 2px solid #cfe0ff; border-left: 6px solid #1f6fe0; }
@@ -69,6 +80,25 @@
   .adv-zy  { background: #fff0e6; color: #d9651f; }
   .adv-bo  { background: #f3effe; color: #7c3aed; }
   .adv-all { background: #eef1f7; color: #43506a; }
+
+  /* ── 分组盒子（国家/物流商/对比方式视图复用） ── */
+  .grp { border-radius: 14px; padding: 18px 20px; margin-bottom: 16px; background: #fff;
+         border: 1px solid #e7ecf4; border-left: 6px solid #c2cad8; box-shadow: 0 2px 10px rgba(30,40,60,.05); }
+  .grp-h { font-size: 18px; font-weight: 800; margin-bottom: 3px; display: flex; align-items: center; gap: 9px; }
+  .grp-sub { font-size: 12.5px; color: #8a93a3; margin-bottom: 6px; }
+  .g-us   { border-left-color: #1f6fe0; }  .g-us   .grp-h { color: #1f6fe0; }
+  .g-ca   { border-left-color: #2bb673; }  .g-ca   .grp-h { color: #1d8a55; }
+  .g-eu   { border-left-color: #f39c12; }  .g-eu   .grp-h { color: #d98512; }
+  .g-mba  { border-left-color: #7c3aed; }  .g-mba  .grp-h { color: #6d28d9; }
+  .g-asia { border-left-color: #e0518a; }  .g-asia .grp-h { color: #c13a72; }
+  .g-multi{ border-left-color: #8a93a3; }  .g-multi .grp-h { color: #5a677f; }
+  .g-feit { border-left-color: #1a8c6e; }  .g-feit .grp-h { color: #1a8c6e; }
+  .g-yun  { border-left-color: #1f6fe0; }  .g-yun  .grp-h { color: #1f6fe0; }
+  .g-dy   { border-left-color: #4a4ad8; }  .g-dy   .grp-h { color: #4a4ad8; }
+  .g-zy   { border-left-color: #d9651f; }  .g-zy   .grp-h { color: #d9651f; }
+  .g-hor  { border-left-color: #2563eb; }  .g-hor  .grp-h { color: #2563eb; }
+  .g-mom  { border-left-color: #d9651f; }  .g-mom  .grp-h { color: #d9651f; }
+
   .foot { text-align: center; color: #9aa4b5; font-size: 12px; margin-top: 24px; }
 </style>
 <meta name="robots" content="noindex, nofollow">
@@ -101,18 +131,30 @@ body:not(.locked) #gate-overlay{display:none !important;}
 
 <div class="wrap">
   <h1>跨境物流报价对比 · 目录</h1>
-  <div class="sub">按 <b>货物类型 → 对比方式 → 运输方式 → 国家</b> 四级指引，请按需进入</div>
+  <div class="sub">同一批看板，<b>4 种查看方式</b>任选 —— 点下面的标签切换目录角度</div>
+
+  <!-- ════════ 视图切换 ════════ -->
+  <div class="vtabs">
+    <div class="vtab active" id="tab-cargo"   onclick="switchView('cargo')">📦 按货物类型</div>
+    <div class="vtab"        id="tab-country" onclick="switchView('country')">🌍 按国家/地区</div>
+    <div class="vtab"        id="tab-carrier" onclick="switchView('carrier')">🏢 按物流商</div>
+    <div class="vtab"        id="tab-type"    onclick="switchView('type')">🔀 按对比方式</div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- 视图 ① 按货物类型                                        -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <div class="view active" id="view-cargo">
   <div class="legend">
     <b>📦 小包</b>：邮政 / 专线小包类轻小件渠道对比（飞特 vs 云途、云途内部多渠道）。<br>
-    <b>🚢 大货</b>：按运输方式分 海运 / 空运 / 卡航 / 铁运，各方式下<b>再按国家</b>细分「横向比较」（点「海运 → 美国」即可看物流商谁更优）与「环比看板」。<br>
+    <b>🚢 大货</b>：按运输方式分 海运 / 空运 / 卡航 / 铁运，各方式下<b>再按国家</b>细分「横向比较」与「环比看板」。<br>
     <b>🚀 快递</b>：商业快递渠道（DHL / 联邦IP / UPS）含油综合价比价。<br>
     <span style="color:#8a93a3">横向比较 = 不同承运商 / 渠道在相同或对标线路上的比价；环比看板 = 同一渠道不同报价时间点之间的涨跌。</span>
   </div>
 
-  <!-- ════════ ① 小包 ════════ -->
+  <!-- ① 小包 -->
   <div class="cat cat-small">
     <div class="cat-h">📦 小包 <span class="cnt">邮政小包 / 专线小包 · 轻小件</span></div>
-
     <div class="sub-sec">
       <div class="sub-h">▸ 横向比较</div>
       <a class="ch" href="eu_small.html">
@@ -144,7 +186,6 @@ body:not(.locked) #gate-overlay{display:none !important;}
         <span class="adv adv-yun">💡 选渠指南</span>
       </a>
     </div>
-
     <div class="sub-sec">
       <div class="sub-h">▸ 环比看板</div>
       <a class="ch" href="price_change_small.html">
@@ -157,10 +198,9 @@ body:not(.locked) #gate-overlay{display:none !important;}
     </div>
   </div>
 
-  <!-- ════════ ② 大货 ════════ -->
+  <!-- ② 大货 -->
   <div class="cat cat-big">
     <div class="cat-h">🚢 大货 <span class="cnt">海运 / 空运 / 卡航 / 铁运</span></div>
-
     <div class="sub-sec">
       <div class="sub-h">▸ 横向比较（按运输方式）</div>
       <div class="ways">
@@ -204,7 +244,6 @@ body:not(.locked) #gate-overlay{display:none !important;}
         </div>
       </div>
     </div>
-
     <div class="sub-sec">
       <div class="sub-h">▸ 环比看板</div>
       <a class="ch" href="price_change_big.html">
@@ -224,10 +263,9 @@ body:not(.locked) #gate-overlay{display:none !important;}
     </div>
   </div>
 
-  <!-- ════════ ③ 快递 ════════ -->
+  <!-- ③ 快递 -->
   <div class="cat cat-exp">
     <div class="cat-h">🚀 快递 <span class="cnt">商业快递 · DHL / 联邦IP / UPS</span></div>
-
     <div class="sub-sec">
       <div class="sub-h">▸ 横向比较</div>
       <a class="ch" href="zhongyun_express.html">
@@ -238,15 +276,164 @@ body:not(.locked) #gate-overlay{display:none !important;}
         <span class="adv adv-zy">💡 ≤10KG选UPS红单小货；美国免税务选UPS包税</span>
       </a>
     </div>
-
     <div class="sub-sec">
       <div class="sub-h">▸ 环比看板</div>
       <div class="empty">商业快递环比看板敬请期待（现有 5 渠道报价暂未纳入环比体系，可先以横向比较页为准）</div>
     </div>
   </div>
+  </div><!-- /view-cargo -->
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- 视图 ② 按国家/地区                                       -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <div class="view" id="view-country">
+  <div class="legend">按<b>目的国 / 地区</b>看：想知道「发某个国家有哪些渠道、谁更优」，直接找对应国家块即可。同一个页面可能出现在多个国家下（因为它覆盖多国）。</div>
+
+  <div class="grp g-us">
+    <div class="grp-h">🇺🇸 美国</div>
+    <div class="grp-sub">海运 / 空运 / 商业快递 全覆盖</div>
+    <a class="ch" href="us_clx.html"><div class="ch-main"><div class="name">德翼 vs 中运 · 美森 CLX（海运）</div><div class="meta">美森限时达海派 · 大货</div></div><span class="adv adv-dy">💡 德翼占优</span></a>
+    <a class="ch" href="us_air.html"><div class="ch-main"><div class="name">德翼 vs 中运 · 美国空派（空运）</div><div class="meta">美国空运专线 · 大货</div></div><span class="adv adv-dy">💡 德翼占优</span></a>
+    <a class="ch" href="zhongyun_express.html"><div class="ch-main"><div class="name">中运商业快递 · 美国（DHL / UPS红单 / UPS包税）</div><div class="meta">含油综合价 · 打开后点「美国」Tab</div></div><span class="adv adv-zy">💡 免税务选UPS包税</span></a>
+    <a class="ch" href="yuntu_3way.html"><div class="ch-main"><div class="name">☁️ 云途三渠道 · 含美线小包</div><div class="meta">THPHR/QYTHPH/A01 逐档比价</div></div><span class="adv adv-yun">💡 小包</span></a>
+  </div>
+
+  <div class="grp g-ca">
+    <div class="grp-h">🇨🇦 加拿大</div>
+    <div class="grp-sub">专线小包 / 商业快递</div>
+    <a class="ch" href="ca_ey_yuntu.html"><div class="ch-main"><div class="name">飞特(EY) vs 云途 · 加拿大专线小包</div><div class="meta">含 20CAD 关税门槛 · 小包</div></div><span class="adv adv-feit">💡 ≤1kg飞特 / ≥1.5kg云途</span></a>
+    <a class="ch" href="zhongyun_express.html"><div class="ch-main"><div class="name">中运商业快递 · 加拿大（DHL / UPS红单 / UPS包税）</div><div class="meta">含油综合价 · 打开后点「加拿大」Tab</div></div><span class="adv adv-zy">💡 商业快递</span></a>
+  </div>
+
+  <div class="grp g-eu">
+    <div class="grp-h">🇪🇺 欧洲</div>
+    <div class="grp-sub">小包 / 空运 / 商业快递</div>
+    <a class="ch" href="eu_small.html"><div class="ch-main"><div class="name">飞特(EY) vs 云途 · 欧洲小包</div><div class="meta">欧盟7.1新政(3€/HS CODE) · 小包</div></div><span class="adv adv-feit">💡 飞特首重省</span></a>
+    <a class="ch" href="eu_air_21kg.html"><div class="ch-main"><div class="name">德翼 vs 中运 · 欧洲空运 21KG</div><div class="meta">欧洲空运包税 DE·FR·IT·ES · 大货</div></div><span class="adv adv-zy">💡 中运更优</span></a>
+    <a class="ch" href="zhongyun_express.html"><div class="ch-main"><div class="name">中运商业快递 · 欧洲（英/法/德等）</div><div class="meta">含油综合价 · 打开后点「西欧」Tab</div></div><span class="adv adv-zy">💡 商业快递</span></a>
+  </div>
+
+  <div class="grp g-mba">
+    <div class="grp-h">🇲🇽 墨西哥 · 🇧🇷 巴西 · 🇦🇺 澳大利亚</div>
+    <div class="grp-sub">云途特惠普货专线小包</div>
+    <a class="ch" href="yuntu_3way.html"><div class="ch-main"><div class="name">☁️ 云途三渠道：THPHR vs QYTHPH vs A01</div><div class="meta">墨/巴/澳 逐档比价 + 条款对比 · 小包</div></div><span class="adv adv-yun">💡 三方全量</span></a>
+    <a class="ch" href="yuntu_internal.html"><div class="ch-main"><div class="name">☁️ 云途内部 · THPHR vs C66322</div><div class="meta">体积重除数 / 包税口径差异 · 小包</div></div><span class="adv adv-yun">💡 选渠指南</span></a>
+  </div>
+
+  <div class="grp g-asia">
+    <div class="grp-h">🌏 日本 · 韩国 · 越南 · 马来西亚 · 中东</div>
+    <div class="grp-sub">商业快递多国线路</div>
+    <a class="ch" href="zhongyun_express.html"><div class="ch-main"><div class="name">中运商业快递 5 渠道 · 亚洲 & 中东</div><div class="meta">含油综合价 · 打开后点对应国家 Tab（日/韩/越/马/中东）</div></div><span class="adv adv-zy">💡 商业快递</span></a>
+  </div>
+
+  <div class="grp g-multi">
+    <div class="grp-h">🌐 多国 / 综合（环比总览）</div>
+    <div class="grp-sub">跨国、跨渠道的价格变动追踪</div>
+    <a class="ch" href="price_change.html"><div class="ch-main"><div class="name">📊 全部 10 渠道综合环比</div><div class="meta">小包 + 大货 全量追踪</div></div><span class="adv adv-all">↻ 总览</span></a>
+    <a class="ch" href="price_change_small.html"><div class="ch-main"><div class="name">📊 小包环比（云途3渠道 + 飞特）</div><div class="meta">多国小包涨跌</div></div><span class="adv adv-feit">↻ 小包</span></a>
+    <a class="ch" href="price_change_big.html"><div class="ch-main"><div class="name">📊 大货 6 渠道环比</div><div class="meta">多国大货涨跌</div></div><span class="adv adv-bo">↻ 大货</span></a>
+  </div>
+  </div><!-- /view-country -->
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- 视图 ③ 按物流商                                          -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <div class="view" id="view-carrier">
+  <div class="legend">按<b>承运商</b>看：想知道「某家物流商都出现在哪些对比里、覆盖哪些线路」，直接找对应物流商块。同一页面会出现在参与对比的每一家名下。</div>
+
+  <div class="grp g-feit">
+    <div class="grp-h">🟢 飞特(EY)</div>
+    <div class="grp-sub">欧洲 / 加拿大专线小包 · 计实重</div>
+    <a class="ch" href="eu_small.html"><div class="ch-main"><div class="name">飞特 vs 云途 · 欧洲小包</div><div class="meta">横向比较</div></div><span class="adv adv-feit">💡 飞特首重省</span></a>
+    <a class="ch" href="ca_ey_yuntu.html"><div class="ch-main"><div class="name">飞特 vs 云途 · 加拿大专线小包</div><div class="meta">横向比较</div></div><span class="adv adv-feit">💡 ≤1kg飞特省</span></a>
+    <a class="ch" href="price_change_small.html"><div class="ch-main"><div class="name">📊 小包环比（含飞特加拿大 EY）</div><div class="meta">时间环比</div></div><span class="adv adv-feit">↻ 环比</span></a>
+  </div>
+
+  <div class="grp g-yun">
+    <div class="grp-h">☁️ 云途</div>
+    <div class="grp-sub">欧洲 / 加拿大 / 墨巴澳美 · 多产品线</div>
+    <a class="ch" href="eu_small.html"><div class="ch-main"><div class="name">云途 vs 飞特 · 欧洲小包</div><div class="meta">横向比较</div></div><span class="adv adv-yun">💡 小包</span></a>
+    <a class="ch" href="ca_ey_yuntu.html"><div class="ch-main"><div class="name">云途 vs 飞特 · 加拿大专线小包</div><div class="meta">横向比较</div></div><span class="adv adv-yun">💡 小包</span></a>
+    <a class="ch" href="yuntu_3way.html"><div class="ch-main"><div class="name">云途三渠道：THPHR vs QYTHPH vs A01</div><div class="meta">内部产品线全量对比</div></div><span class="adv adv-yun">💡 三方全量</span></a>
+    <a class="ch" href="yuntu_internal.html"><div class="ch-main"><div class="name">云途内部 · THPHR vs C66322</div><div class="meta">两方案口径对照</div></div><span class="adv adv-yun">💡 选渠指南</span></a>
+    <a class="ch" href="price_change_small.html"><div class="ch-main"><div class="name">📊 小包环比（云途3产品线）</div><div class="meta">时间环比</div></div><span class="adv adv-yun">↻ 环比</span></a>
+  </div>
+
+  <div class="grp g-dy">
+    <div class="grp-h">🔵 德翼</div>
+    <div class="grp-sub">大货：海运 / 空运（美国占优、欧洲让位）</div>
+    <a class="ch" href="us_clx.html"><div class="ch-main"><div class="name">德翼 vs 中运 · 美森 CLX（海运）</div><div class="meta">横向比较</div></div><span class="adv adv-dy">💡 德翼占优</span></a>
+    <a class="ch" href="us_air.html"><div class="ch-main"><div class="name">德翼 vs 中运 · 美国空派（空运）</div><div class="meta">横向比较</div></div><span class="adv adv-dy">💡 德翼占优</span></a>
+    <a class="ch" href="eu_air_21kg.html"><div class="ch-main"><div class="name">德翼 vs 中运 · 欧洲空运 21KG</div><div class="meta">横向比较</div></div><span class="adv adv-zy">💡 中运更优</span></a>
+    <a class="ch" href="price_change_big.html"><div class="ch-main"><div class="name">📊 大货环比（含德翼 16 版）</div><div class="meta">时间环比</div></div><span class="adv adv-bo">↻ 环比</span></a>
+  </div>
+
+  <div class="grp g-zy">
+    <div class="grp-h">🟠 中运通达</div>
+    <div class="grp-sub">大货 + 商业快递全线</div>
+    <a class="ch" href="us_clx.html"><div class="ch-main"><div class="name">中运 vs 德翼 · 美森 CLX（海运）</div><div class="meta">横向比较</div></div><span class="adv adv-dy">💡 德翼占优</span></a>
+    <a class="ch" href="us_air.html"><div class="ch-main"><div class="name">中运 vs 德翼 · 美国空派（空运）</div><div class="meta">横向比较</div></div><span class="adv adv-dy">💡 德翼占优</span></a>
+    <a class="ch" href="eu_air_21kg.html"><div class="ch-main"><div class="name">中运 vs 德翼 · 欧洲空运 21KG</div><div class="meta">横向比较</div></div><span class="adv adv-zy">💡 中运更优</span></a>
+    <a class="ch" href="zhongyun_express.html"><div class="ch-main"><div class="name">中运商业快递 5 渠道（DHL / 联邦IP / UPS）</div><div class="meta">8 国含油综合价</div></div><span class="adv adv-zy">💡 商业快递</span></a>
+    <a class="ch" href="price_change_big.html"><div class="ch-main"><div class="name">📊 大货环比（含中运通达 22 版）</div><div class="meta">时间环比</div></div><span class="adv adv-bo">↻ 环比</span></a>
+  </div>
+
+  <div class="grp g-multi">
+    <div class="grp-h">🌐 全渠道综合</div>
+    <div class="grp-sub">所有承运商放一起看</div>
+    <a class="ch" href="price_change.html"><div class="ch-main"><div class="name">📊 全部 10 渠道综合环比</div><div class="meta">云途3 + 德翼 + 中运 + 飞特</div></div><span class="adv adv-all">↻ 总览</span></a>
+  </div>
+  </div><!-- /view-carrier -->
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- 视图 ④ 按对比方式                                        -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <div class="view" id="view-type">
+  <div class="legend">按<b>你要做的事</b>看：<b>横向比较</b>=选渠道（同线路不同承运商谁便宜）；<b>环比看板</b>=看趋势（同渠道不同报价时间的涨跌）。</div>
+
+  <div class="grp g-hor">
+    <div class="grp-h">🔀 横向比较（选渠道 · 谁更便宜）</div>
+    <div class="grp-sub">同一 / 对标线路上不同承运商或渠道的比价</div>
+    <a class="ch" href="eu_small.html"><div class="ch-main"><div class="name">飞特 vs 云途 · 欧洲小包</div><div class="meta">小包 · 欧洲</div></div><span class="adv adv-feit">💡 飞特首重省</span></a>
+    <a class="ch" href="ca_ey_yuntu.html"><div class="ch-main"><div class="name">飞特 vs 云途 · 加拿大专线小包</div><div class="meta">小包 · 加拿大</div></div><span class="adv adv-feit">💡 ≤1kg飞特省</span></a>
+    <a class="ch" href="yuntu_3way.html"><div class="ch-main"><div class="name">云途三渠道：THPHR vs QYTHPH vs A01</div><div class="meta">小包 · 墨/巴/澳/美</div></div><span class="adv adv-yun">💡 三方全量</span></a>
+    <a class="ch" href="yuntu_internal.html"><div class="ch-main"><div class="name">云途内部 · THPHR vs C66322</div><div class="meta">小包 · 墨/巴/澳</div></div><span class="adv adv-yun">💡 选渠指南</span></a>
+    <a class="ch" href="us_clx.html"><div class="ch-main"><div class="name">德翼 vs 中运 · 美森 CLX（海运）</div><div class="meta">大货 · 美国</div></div><span class="adv adv-dy">💡 德翼占优</span></a>
+    <a class="ch" href="us_air.html"><div class="ch-main"><div class="name">德翼 vs 中运 · 美国空派（空运）</div><div class="meta">大货 · 美国</div></div><span class="adv adv-dy">💡 德翼占优</span></a>
+    <a class="ch" href="eu_air_21kg.html"><div class="ch-main"><div class="name">德翼 vs 中运 · 欧洲空运 21KG</div><div class="meta">大货 · 欧洲</div></div><span class="adv adv-zy">💡 中运更优</span></a>
+    <a class="ch" href="zhongyun_express.html"><div class="ch-main"><div class="name">中运商业快递 5 渠道</div><div class="meta">快递 · 8 国</div></div><span class="adv adv-zy">💡 商业快递</span></a>
+  </div>
+
+  <div class="grp g-mom">
+    <div class="grp-h">📊 环比看板（看趋势 · 涨还是跌）</div>
+    <div class="grp-sub">同一渠道不同报价时间点之间的价格变动，<b style="color:#c0392b">红涨</b>/<b style="color:#1a8c6e">绿跌</b></div>
+    <a class="ch" href="price_change.html"><div class="ch-main"><div class="name">📊 全部 10 渠道综合环比</div><div class="meta">小包 + 大货 总览</div></div><span class="adv adv-all">↻ 总览</span></a>
+    <a class="ch" href="price_change_small.html"><div class="ch-main"><div class="name">📊 小包环比（云途3渠道 + 飞特）</div><div class="meta">仅小包</div></div><span class="adv adv-feit">↻ 小包</span></a>
+    <a class="ch" href="price_change_big.html"><div class="ch-main"><div class="name">📊 大货 6 渠道环比</div><div class="meta">仅大货</div></div><span class="adv adv-bo">↻ 大货</span></a>
+  </div>
+  </div><!-- /view-type -->
 
   <div class="foot">数据时效见各页顶部 · 每周二 16:00 自动核对，报价变动将飞书通知</div>
 </div>
+
+<script>
+function switchView(v){
+  var views = document.querySelectorAll('.view');
+  for(var i=0;i<views.length;i++){ views[i].classList.remove('active'); }
+  var tabs = document.querySelectorAll('.vtab');
+  for(var j=0;j<tabs.length;j++){ tabs[j].classList.remove('active'); }
+  var view = document.getElementById('view-'+v);
+  var tab = document.getElementById('tab-'+v);
+  if(view) view.classList.add('active');
+  if(tab) tab.classList.add('active');
+  try { location.hash = v; } catch(e){}
+}
+// 支持用 #country 等锚点直达某视图
+(function(){
+  var h = (location.hash||'').replace('#','');
+  if(['cargo','country','carrier','type'].indexOf(h)>=0){ switchView(h); }
+})();
+</script>
 <script src="./gate.js"></script>
 </body>
 </html>
