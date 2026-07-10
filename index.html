@@ -95,6 +95,11 @@
   .tag-z { background: #fff0e6; color: #d9651f; }   /* 中运 */
   .tag-h { background: #eef1f7; color: #43506a; }   /* 横向 */
   .tag-m { background: #f3effe; color: #7c3aed; }   /* 环比 */
+  .tag-s { background: #e6f0fb; color: #1f6fe0; }   /* 海运 */
+  .tag-a { background: #e8f7ef; color: #1a8c6e; }   /* 空运 */
+  .tag-k { background: #fff3e0; color: #d98512; }   /* 卡航 */
+  .tag-r { background: #f3e9fb; color: #7c3aed; }   /* 铁运 */
+  .tag-e { background: #fde8f0; color: #c026a3; }   /* 商业快递 */
 
   .foot { text-align: center; color: #9aa4b5; font-size: 12px; margin-top: 24px; }
 </style>
@@ -128,7 +133,7 @@ body:not(.locked) #gate-overlay{display:none !important;}
 
 <div class="wrap">
   <h1>跨境物流报价对比 · 目录</h1>
-  <div class="sub">按 <b>货物类型</b> 分三大块（小包 / 大货 / 快递），下面再分「横向比较」与「环比看板」。每张卡片右下角的标签标了 <b>国家 / 物流商 / 对比方式</b>，点上方筛选条可秒定位。</div>
+  <div class="sub">按 <b>货物类型</b> 分三大块（小包 / 大货 / 快递），下面再分「横向比较」与「环比看板」。每张卡片右下角的标签标了 <b>国家 / 物流商 / 运输方式 / 对比方式</b>，点上方筛选条可秒定位。</div>
 
   <!-- ════ 筛选条 ════ -->
   <div class="filters">
@@ -149,6 +154,14 @@ body:not(.locked) #gate-overlay{display:none !important;}
       <span class="fchip" data-dim="carrier" data-val="中运">中运通达</span>
     </div>
     <div class="fgroup">
+      <span class="flabel">运输</span>
+      <span class="fchip" data-dim="transport" data-val="海运">🌊 海运</span>
+      <span class="fchip" data-dim="transport" data-val="空运">✈️ 空运</span>
+      <span class="fchip" data-dim="transport" data-val="卡航">🚚 卡航</span>
+      <span class="fchip" data-dim="transport" data-val="铁运">🚆 铁运</span>
+      <span class="fchip" data-dim="transport" data-val="快递">🚀 商业快递</span>
+    </div>
+    <div class="fgroup">
       <span class="flabel">方式</span>
       <span class="fchip" data-dim="type" data-val="横向">横向比较</span>
       <span class="fchip" data-dim="type" data-val="环比">环比看板</span>
@@ -160,39 +173,39 @@ body:not(.locked) #gate-overlay{display:none !important;}
 
   <!-- ════ ① 小包 ════ -->
   <div class="cat cat-small">
-    <div class="cat-h">📦 小包 <span class="cnt">邮政小包 / 专线小包 · 轻小件</span></div>
+    <div class="cat-h">📦 小包 <span class="cnt">邮政小包 / 专线小包 · 轻小件（空运）</span></div>
     <div class="cat-desc">飞特 vs 云途、云途内部多渠道对比。体积重/计重口径见各页。</div>
     <div class="sub-sec">
       <div class="sub-h">▸ 横向比较</div>
-      <a class="ch" href="eu_small.html" data-tags="欧洲 飞特 云途 横向">
+      <a class="ch" href="eu_small.html" data-tags="欧洲 飞特 云途 横向 空运">
         <div class="ch-main">
           <div class="name">飞特(EY) <span class="vs">vs</span> 云途 · 欧洲小包</div>
           <div class="meta">欧洲挂号小包 · 欧盟7.1新政(3€/HS CODE+IOSS 2%) · 飞特计实重 / 云途÷10000</div>
-          <div class="tags"><span class="tag tag-c">欧洲</span><span class="tag tag-f">飞特</span><span class="tag tag-y">云途</span><span class="tag tag-h">横向</span></div>
+          <div class="tags"><span class="tag tag-c">欧洲</span><span class="tag tag-f">飞特</span><span class="tag tag-y">云途</span><span class="tag tag-h">横向</span><span class="tag tag-a">空运</span></div>
         </div>
         <span class="adv adv-feit">💡 飞特更省（轻小件首重）</span>
       </a>
-      <a class="ch" href="ca_ey_yuntu.html" data-tags="加拿大 飞特 云途 横向">
+      <a class="ch" href="ca_ey_yuntu.html" data-tags="加拿大 飞特 云途 横向 空运">
         <div class="ch-main">
           <div class="name">飞特(EY) <span class="vs">vs</span> 云途 · 加拿大专线小包</div>
           <div class="meta">加拿大挂号小包 · 飞特计实重 / 云途体积重≥2倍÷8000 · 含20CAD关税门槛</div>
-          <div class="tags"><span class="tag tag-c">加拿大</span><span class="tag tag-f">飞特</span><span class="tag tag-y">云途</span><span class="tag tag-h">横向</span></div>
+          <div class="tags"><span class="tag tag-c">加拿大</span><span class="tag tag-f">飞特</span><span class="tag tag-y">云途</span><span class="tag tag-h">横向</span><span class="tag tag-a">空运</span></div>
         </div>
         <span class="adv adv-feit">💡 ≤1kg飞特省 / ≥1.5kg云途省</span>
       </a>
-      <a class="ch" href="yuntu_3way.html" data-tags="美国 墨巴澳 云途 横向">
+      <a class="ch" href="yuntu_3way.html" data-tags="美国 墨巴澳 云途 横向 空运">
         <div class="ch-main">
           <div class="name">☁️ 云途三渠道：THPHR <span class="vs">vs</span> QYTHPH <span class="vs">vs</span> A01特惠普货</div>
           <div class="meta">同承运商（云途）三条产品线 · 墨/巴/澳/美 逐档比价 + 全维度条款对比</div>
-          <div class="tags"><span class="tag tag-c">美国</span><span class="tag tag-c">墨巴澳</span><span class="tag tag-y">云途</span><span class="tag tag-h">横向</span></div>
+          <div class="tags"><span class="tag tag-c">美国</span><span class="tag tag-c">墨巴澳</span><span class="tag tag-y">云途</span><span class="tag tag-h">横向</span><span class="tag tag-a">空运</span></div>
         </div>
         <span class="adv adv-yun">💡 新！三方全量对比</span>
       </a>
-      <a class="ch" href="yuntu_internal.html" data-tags="墨巴澳 云途 横向">
+      <a class="ch" href="yuntu_internal.html" data-tags="墨巴澳 云途 横向 空运">
         <div class="ch-main">
           <div class="name">☁️ 云途内部 · THPHR <span class="vs">vs</span> C66322(QYTHPH)</div>
           <div class="meta">同承运商两方案对照 · 体积重除数(÷10000 vs ÷6000/8000)/包税口径/报价时效差异</div>
-          <div class="tags"><span class="tag tag-c">墨巴澳</span><span class="tag tag-y">云途</span><span class="tag tag-h">横向</span></div>
+          <div class="tags"><span class="tag tag-c">墨巴澳</span><span class="tag tag-y">云途</span><span class="tag tag-h">横向</span><span class="tag tag-a">空运</span></div>
         </div>
         <span class="adv adv-yun">💡 选渠指南</span>
       </a>
@@ -200,11 +213,11 @@ body:not(.locked) #gate-overlay{display:none !important;}
     <div class="sub-sec">
       <div class="sub-h">▸ 环比看板</div>
       <div class="sub-note">同一渠道不同报价时间点之间的涨跌：<b style="color:#c0392b">红涨</b> / <b style="color:#1a8c6e">绿跌</b></div>
-      <a class="ch" href="price_change_small.html" data-tags="美国 加拿大 欧洲 墨巴澳 飞特 云途 环比">
+      <a class="ch" href="price_change_small.html" data-tags="美国 加拿大 欧洲 墨巴澳 飞特 云途 环比 空运">
         <div class="ch-main">
           <div class="name">小包环比 · 云途 THPHR / QYTHPH / A01 + 飞特加拿大 EY</div>
           <div class="meta">仅小包渠道：云途三产品线（6-15/6-29/7-6/7-7 及 A01 10 版）+ 飞特加拿大；可下拉切基准</div>
-          <div class="tags"><span class="tag tag-c">美国</span><span class="tag tag-c">加拿大</span><span class="tag tag-c">欧洲</span><span class="tag tag-c">墨巴澳</span><span class="tag tag-f">飞特</span><span class="tag tag-y">云途</span><span class="tag tag-m">环比</span></div>
+          <div class="tags"><span class="tag tag-c">美国</span><span class="tag tag-c">加拿大</span><span class="tag tag-c">欧洲</span><span class="tag tag-c">墨巴澳</span><span class="tag tag-f">飞特</span><span class="tag tag-y">云途</span><span class="tag tag-m">环比</span><span class="tag tag-a">空运</span></div>
         </div>
         <span class="adv adv-feit">↻ 查看小包环比</span>
       </a>
@@ -221,11 +234,11 @@ body:not(.locked) #gate-overlay{display:none !important;}
         <div class="way w-sea">
           <div class="way-h">🌊 海运 <span class="wtag">海运</span></div>
           <div class="country">🇺🇸 美国 <span class="ctag">美国</span> <span class="csub">— 美森限时达海派</span></div>
-          <a class="ch" href="us_clx.html" data-tags="美国 德翼 中运 横向">
+          <a class="ch" href="us_clx.html" data-tags="美国 德翼 中运 横向 海运">
             <div class="ch-main">
               <div class="name">德翼 <span class="vs">vs</span> 中运通达 · 美森 CLX</div>
               <div class="meta">美森限时达海派 · 含产品附加费/体积重÷6000/邮编分区</div>
-              <div class="tags"><span class="tag tag-c">美国</span><span class="tag tag-d">德翼</span><span class="tag tag-z">中运</span><span class="tag tag-h">横向</span></div>
+              <div class="tags"><span class="tag tag-c">美国</span><span class="tag tag-d">德翼</span><span class="tag tag-z">中运</span><span class="tag tag-h">横向</span><span class="tag tag-s">海运</span></div>
             </div>
             <span class="adv adv-dy">💡 德翼占优</span>
           </a>
@@ -233,20 +246,20 @@ body:not(.locked) #gate-overlay{display:none !important;}
         <div class="way w-air">
           <div class="way-h">✈️ 空运 <span class="wtag">空运</span></div>
           <div class="country">🇺🇸 美国 <span class="ctag">美国</span> <span class="csub">— 美国空派</span></div>
-          <a class="ch" href="us_air.html" data-tags="美国 德翼 中运 横向">
+          <a class="ch" href="us_air.html" data-tags="美国 德翼 中运 横向 空运">
             <div class="ch-main">
               <div class="name">德翼 <span class="vs">vs</span> 中运通达 · 美国空派</div>
               <div class="meta">美国空运专线 · 含产品附加费/体积重÷6000/邮编分区</div>
-              <div class="tags"><span class="tag tag-c">美国</span><span class="tag tag-d">德翼</span><span class="tag tag-z">中运</span><span class="tag tag-h">横向</span></div>
+              <div class="tags"><span class="tag tag-c">美国</span><span class="tag tag-d">德翼</span><span class="tag tag-z">中运</span><span class="tag tag-h">横向</span><span class="tag tag-a">空运</span></div>
             </div>
             <span class="adv adv-dy">💡 德翼占优</span>
           </a>
           <div class="country">🇪🇺 欧洲 <span class="ctag">欧洲</span> <span class="csub">— 欧洲空运包税</span></div>
-          <a class="ch" href="eu_air_21kg.html" data-tags="欧洲 德翼 中运 横向">
+          <a class="ch" href="eu_air_21kg.html" data-tags="欧洲 德翼 中运 横向 空运">
             <div class="ch-main">
               <div class="name">德翼 <span class="vs">vs</span> 中运通达 · 欧洲空运 21KG</div>
               <div class="meta">欧洲空运包税 · 含固定费+产品附加费/体积重÷6000/DE·FR·IT·ES</div>
-              <div class="tags"><span class="tag tag-c">欧洲</span><span class="tag tag-d">德翼</span><span class="tag tag-z">中运</span><span class="tag tag-h">横向</span></div>
+              <div class="tags"><span class="tag tag-c">欧洲</span><span class="tag tag-d">德翼</span><span class="tag tag-z">中运</span><span class="tag tag-h">横向</span><span class="tag tag-a">空运</span></div>
             </div>
             <span class="adv adv-zy">💡 中运更优</span>
           </a>
@@ -264,19 +277,19 @@ body:not(.locked) #gate-overlay{display:none !important;}
     <div class="sub-sec">
       <div class="sub-h">▸ 环比看板</div>
       <div class="sub-note">同一渠道不同报价时间点之间的涨跌：<b style="color:#c0392b">红涨</b> / <b style="color:#1a8c6e">绿跌</b></div>
-      <a class="ch" href="price_change_big.html" data-tags="美国 欧洲 德翼 中运 环比">
+      <a class="ch" href="price_change_big.html" data-tags="美国 欧洲 德翼 中运 环比 海运 空运 卡航 铁运">
         <div class="ch-main">
           <div class="name">📊 大货 6 渠道环比（海运 / 空运 / 卡航 / 铁运 综合变动）</div>
           <div class="meta">德翼 16 版 + 中运通达 22 版历史报价；可下拉切换对比基准版本</div>
-          <div class="tags"><span class="tag tag-c">美国</span><span class="tag tag-c">欧洲</span><span class="tag tag-d">德翼</span><span class="tag tag-z">中运</span><span class="tag tag-m">环比</span></div>
+          <div class="tags"><span class="tag tag-c">美国</span><span class="tag tag-c">欧洲</span><span class="tag tag-d">德翼</span><span class="tag tag-z">中运</span><span class="tag tag-m">环比</span><span class="tag tag-s">海运</span><span class="tag tag-a">空运</span><span class="tag tag-k">卡航</span><span class="tag tag-r">铁运</span></div>
         </div>
         <span class="adv adv-bo">↻ 查看大货环比</span>
       </a>
-      <a class="ch" href="price_change.html" data-tags="美国 加拿大 欧洲 墨巴澳 飞特 云途 德翼 中运 环比" style="margin-top:10px">
+      <a class="ch" href="price_change.html" data-tags="美国 加拿大 欧洲 墨巴澳 飞特 云途 德翼 中运 环比 海运 空运 卡航 铁运 快递" style="margin-top:10px">
         <div class="ch-main">
           <div class="name">📊 全部 10 渠道综合环比（小包 + 大货 总览）</div>
           <div class="meta">云途 3 渠道 + 德翼 + 中运通达 + 飞特 全量追踪；可下拉切基准</div>
-          <div class="tags"><span class="tag tag-c">美国</span><span class="tag tag-c">加拿大</span><span class="tag tag-c">欧洲</span><span class="tag tag-c">墨巴澳</span><span class="tag tag-f">飞特</span><span class="tag tag-y">云途</span><span class="tag tag-d">德翼</span><span class="tag tag-z">中运</span><span class="tag tag-m">环比</span></div>
+          <div class="tags"><span class="tag tag-c">美国</span><span class="tag tag-c">加拿大</span><span class="tag tag-c">欧洲</span><span class="tag tag-c">墨巴澳</span><span class="tag tag-f">飞特</span><span class="tag tag-y">云途</span><span class="tag tag-d">德翼</span><span class="tag tag-z">中运</span><span class="tag tag-m">环比</span><span class="tag tag-s">海运</span><span class="tag tag-a">空运</span><span class="tag tag-k">卡航</span><span class="tag tag-r">铁运</span><span class="tag tag-e">商业快递</span></div>
         </div>
         <span class="adv adv-all">↻ 全渠道总览</span>
       </a>
@@ -289,11 +302,11 @@ body:not(.locked) #gate-overlay{display:none !important;}
     <div class="cat-desc">中运通达商业快递 5 渠道，含油综合价比价，覆盖多国。</div>
     <div class="sub-sec">
       <div class="sub-h">▸ 横向比较</div>
-      <a class="ch" href="zhongyun_express.html" data-tags="美国 加拿大 欧洲 亚洲中东 中运 横向">
+      <a class="ch" href="zhongyun_express.html" data-tags="美国 加拿大 欧洲 亚洲中东 中运 横向 快递">
         <div class="ch-main">
           <div class="name">中运通达商业快递 5 渠道：广州DHL / 广州联邦IP / 大陆UPS-红单小货 / 大陆UPS-红单大货 / 大陆UPS包税(美国)</div>
           <div class="meta">含油综合价 · 8条主流国家(美/加/欧/日/韩/越/马/中东) · 包税vs出税金标注 · 点国家Tab切换；⚠ UPS包税仅美/加可用且为包税</div>
-          <div class="tags"><span class="tag tag-c">美国</span><span class="tag tag-c">加拿大</span><span class="tag tag-c">欧洲</span><span class="tag tag-c">亚洲中东</span><span class="tag tag-z">中运</span><span class="tag tag-h">横向</span></div>
+          <div class="tags"><span class="tag tag-c">美国</span><span class="tag tag-c">加拿大</span><span class="tag tag-c">欧洲</span><span class="tag tag-c">亚洲中东</span><span class="tag tag-z">中运</span><span class="tag tag-h">横向</span><span class="tag tag-e">商业快递</span></div>
         </div>
         <span class="adv adv-zy">💡 ≤10KG选UPS红单小货；美国免税务选UPS包税</span>
       </a>
@@ -308,7 +321,7 @@ body:not(.locked) #gate-overlay{display:none !important;}
 </div>
 
 <script>
-var sel = { country: new Set(), carrier: new Set(), type: new Set() };
+var sel = { country: new Set(), carrier: new Set(), transport: new Set(), type: new Set() };
 
 document.querySelectorAll('.fchip').forEach(function(chip){
   chip.addEventListener('click', function(){
@@ -324,7 +337,7 @@ function applyFilter(){
   cards.forEach(function(ch){
     var tags = (ch.dataset.tags || '').split(' ');
     var ok = true;
-    [['country', sel.country], ['carrier', sel.carrier], ['type', sel.type]].forEach(function(p){
+    [['country', sel.country], ['carrier', sel.carrier], ['transport', sel.transport], ['type', sel.type]].forEach(function(p){
       var dim = p[0], set = p[1];
       if (set.size > 0){
         var hit = false;
@@ -346,13 +359,13 @@ function applyFilter(){
 
   // 更新当前筛选文字
   var parts = [];
-  ['country','carrier','type'].forEach(function(d){ sel[d].forEach(function(v){ parts.push(v); }); });
+  ['country','carrier','transport','type'].forEach(function(d){ sel[d].forEach(function(v){ parts.push(v); }); });
   document.getElementById('fcur').textContent = parts.length ? parts.join(' · ') : '全部';
   document.getElementById('noresult').style.display = parts.length && document.querySelectorAll('.ch[style="display: none;"]').length === cards.length ? 'block' : 'none';
 }
 
 function clearFilter(){
-  sel.country.clear(); sel.carrier.clear(); sel.type.clear();
+  sel.country.clear(); sel.carrier.clear(); sel.transport.clear(); sel.type.clear();
   document.querySelectorAll('.fchip.active').forEach(function(c){ c.classList.remove('active'); });
   applyFilter();
 }
