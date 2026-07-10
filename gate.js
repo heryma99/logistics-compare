@@ -5,10 +5,6 @@
   var EXPECTED = 'a3cf67121e0481a98174c94884e8005863ca5edc93d20bf8a5eb565056e9aa37';
   var PW_VERSION = 6;            // 每次改密码 +1；旧已登录会话版本不符 → 立即失效
   var LS_KEY = 'lc_gate_v1';
-  var TRIES_KEY = 'lc_gate_tries';
-  var LOCK_KEY = 'lc_gate_lock';
-  var MAX_TRIES = 5;
-  var LOCK_MS = 5 * 60 * 1000;
   var body = document.body;
 
   function getLS(k){ try { return localStorage.getItem(k); } catch(e){ return null; } }
@@ -47,37 +43,17 @@
   var btn = document.getElementById('gate-btn');
   var errEl = document.getElementById('gate-err');
 
-  function lockUI(){
-    if(!ov) return;
-    ov.innerHTML = '<div class="gate-box"><div class="gate-title">🔒 访问已锁定</div>' +
-      '<div class="gate-msg">尝试次数过多，请 5 分钟后再试</div></div>';
-  }
-  function checkLock(){
-    var until = parseInt(getLS(LOCK_KEY) || '0', 10);
-    if(Date.now() < until){ lockUI(); return false; }
-    return true;
-  }
-  if(!checkLock()){ return; }
-
   function unlock(){
-    if(!checkLock()) return;
     var val = (pwd && pwd.value) || '';
     if(!val){ if(errEl) errEl.textContent = '请输入密码'; return; }
     sha256Hex(val).then(function(hex){
       if(hex === EXPECTED){
         setLS(LS_KEY, JSON.stringify({ v: PW_VERSION, h: EXPECTED }));
-        setLS(TRIES_KEY, '0');
         if(body) body.classList.remove('locked');
         if(ov) ov.style.display = 'none';
       } else {
-        var t = parseInt(getLS(TRIES_KEY) || '0', 10) + 1;
-        setLS(TRIES_KEY, String(t));
-        if(t >= MAX_TRIES){
-          setLS(LOCK_KEY, String(Date.now() + LOCK_MS));
-          lockUI();
-          return;
-        }
-        if(errEl) errEl.textContent = '密码错误，还可尝试 ' + (MAX_TRIES - t) + ' 次';
+        // 已关闭「多次错误锁定」：密码错误仅提示重试，不会计数或锁定
+        if(errEl) errEl.textContent = '密码错误，请重试';
         if(pwd){ pwd.value = ''; pwd.focus(); }
       }
     }).catch(function(){
