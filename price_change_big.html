@@ -56,36 +56,10 @@ td.num{font-variant-numeric:tabular-nums}
 .ch-empty{color:#1a8c6e;background:#f0fdf4;font-weight:600;padding:14px 10px !important}
 .foot{color:#9ca3af;font-size:12px;margin-top:20px;text-align:center}
 @media(max-width:760px){.kpi{grid-template-columns:repeat(3,1fr)}.ch-base{margin-left:0;width:100%}}
-</style><meta name="robots" content="noindex, nofollow">
-<style>
-body.locked > *:not(#gate-overlay){display:none !important;}
-#gate-overlay{position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#0f172a,#1e293b);font-family:-apple-system,"Microsoft YaHei",sans-serif;}
-body:not(.locked) #gate-overlay{display:none !important;}
-.gate-box{background:#fff;border-radius:16px;padding:34px 38px;width:330px;max-width:90vw;box-shadow:0 24px 70px rgba(0,0,0,.5);text-align:center;}
-.gate-title{font-size:21px;font-weight:800;color:#0f172a;margin-bottom:6px;}
-.gate-sub{font-size:13px;color:#64748b;margin-bottom:20px;}
-#gate-pwd{width:100%;box-sizing:border-box;padding:12px 14px;border:1.5px solid #cbd5e1;border-radius:10px;font-size:15px;outline:none;transition:border-color .15s;}
-#gate-pwd:focus{border-color:#2563eb;}
-#gate-btn{margin-top:16px;width:100%;padding:12px;border:none;border-radius:10px;background:#2563eb;color:#fff;font-size:15px;font-weight:700;cursor:pointer;transition:background .15s;}
-#gate-btn:hover{background:#1d4ed8;}
-.gate-err{color:#dc2626;font-size:12.5px;margin-top:12px;min-height:16px;}
-.gate-foot{margin-top:16px;font-size:11px;color:#94a3b8;}
-</style>
-</head>
-<body class="locked">
-<div id="gate-overlay">
-  <div class="gate-box">
-    <div class="gate-title">🔒 受限访问</div>
-    <div class="gate-sub">跨境物流比价看板 · 请输入访问密码</div>
-    <input id="gate-pwd" type="password" placeholder="访问密码" autocomplete="off" />
-    <button id="gate-btn" type="button">进入看板</button>
-    <div id="gate-err" class="gate-err"></div>
-    <div class="gate-foot">密码请联系管理员获取</div>
-  </div>
-</div>
-<div class="wrap">
+</style></head>
+<body><div class="wrap">
 <div class="hero"><h1>物流价格变动看板 · 大货环比</h1>
-<div class="sub">大货渠道（德翼、中运通达 空运/空派/美森CLX）报价分版本存档，可切换基准逐（国家×重量段）比对运费/kg ｜ 生成于 2026-07-09 14:26</div></div>
+<div class="sub">大货渠道（德翼、中运通达 空运/空派/美森CLX）报价分版本存档，可切换基准逐（国家×重量段）比对运费/kg ｜ 生成于 2026-07-14 18:15</div></div>
 <div class='banner'><b>说明：</b>本页仅含<b>大货</b>渠道（德翼 欧洲空运/美国空派/美森CLX、中运通达 对应三渠道）。德翼已载入 16 版、中运通达已载入 22 版历史报价，可下拉切换基准做真实环比；<b style='color:#c0392b'>红＝涨价</b>、<b style='color:#1a8c6e'>绿＝降价</b>。<b>每个渠道默认只显示「有变动」的明细</b>，持平项不显示；<b>有对比的渠道默认展开</b>，<b>仅「仅1版·无对比」的渠道默认折叠</b>（点击卡片头 ▾ 展开）。</div>
 <div class='kpi'><div class='k'><div class='v'>6</div><div class='l'>追踪渠道</div></div><div class='k'><div class='v'>85</div><div class='l'>最新价记录条</div></div><div class='k'><div class='v' style='color:#c0392b'>12</div><div class='l'>涨价项</div></div><div class='k'><div class='v' style='color:#1a8c6e'>64</div><div class='l'>降价项</div></div><div class='k'><div class='v'>0/0</div><div class='l'>新增/移除</div></div><div class='k'><div class='v'>11</div><div class='l'>最大单跳(元)</div></div></div>
 
@@ -171,5 +145,4 @@ document.querySelectorAll('.tab').forEach(function(t){
   };
 });
 </script>
-<script src="./gate.js"></script>
 </body></html>
