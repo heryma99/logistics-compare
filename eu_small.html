@@ -1,100 +1,24 @@
-<!DOCTYPE html><html lang='zh-CN'><head><meta charset='UTF-8'>
+<!DOCTYPE html><html lang='zh-CN'><head>
+<meta charset='UTF-8'>
 <meta name='viewport' content='width=device-width,initial-scale=1'>
-<title>欧洲小包 飞特(EY) vs 云途（真实账单口径）</title><style>
+<title>已弃用 → 渠道决策计算器</title>
+<meta http-equiv='refresh' content='4;url=eu_decision.html'>
+<style>
 *{box-sizing:border-box}
 body{margin:0;font-family:-apple-system,'Microsoft YaHei',sans-serif;background:#f4f6f9;color:#1f2d3d;line-height:1.6}
-.wrap{max-width:1080px;margin:0 auto;padding:22px 18px 60px}
-.hero{background:linear-gradient(135deg,#1a2a6c,#2a5298);color:#fff;border-radius:16px;padding:24px 30px;margin-bottom:22px}
-.hero h1{font-size:22px;margin:0 0 6px}.hero .sub{opacity:.85;font-size:13px}
-.banner{background:#fff7ed;border:1px solid #fdba74;border-left:5px solid #ea580c;border-radius:12px;padding:16px 20px;margin-bottom:22px;font-size:14px;line-height:1.7}
-.banner b{color:#ea580c}
-.section{background:#fff;border-radius:14px;padding:22px 24px;margin-bottom:22px;box-shadow:0 2px 12px rgba(0,0,0,.05)}
-.sec-title{font-size:18px;font-weight:700;margin-bottom:4px}.sec-sub{font-size:13px;color:#8a94a6;margin-bottom:14px}
-.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
-.card{border-radius:12px;padding:16px;text-align:center;border:2px solid #eee;background:#fafbff}
-.card .pname{font-size:15px;font-weight:600;margin-bottom:6px}
-.card .win{font-size:17px;font-weight:700;padding:4px 0;border-radius:8px}
-.card .win.dy{background:#e6f7f1;color:#1a8c6e}.card .win.zy{background:#fdeaea;color:#c0392b}
-.card .win.tie{background:#fff4e0;color:#b7791f}
-.card .psub{font-size:11px;color:#8a94a6;margin-top:6px}
-table{width:100%;border-collapse:collapse;font-size:13px}
-th,td{padding:9px 10px;text-align:center;border-bottom:1px solid #eef1f5}
-th{background:#f8fafc;color:#5a6577;font-weight:600;font-size:12px}
-td.pl{text-align:left;font-weight:600;color:#2d3748}
-td.num{font-variant-numeric:tabular-nums}
-td.best{background:#e6f9ef;color:#1a8c6e;font-weight:700;border-radius:6px}
-td.bestz{background:#fdeaea;color:#c0392b;font-weight:700;border-radius:6px}
-.note{font-size:13px;color:#5a6577;background:#f0f4ff;border-radius:10px;padding:14px 18px;margin-top:12px;line-height:1.7}
-.note b{color:#2a5298}.note.warn{background:#fffbeb;border-left:4px solid #f59e0b;color:#92400e}
-.rules{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px}
-.rule{background:#f8fafc;border-radius:10px;padding:12px 14px;font-size:13px}
-.rule b{display:block;margin-bottom:3px;color:#2d3748}.rule span{color:#6b7280;font-size:12px}
-details{margin-top:12px;background:#f8fafc;border-radius:10px;padding:12px 16px}
-summary{cursor:pointer;font-weight:600;color:#4356c4;font-size:14px}
-.sur-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #eef1f5;font-size:13px}
-.sur-row:last-child{border-bottom:none}.sur-row .free{color:#1a8c6e;font-weight:600}.sur-row .chg{color:#c0392b;font-weight:600}
-.ex{display:flex;gap:16px;flex-wrap:wrap;margin-top:8px}
-.ex .box{flex:1;min-width:200px;border-radius:10px;padding:14px 18px}.ex .de{background:#e6f7f1}.ex .zy{background:#fdeaea}
-.ex .box h4{font-size:14px;margin-bottom:8px}.ex .box .big{font-size:22px;font-weight:700}.ex .box .sm{font-size:12px;color:#6b7280}
-.save{background:#e6f9ef;border-radius:10px;padding:14px 18px;margin-top:12px;font-size:15px}.save b{color:#1a8c6e;font-size:18px}
-.foot{color:#9ca3af;font-size:12px;margin-top:20px;text-align:center}
-@media(max-width:720px){.cards{grid-template-columns:repeat(2,1fr)}.rules{grid-template-columns:1fr}}
-</style></head>
-<body><div class='wrap'>
-<div class='hero'><h1>欧洲小包 飞特(EY) vs 云途</h1><div class='sub'>飞特 7-9 ｜ 云途 7-13 ｜ 包税 vs 含税 ｜ DE/FR/ES/NL ｜ <b style='color:#ffd'>真实账单实付口径（已修正）</b></div></div>
-<div class='banner'><b>结论已修正（与真实账单版 v7 一致）：</b>原版用报价表「运费+挂号+固定税费36」，漏算了云途账单里实际收取的 <b>关税+手续费</b>（占实付约 24%），导致重件「云途更省」是误判。本版按真实账单实付口径重算（云途 = 运费+挂号+VAT+关税+手续费），结果翻转：<b>飞特在绝大多数重量段更省；云途仅在极轻件略胜（德国≤0.3kg、法国/西班牙≤0.5kg、荷兰仅0.1kg）</b>。飞特为 DDP 包税全含、单价恒定；云途表面运费低，但加上关税+手续费后反超。</div>
-<div class='section'><div class='sec-title'>📦 德国</div><div class='sec-sub'>云途占优 ≤0.3kg；飞特占优 ≥0.5kg（云途已含VAT+关税+手续费，按真实账单占比重算）</div>
-<table><thead><tr><th>重量(kg)</th><th>飞特(包税全含)</th><th>云途(运费+挂号+VAT+关税+手续费)</th><th>结论</th></tr></thead><tbody>
-<tr><td class='num'>0.1</td><td class='num'>35.0</td><td class='num'>30.5</td><td class='best'>云途</td></tr>
-<tr><td class='num'>0.2</td><td class='num'>42.0</td><td class='num'>37.7</td><td class='best'>云途</td></tr>
-<tr><td class='num'>0.3</td><td class='num'>49.0</td><td class='num'>47.0</td><td class='best'>云途</td></tr>
-<tr><td class='num'>0.5</td><td class='num'>63.0</td><td class='num'>64.3</td><td class='bestz'>飞特</td></tr>
-<tr><td class='num'>0.8</td><td class='num'>84.0</td><td class='num'>90.4</td><td class='bestz'>飞特</td></tr>
-<tr><td class='num'>1.0</td><td class='num'>98.0</td><td class='num'>107.6</td><td class='bestz'>飞特</td></tr>
-<tr><td class='num'>1.5</td><td class='num'>133.0</td><td class='num'>150.9</td><td class='bestz'>飞特</td></tr>
-<tr><td class='num'>2.0</td><td class='num'>168.0</td><td class='num'>194.2</td><td class='bestz'>飞特</td></tr>
-<tr><td class='num'>3.0</td><td class='num'>238.0</td><td class='num'>280.6</td><td class='bestz'>飞特</td></tr>
-<tr><td class='num'>5.0</td><td class='num'>378.0</td><td class='num'>453.5</td><td class='bestz'>飞特</td></tr>
-</tbody></table></div>
-<div class='section'><div class='sec-title'>📦 法国</div><div class='sec-sub'>云途占优 ≤0.5kg；飞特占优 ≥0.8kg（云途已含VAT+关税+手续费，按真实账单占比重算）</div>
-<table><thead><tr><th>重量(kg)</th><th>飞特(包税全含)</th><th>云途(运费+挂号+VAT+关税+手续费)</th><th>结论</th></tr></thead><tbody>
-<tr><td class='num'>0.1</td><td class='num'>35.5</td><td class='num'>26.9</td><td class='best'>云途</td></tr>
-<tr><td class='num'>0.2</td><td class='num'>43.0</td><td class='num'>35.9</td><td class='best'>云途</td></tr>
-<tr><td class='num'>0.3</td><td class='num'>51.5</td><td class='num'>45.6</td><td class='best'>云途</td></tr>
-<tr><td class='num'>0.5</td><td class='num'>66.5</td><td class='num'>64.3</td><td class='best'>云途</td></tr>
-<tr><td class='num'>0.8</td><td class='num'>90.0</td><td class='num'>96.3</td><td class='bestz'>飞特</td></tr>
-<tr><td class='num'>1.0</td><td class='num'>105.0</td><td class='num'>114.6</td><td class='bestz'>飞特</td></tr>
-<tr><td class='num'>1.5</td><td class='num'>143.5</td><td class='num'>160.7</td><td class='bestz'>飞特</td></tr>
-<tr><td class='num'>2.0</td><td class='num'>181.0</td><td class='num'>206.5</td><td class='bestz'>飞特</td></tr>
-<tr><td class='num'>3.0</td><td class='num'>256.0</td><td class='num'>293.0</td><td class='bestz'>飞特</td></tr>
-<tr><td class='num'>5.0</td><td class='num'>406.0</td><td class='num'>472.9</td><td class='bestz'>飞特</td></tr>
-</tbody></table></div>
-<div class='section'><div class='sec-title'>📦 西班牙</div><div class='sec-sub'>云途占优 ≤0.5kg；飞特占优 ≥0.8kg（云途已含VAT+关税+手续费，按真实账单占比重算）</div>
-<table><thead><tr><th>重量(kg)</th><th>飞特(包税全含)</th><th>云途(运费+挂号+VAT+关税+手续费)</th><th>结论</th></tr></thead><tbody>
-<tr><td class='num'>0.1</td><td class='num'>35.0</td><td class='num'>23.4</td><td class='best'>云途</td></tr>
-<tr><td class='num'>0.2</td><td class='num'>42.0</td><td class='num'>32.9</td><td class='best'>云途</td></tr>
-<tr><td class='num'>0.3</td><td class='num'>49.0</td><td class='num'>42.1</td><td class='best'>云途</td></tr>
-<tr><td class='num'>0.5</td><td class='num'>63.0</td><td class='num'>60.8</td><td class='best'>云途</td></tr>
-<tr><td class='num'>0.8</td><td class='num'>84.0</td><td class='num'>89.0</td><td class='bestz'>飞特</td></tr>
-<tr><td class='num'>1.0</td><td class='num'>98.0</td><td class='num'>107.6</td><td class='bestz'>飞特</td></tr>
-<tr><td class='num'>1.5</td><td class='num'>133.0</td><td class='num'>154.5</td><td class='bestz'>飞特</td></tr>
-<tr><td class='num'>2.0</td><td class='num'>168.0</td><td class='num'>201.2</td><td class='bestz'>飞特</td></tr>
-<tr><td class='num'>3.0</td><td class='num'>238.0</td><td class='num'>294.7</td><td class='bestz'>飞特</td></tr>
-<tr><td class='num'>5.0</td><td class='num'>378.0</td><td class='num'>481.7</td><td class='bestz'>飞特</td></tr>
-</tbody></table></div>
-<div class='section'><div class='sec-title'>📦 荷兰</div><div class='sec-sub'>云途仅 0.1kg 略优；飞特占优 ≥0.2kg（云途已含VAT+关税+手续费，按真实账单占比重算）</div>
-<table><thead><tr><th>重量(kg)</th><th>飞特(包税全含)</th><th>云途(运费+挂号+VAT+关税+手续费)</th><th>结论</th></tr></thead><tbody>
-<tr><td class='num'>0.1</td><td class='num'>39.5</td><td class='num'>33.8</td><td class='best'>云途</td></tr>
-<tr><td class='num'>0.2</td><td class='num'>46.0</td><td class='num'>48.1</td><td class='bestz'>飞特</td></tr>
-<tr><td class='num'>0.3</td><td class='num'>52.5</td><td class='num'>59.4</td><td class='bestz'>飞特</td></tr>
-<tr><td class='num'>0.5</td><td class='num'>65.5</td><td class='num'>83.7</td><td class='bestz'>飞特</td></tr>
-<tr><td class='num'>0.8</td><td class='num'>85.0</td><td class='num'>120.4</td><td class='bestz'>飞特</td></tr>
-<tr><td class='num'>1.0</td><td class='num'>98.0</td><td class='num'>144.6</td><td class='bestz'>飞特</td></tr>
-<tr><td class='num'>1.5</td><td class='num'>130.5</td><td class='num'>205.6</td><td class='bestz'>飞特</td></tr>
-<tr><td class='num'>2.0</td><td class='num'>163.0</td><td class='num'>266.5</td><td class='bestz'>飞特</td></tr>
-<tr><td class='num'>3.0</td><td class='num'>228.0</td><td class='num'>335.3</td><td class='bestz'>飞特</td></tr>
-<tr><td class='num'>5.0</td><td class='num'>358.0</td><td class='num'>543.4</td><td class='bestz'>飞特</td></tr>
-</tbody></table></div>
-<div class='note warn'><b>口径说明：</b>云途新列 =（原报价运费+挂号+税费36 − 58）× 1.764 + 22，其中 1.764 = 1 + 0.232(VAT/运费) + 0.532(其他费/运费)，系数取自云途 DE 特惠普货 494 单真实账单聚合占比；挂号取 22 元。该重算为<b>估算</b>（除截图单外其他费按样本比例拆分），用于揭示「漏算其他费→结论翻转」的效应，精确逐单值见真实账单版 <a href='eu_v7.html'>eu_v7.html</a>。飞特列保持原报价（DDP 包税全含），与 v7 的 fe_total 口径一致。</div>
-<div class='foot'>由 auto_compare 修正重建 ｜ 真实账单口径 ｜ 生成于 2026-07-15</div>
-</div></body></html>
+.wrap{max-width:760px;margin:0 auto;padding:60px 20px}
+.box{background:#fff;border-radius:16px;padding:36px 32px;text-align:center;box-shadow:0 2px 16px rgba(0,0,0,.06)}
+.tag{display:inline-block;background:#fee2e2;color:#b91c1c;font-weight:700;font-size:13px;padding:4px 12px;border-radius:999px;margin-bottom:14px}
+h1{font-size:22px;margin:0 0 10px}
+.desc{font-size:14px;color:#5b6472;margin-bottom:18px}
+.desc b{color:#c0392b}
+.btn{display:inline-block;background:#2563eb;color:#fff;text-decoration:none;font-weight:700;padding:12px 28px;border-radius:10px;font-size:15px}
+.note{margin-top:18px;font-size:12.5px;color:#8a94a6}
+</style>
+</head><body><div class="wrap"><div class="box">
+  <span class="tag">⚠ 此页已弃用</span>
+  <h1>「欧洲小包对比页」已停止维护</h1>
+  <p class="desc">该页为早期简化版，计算口径（关税/税费折算等）已落后于<br><b>渠道决策计算器（eu_decision.html）</b>，继续使用<b>容易造成误判</b>。<br>4 秒后自动跳转到更准确的版本 ↓</p>
+  <a class="btn" href="eu_decision.html">前往 渠道决策计算器 →</a>
+  <p class="note">如未自动跳转，请点击上方按钮。旧书签/链接均已指向正确页面。</p>
+</div></div></body></html>
