@@ -1,6 +1,45 @@
 <!DOCTYPE html><html lang='zh-CN'><head><meta charset='UTF-8'>
 <meta name='viewport' content='width=device-width,initial-scale=1'>
-<title>欧洲小包 飞特(EY) vs 云途（真实账单口径）</title><style>{CSS}</style></head>
+<title>欧洲小包 飞特(EY) vs 云途（真实账单口径）</title><style>
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,'Microsoft YaHei',sans-serif;background:#f4f6f9;color:#1f2d3d;line-height:1.6}
+.wrap{max-width:1080px;margin:0 auto;padding:22px 18px 60px}
+.hero{background:linear-gradient(135deg,#1a2a6c,#2a5298);color:#fff;border-radius:16px;padding:24px 30px;margin-bottom:22px}
+.hero h1{font-size:22px;margin:0 0 6px}.hero .sub{opacity:.85;font-size:13px}
+.banner{background:#fff7ed;border:1px solid #fdba74;border-left:5px solid #ea580c;border-radius:12px;padding:16px 20px;margin-bottom:22px;font-size:14px;line-height:1.7}
+.banner b{color:#ea580c}
+.section{background:#fff;border-radius:14px;padding:22px 24px;margin-bottom:22px;box-shadow:0 2px 12px rgba(0,0,0,.05)}
+.sec-title{font-size:18px;font-weight:700;margin-bottom:4px}.sec-sub{font-size:13px;color:#8a94a6;margin-bottom:14px}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
+.card{border-radius:12px;padding:16px;text-align:center;border:2px solid #eee;background:#fafbff}
+.card .pname{font-size:15px;font-weight:600;margin-bottom:6px}
+.card .win{font-size:17px;font-weight:700;padding:4px 0;border-radius:8px}
+.card .win.dy{background:#e6f7f1;color:#1a8c6e}.card .win.zy{background:#fdeaea;color:#c0392b}
+.card .win.tie{background:#fff4e0;color:#b7791f}
+.card .psub{font-size:11px;color:#8a94a6;margin-top:6px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{padding:9px 10px;text-align:center;border-bottom:1px solid #eef1f5}
+th{background:#f8fafc;color:#5a6577;font-weight:600;font-size:12px}
+td.pl{text-align:left;font-weight:600;color:#2d3748}
+td.num{font-variant-numeric:tabular-nums}
+td.best{background:#e6f9ef;color:#1a8c6e;font-weight:700;border-radius:6px}
+td.bestz{background:#fdeaea;color:#c0392b;font-weight:700;border-radius:6px}
+.note{font-size:13px;color:#5a6577;background:#f0f4ff;border-radius:10px;padding:14px 18px;margin-top:12px;line-height:1.7}
+.note b{color:#2a5298}.note.warn{background:#fffbeb;border-left:4px solid #f59e0b;color:#92400e}
+.rules{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px}
+.rule{background:#f8fafc;border-radius:10px;padding:12px 14px;font-size:13px}
+.rule b{display:block;margin-bottom:3px;color:#2d3748}.rule span{color:#6b7280;font-size:12px}
+details{margin-top:12px;background:#f8fafc;border-radius:10px;padding:12px 16px}
+summary{cursor:pointer;font-weight:600;color:#4356c4;font-size:14px}
+.sur-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #eef1f5;font-size:13px}
+.sur-row:last-child{border-bottom:none}.sur-row .free{color:#1a8c6e;font-weight:600}.sur-row .chg{color:#c0392b;font-weight:600}
+.ex{display:flex;gap:16px;flex-wrap:wrap;margin-top:8px}
+.ex .box{flex:1;min-width:200px;border-radius:10px;padding:14px 18px}.ex .de{background:#e6f7f1}.ex .zy{background:#fdeaea}
+.ex .box h4{font-size:14px;margin-bottom:8px}.ex .box .big{font-size:22px;font-weight:700}.ex .box .sm{font-size:12px;color:#6b7280}
+.save{background:#e6f9ef;border-radius:10px;padding:14px 18px;margin-top:12px;font-size:15px}.save b{color:#1a8c6e;font-size:18px}
+.foot{color:#9ca3af;font-size:12px;margin-top:20px;text-align:center}
+@media(max-width:720px){.cards{grid-template-columns:repeat(2,1fr)}.rules{grid-template-columns:1fr}}
+</style></head>
 <body><div class='wrap'>
 <div class='hero'><h1>欧洲小包 飞特(EY) vs 云途</h1><div class='sub'>飞特 7-9 ｜ 云途 7-13 ｜ 包税 vs 含税 ｜ DE/FR/ES/NL ｜ <b style='color:#ffd'>真实账单实付口径（已修正）</b></div></div>
 <div class='banner'><b>结论已修正（与真实账单版 v7 一致）：</b>原版用报价表「运费+挂号+固定税费36」，漏算了云途账单里实际收取的 <b>关税+手续费</b>（占实付约 24%），导致重件「云途更省」是误判。本版按真实账单实付口径重算（云途 = 运费+挂号+VAT+关税+手续费），结果翻转：<b>飞特在绝大多数重量段更省，仅极轻件（≤0.3kg）云途靠低固定成本略胜</b>。飞特为 DDP 包税全含、单价恒定；云途表面运费低，但加上关税+手续费后反超。</div>
