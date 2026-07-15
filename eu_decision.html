@@ -76,7 +76,7 @@ textarea{width:100%;min-height:120px;border:1px solid #cfd6e0;border-radius:8px;
       <div class="fld"><label>高 H (cm)</label><input id="s_H" type="number" step="0.1" value="8.3"></div>
       <div class="fld"><label>实重 (kg/件)</label><input id="s_w" type="number" step="0.01" value="0.5"></div>
       <div class="fld"><label>件数 Q</label><input id="s_Q" type="number" step="1" value="1"></div>
-      <div class="fld"><label>申报 USD/件</label><input id="s_decl" type="number" step="0.5" value="8"></div>
+      <div class="fld"><label>申报 USD/件 <span style="color:#888;font-weight:400">(总额封顶15)</span></label><input id="s_decl" type="number" step="0.5" value="8"></div>
       <div class="fld"><label>VAT率 %</label><input id="s_vat" type="number" step="0.5" value="20"></div>
       <div class="fld"><label>关税率 % <b style="color:#c0392b">按HSCODE填</b></label><input id="s_duty" type="number" step="0.5" value="0" title="必须按该SKU的HS编码查欧盟进口关税率填写。包包/服装/手机壳一般在0~15%区间，精确值取决于具体HS CODE。"></div>
     </div>
@@ -111,7 +111,7 @@ JH30314-32, 25.6, 15.6, 7.4, 0.45, FR, 1, 8</textarea>
 15.0, 10.0, 5.0, 0.12, 3</textarea>
     <div class="row2">
       <div class="fld" style="width:140px"><label>目的国</label><select id="m_iso"></select></div>
-      <div class="fld" style="width:130px"><label>申报 USD/件</label><input id="m_decl" type="number" step="0.5" value="8"></div>
+      <div class="fld" style="width:130px"><label>申报 USD/件 <span style="color:#888;font-weight:400">(封顶15)</span></label><input id="m_decl" type="number" step="0.5" value="8"></div>
       <div class="fld" style="width:110px"><label>VAT %</label><input id="m_vat" type="number" step="0.5" value="20"></div>
       <div class="fld" style="width:110px"><label>关税 %</label><input id="m_duty" type="number" step="0.5" value="0"></div>
       <label class="toggle" style="align-self:end"><input type="checkbox" id="m_tax" checked> 含税费</label>
@@ -130,7 +130,7 @@ JH30314-32, 25.6, 15.6, 7.4, 0.45, FR, 1, 8</textarea>
       <div class="fld"><label>高 H (cm)</label><input id="a_H" type="number" step="0.1" value="7.8"></div>
       <div class="fld"><label>实重 (kg/件)</label><input id="a_w" type="number" step="0.01" value="0.648"></div>
       <div class="fld"><label>件数 Q</label><input id="a_Q" type="number" step="1" value="1"></div>
-      <div class="fld"><label>申报 USD/件</label><input id="a_decl" type="number" step="0.5" value="8"></div>
+      <div class="fld"><label>申报 USD/件 <span style="color:#888;font-weight:400">(总额封顶15)</span></label><input id="a_decl" type="number" step="0.5" value="8"></div>
       <div class="fld"><label>关税率 % <b style="color:#c0392b">按HSCODE填</b></label><input id="a_duty" type="number" step="0.5" value="0" title="必须按该SKU的HS编码查欧盟进口关税率填写。包包/服装/手机壳一般在0~15%区间。"></div>
     </div>
     <div class="row2">
@@ -148,10 +148,11 @@ JH30314-32, 25.6, 15.6, 7.4, 0.45, FR, 1, 8</textarea>
   <div class="gloss">
     <b>① 单件 vs 多件</b>：计费重对同 SKU 多件是线性的——<code>计费重 = Q × 单件计费重</code>。所以每个 SKU×国家只需记一个「单件计费重」，发货时乘件数 Q 即可，再查报价分档算钱。<br>
     <b>② 决策公式</b>：云途全成本 = 运费(计费重×¥/kg) + 挂号 + VAT(申报×国别率) + 关税 + 手续费(申报×2%)；飞特全成本 = 运费(计费重×¥/kg) + 操作费（DDP 已含 VAT/关税/IOSS）。谁低发谁。<br>
+    <b>②′ 申报规则</b>：单件 SKU 申报 ≈ <b>8 USD</b>；一个包裹申报总额 <b>封顶 15 USD</b>（多件不是简单 8×件数，而是 min(8×件数, 15) 反推）。VAT/关税/手续费都按这个"封顶后的申报总额"算。<br>
     <b>③ 临界件数 Q*</b>：本工具会算出「Q≤Q* 发云途 / Q>Q* 发飞特」的拐点，下单系统照此分渠道即可。<br>
     <b>④ 规模化</b>：几千 SKU 时，用谷仓 <code>product/get_product_sku_list</code> 拉全量尺寸 → 预生成「SKU×国家→推荐渠道 + Q*」查表，发货时按订单件数直接命中，无需逐单手算。
   </div>
-  <div class="warn">⚠ 诚实边界：① <b>飞特仅 DE/FR/ES/NL 有报价</b>，其余欧盟国飞特未覆盖；② <b>关税率必须按 HSCODE（海关编码）查表填写</b>——不同 HS CODE 对应不同欧盟进口税率（包包/服装/手机壳一般在 0~15%），填错会直接翻转结论；③ 云途「其他费」= 关税 + 手续费(申报×2%)，已按此拆解；④ 体积重规则：云途 ÷10000、飞特 ÷7000（飞特最低 0.05kg）；⑤ 演示芯片仅带入尺寸/实重/国别/VAT，<b>关税率需自行按 HSCODE 填写</b>（历史反推值仅供参考，不自动带入）。</div>
+  <div class="warn">⚠ 诚实边界：① <b>飞特仅 DE/FR/ES/NL 有报价</b>，其余欧盟国飞特未覆盖；② <b>申报规则</b>：单件≈8USD，一个包裹申报总额封顶15USD（多件按 min(8×件数,15) 反推，VAT/关税/手续费均按此封顶总额算）；③ <b>关税率必须按 HSCODE（海关编码）查表填写</b>——不同 HS CODE 对应不同欧盟进口税率（包包/服装/手机壳一般在 0~15%），填错会直接翻转结论；④ 云途「其他费」= 关税 + 手续费(申报×2%)，已按此拆解；⑤ 体积重规则：云途 ÷10000、飞特 ÷7000（飞特最低 0.05kg）；⑥ 演示芯片仅带入尺寸/实重/国别/VAT，<b>关税率需自行按 HSCODE 填写</b>（历史反推值仅供参考，不自动带入）。</div>
 </div>
 
 </div>
@@ -169,6 +170,9 @@ function brk(arr, cw){
   for(const b of arr){ if(cw <= b.up) return b; }
   return arr[arr.length-1];
 }
+// 申报规则（用户铁律）：单件≈8USD，一个包裹申报总额封顶15USD。多件按封顶反推。
+const DECL_CAP = 15;
+function declTotalOf(declPer, Q){ return Math.min(declPer*Q, DECL_CAP); }
 function calcYuntu(cw, iso, declTotal, vatRate, dutyRate, withTax){
   const r = brk(DATA.rates.yuntu[iso], cw);
   const freight = cw*r.kg + r.reg;
@@ -191,7 +195,7 @@ function compute(L,W,H,w,Q,iso,declPer,vatRate,dutyRate,withTax){
   let cwF = Math.max(totalReal, totalVol/7000);
   cwY = Math.round(Math.max(cwY,0)*1000)/1000;
   cwF = Math.round(Math.max(cwF,0.05)*1000)/1000;
-  const declTotal = declPer*Q;
+  const declTotal = declTotalOf(declPer, Q);
   const y = calcYuntu(cwY, iso, declTotal, vatRate, dutyRate, withTax);
   const f = calcFeit(cwF, iso);
   return {cwY, cwF, y, f, declTotal, Q};
@@ -316,7 +320,7 @@ function mixCalc(){
   });
   let cwY=Math.round(Math.max(totalReal,totalVol/10000)*1000)/1000;
   let cwF=Math.round(Math.max(totalReal,totalVol/7000)*1000)/1000; cwF=Math.max(cwF,0.05);
-  const declTotal=decl*totalQ;
+  const declTotal=declTotalOf(decl,totalQ);
   const y=calcYuntu(cwY,iso,declTotal,vat,duty,withTax); y.__cwY__=cwY; y.__vat__=vat; y.__duty__=duty;
   const f=calcFeit(cwF,iso); if(f) f.__cwF__=cwF;
   let html=verdictHTML(y,f,{iso})+'<div class="note">本箱共 '+totalQ+' 件，聚合实重 '+totalReal.toFixed(3)+'kg，聚合体积 '+totalVol.toFixed(0)+'cm³</div>'+twoCol(y,f);
