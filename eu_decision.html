@@ -64,6 +64,7 @@ textarea{width:100%;min-height:120px;border:1px solid #cfd6e0;border-radius:8px;
     <button id="t1" class="on" onclick="switchTab('single')">① 单 SKU 速算</button>
     <button id="t2" onclick="switchTab('batch')">② 批量粘贴</button>
     <button id="t3" onclick="switchTab('mix')">③ 混合订单</button>
+    <button id="t4" onclick="switchTab('all')">④ 全国家对比</button>
   </div>
 
   <!-- 单SKU -->
@@ -117,6 +118,28 @@ JH30314-32, 25.6, 15.6, 7.4, 0.45, FR, 1, 8</textarea>
       <button class="btn" onclick="mixCalc()">算这箱发谁</button>
     </div>
     <div class="out" id="m_out"></div>
+  </div>
+
+  <!-- 全国家对比 -->
+  <div id="all" class="hidden">
+    <div class="note">放进<b>任意一个 SKU</b>（真实尺寸 / 实重 / 件数），一键展开<b>所有发货国家</b>的并排对比：云途 25 国全有报价，飞特仅 DE/FR/ES/NL 4 国竞争，其余 21 国自动标「飞特未覆盖 → 云途」。每个国家的 VAT 按该国标准税率自动取，关税率按 HSCODE 统一填。</div>
+    <div class="formgrid">
+      <div class="fld"><label>SKU 标识（选填）</label><input id="a_sku" type="text" placeholder="如 7C471-4" value="7C471-4"></div>
+      <div class="fld"><label>长 L (cm)</label><input id="a_L" type="number" step="0.1" value="26.1"></div>
+      <div class="fld"><label>宽 W (cm)</label><input id="a_W" type="number" step="0.1" value="22.1"></div>
+      <div class="fld"><label>高 H (cm)</label><input id="a_H" type="number" step="0.1" value="7.8"></div>
+      <div class="fld"><label>实重 (kg/件)</label><input id="a_w" type="number" step="0.01" value="0.648"></div>
+      <div class="fld"><label>件数 Q</label><input id="a_Q" type="number" step="1" value="1"></div>
+      <div class="fld"><label>申报 USD/件</label><input id="a_decl" type="number" step="0.5" value="8"></div>
+      <div class="fld"><label>关税率 %（最大变量）</label><input id="a_duty" type="number" step="0.5" value="0" title="⚠ 最大变量！按HSCODE实际值填；留0=仅算手续费(云途成本被低估)。点演示SKU芯片会自动带入账单反推值"></div>
+    </div>
+    <div class="row2">
+      <label class="toggle"><input type="checkbox" id="a_tax" checked> 含税费全成本</label>
+      <label class="toggle"><input type="checkbox" id="a_onlyf"> 仅看飞特有报价的国（DE/FR/ES/NL）</label>
+      <button class="btn alt" onclick="allCalc()">全国家对比</button>
+    </div>
+    <div class="demo-row" id="demoRowA"></div>
+    <div class="out" id="a_out"></div>
   </div>
 </div>
 
@@ -218,9 +241,9 @@ function breakEven(L,W,H,w,iso,declPer,vatRate,dutyRate,withTax){
   return '临界件数 Q* ≈ '+a+'~'+b+'：Q≤'+a+' 发云途，Q≥'+b+' 发飞特';
 }
 function switchTab(t){
-  ['single','batch','mix'].forEach(x=>{
+  ['single','batch','mix','all'].forEach(x=>{
     document.getElementById(x).classList.toggle('hidden', x!==t);
-    document.getElementById('t'+(x==='single'?1:x==='batch'?2:3)).classList.toggle('on', x===t);
+    document.getElementById('t'+(x==='single'?1:x==='batch'?2:x==='mix'?3:4)).classList.toggle('on', x===t);
   });
 }
 function singleCalc(){
@@ -304,20 +327,71 @@ fillIso(document.getElementById('s_iso'));
 fillIso(document.getElementById('m_iso'));
 document.getElementById('s_iso').value='FR';
 document.getElementById('m_iso').value='FR';
-// demo chips
+// demo chips（单SKU + 全国家 共用一套尺寸/关税率）
+function fillAllFromDemo(d){
+  // 单SKU
+  document.getElementById('s_iso').value=d.iso;
+  document.getElementById('s_L').value=d.L; document.getElementById('s_W').value=d.W; document.getElementById('s_H').value=d.H;
+  document.getElementById('s_w').value=d.w; document.getElementById('s_Q').value=1;
+  document.getElementById('s_vat').value=DATA.vat[d.iso]||21;
+  document.getElementById('s_duty').value=d.duty;
+  // 全国家
+  document.getElementById('a_sku').value=d.sku;
+  document.getElementById('a_L').value=d.L; document.getElementById('a_W').value=d.W; document.getElementById('a_H').value=d.H;
+  document.getElementById('a_w').value=d.w; document.getElementById('a_Q').value=1;
+  document.getElementById('a_duty').value=d.duty;
+}
 const dr=document.getElementById('demoRow');
+const drA=document.getElementById('demoRowA');
 DATA.demo.forEach(d=>{
-  const el=document.createElement('span'); el.className='d';
-  el.textContent=d.sku+' ('+d.iso+')';
-  el.onclick=()=>{
-    document.getElementById('s_iso').value=d.iso;
-    document.getElementById('s_L').value=d.L; document.getElementById('s_W').value=d.W; document.getElementById('s_H').value=d.H;
-    document.getElementById('s_w').value=d.w; document.getElementById('s_Q').value=1;
-    document.getElementById('s_vat').value=DATA.vat[d.iso]||21;
-    document.getElementById('s_duty').value=d.duty;
-    singleCalc();
+  const mk=(where)=>{
+    const el=document.createElement('span'); el.className='d';
+    el.textContent=d.sku+' ('+d.iso+')';
+    el.onclick=()=>{
+      fillAllFromDemo(d);
+      if(where==='single') singleCalc(); else allCalc();
+    };
+    return el;
   };
-  dr.appendChild(el);
+  dr.appendChild(mk('single'));
+  drA.appendChild(mk('all'));
 });
+function allCalc(){
+  const sku=document.getElementById('a_sku').value||'(未命名SKU)';
+  const L=+document.getElementById('a_L').value, W=+document.getElementById('a_W').value, H=+document.getElementById('a_H').value;
+  const w=+document.getElementById('a_w').value, Q=Math.max(1,Math.round(+document.getElementById('a_Q').value));
+  const decl=+document.getElementById('a_decl').value, duty=+document.getElementById('a_duty').value;
+  const withTax=document.getElementById('a_tax').checked;
+  const onlyF=document.getElementById('a_onlyf').checked;
+  const isos=Object.keys(DATA.rates.yuntu).sort();
+  let rows='', yw=0, fw=0, n=0, best=null;
+  isos.forEach(iso=>{
+    const hasF=!!DATA.rates.feit[iso];
+    if(onlyF && !hasF) return;
+    const vat=DATA.vat[iso]||21;
+    const r=compute(L,W,H,w,Q,iso,decl,vat,duty,withTax);
+    const win = !hasF ? 'y' : (r.y.total<=r.f.total?'y':'f');
+    if(win==='y') yw++; else fw++; n++;
+    const rec = win==='y'?'发云途':'发飞特';
+    const save = hasF ? Math.abs(r.y.total-r.f.total) : null;
+    const actualCost = win==='y' ? r.y.total : r.f.total;
+    if(best===null || actualCost < best.cost) best={iso, cost:actualCost, win, y:r.y.total, f:hasF?r.f.total:null, save};
+    rows+='<tr><td>'+iso+'</td>'+
+      '<td class="n">'+r.cwY.toFixed(3)+'</td>'+
+      '<td class="n">'+(hasF?r.cwF.toFixed(3):'—')+'</td>'+
+      '<td class="n">¥'+r.y.total.toFixed(1)+'</td>'+
+      '<td class="n">'+(hasF?'¥'+r.f.total.toFixed(1):'<span style="color:#9aa1ad">未报价</span>')+'</td>'+
+      '<td class="n '+(win==='y'?'win-y':'win-f')+'">'+rec+'</td>'+
+      '<td class="n">'+(save!==null?'¥'+save.toFixed(1):'<span style="color:#9aa1ad">—</span>')+'</td></tr>';
+  });
+  const html='<h2 style="margin-top:6px"><span class="num">④</span>「'+sku+'」发各国的对比（件数 Q='+Q+'）</h2>'+
+    '<div class="kpi"><div><div class="l">对比国家数</div><div class="v">'+n+'</div></div>'+
+    '<div><div class="l">发云途</div><div class="v" style="color:#c0392b">'+yw+'</div></div>'+
+    '<div><div class="l">发飞特</div><div class="v" style="color:#1e8e3e">'+fw+'</div></div>'+
+    '<div><div class="l">最省钱组合</div><div class="v">'+best.iso+(best.win==='y'?'·云途':'·飞特')+' ¥'+best.cost.toFixed(1)+'</div></div></div>'+
+    '<div class="note">📌 同一 SKU 在不同国家的推荐渠道/成本不同（受各国费率与 VAT 影响）。飞特未覆盖的 21 国已自动判云途；带「未报价」的国家飞特不竞争。</div>'+
+    '<table><tr><th>发货国家</th><th class="n">云途计费重</th><th class="n">飞特计费重</th><th class="n">云途全成本</th><th class="n">飞特全成本</th><th>推荐</th><th class="n">省</th></tr>'+rows+'</table>';
+  document.getElementById('a_out').innerHTML=html;
+}
 </script>
 </body></html>
