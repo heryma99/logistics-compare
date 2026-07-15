@@ -78,7 +78,7 @@ textarea{width:100%;min-height:120px;border:1px solid #cfd6e0;border-radius:8px;
       <div class="fld"><label>件数 Q</label><input id="s_Q" type="number" step="1" value="1"></div>
       <div class="fld"><label>申报 USD/件</label><input id="s_decl" type="number" step="0.5" value="8"></div>
       <div class="fld"><label>VAT率 %</label><input id="s_vat" type="number" step="0.5" value="20"></div>
-      <div class="fld"><label>关税率 %（最大变量）</label><input id="s_duty" type="number" step="0.5" value="0" title="⚠ 最大变量！按HSCODE实际值填；留0=仅算手续费(云途成本被低估)。演示SKU点芯片会自动带入账单反推值"></div>
+      <div class="fld"><label>关税率 % <b style="color:#c0392b">按HSCODE填</b></label><input id="s_duty" type="number" step="0.5" value="0" title="必须按该SKU的HS编码查欧盟进口关税率填写。包包/服装/手机壳一般在0~15%区间，精确值取决于具体HS CODE。"></div>
     </div>
     <div class="row2">
       <label class="toggle"><input type="checkbox" id="s_tax" checked> 含税费全成本（云途+VAT+关税+手续费 / 飞特DDP一口价）</label>
@@ -96,7 +96,7 @@ textarea{width:100%;min-height:120px;border:1px solid #cfd6e0;border-radius:8px;
 JH30314-32, 25.6, 15.6, 7.4, 0.45, FR, 1, 8</textarea>
     <div class="row2">
       <label class="toggle"><input type="checkbox" id="b_tax" checked> 含税费全成本</label>
-      <span class="note" style="margin:0">关税率默认 0%（包包服装按HSCODE，可在下方统一设）</span>
+      <span class="note" style="margin:0">关税率默认 0%（<b>必须按HSCODE填写</b>，可在下方统一设）</span>
       <input id="b_duty" type="number" step="0.5" value="0" style="width:90px;padding:6px;border:1px solid #cfd6e0;border-radius:7px" title="统一关税率%">
       <button class="btn" onclick="batchCalc()">批量计算</button>
       <button class="btn ghost" onclick="exportCSV()">导出 CSV</button>
@@ -122,7 +122,7 @@ JH30314-32, 25.6, 15.6, 7.4, 0.45, FR, 1, 8</textarea>
 
   <!-- 全国家对比 -->
   <div id="all" class="hidden">
-    <div class="note">放进<b>任意一个 SKU</b>（真实尺寸 / 实重 / 件数），一键展开<b>所有发货国家</b>的并排对比：云途 25 国全有报价，飞特仅 DE/FR/ES/NL 4 国竞争，其余 21 国自动标「飞特未覆盖 → 云途」。每个国家的 VAT 按该国标准税率自动取，关税率按 HSCODE 统一填。</div>
+    <div class="note">放进<b>任意一个 SKU</b>（真实尺寸 / 实重 / 件数），一键展开<b>两家都报价的国家（DE/FR/ES/NL）</b>的并排对比。每个国家的 VAT 按该国标准税率自动取，<b>关税率必须按该 SKU 的 HSCODE 填写</b>。</div>
     <div class="formgrid">
       <div class="fld"><label>SKU 标识（选填）</label><input id="a_sku" type="text" placeholder="如 7C471-4" value="7C471-4"></div>
       <div class="fld"><label>长 L (cm)</label><input id="a_L" type="number" step="0.1" value="26.1"></div>
@@ -131,7 +131,7 @@ JH30314-32, 25.6, 15.6, 7.4, 0.45, FR, 1, 8</textarea>
       <div class="fld"><label>实重 (kg/件)</label><input id="a_w" type="number" step="0.01" value="0.648"></div>
       <div class="fld"><label>件数 Q</label><input id="a_Q" type="number" step="1" value="1"></div>
       <div class="fld"><label>申报 USD/件</label><input id="a_decl" type="number" step="0.5" value="8"></div>
-      <div class="fld"><label>关税率 %（最大变量）</label><input id="a_duty" type="number" step="0.5" value="0" title="⚠ 最大变量！按HSCODE实际值填；留0=仅算手续费(云途成本被低估)。点演示SKU芯片会自动带入账单反推值"></div>
+      <div class="fld"><label>关税率 % <b style="color:#c0392b">按HSCODE填</b></label><input id="a_duty" type="number" step="0.5" value="0" title="必须按该SKU的HS编码查欧盟进口关税率填写。包包/服装/手机壳一般在0~15%区间。"></div>
     </div>
     <div class="row2">
       <label class="toggle"><input type="checkbox" id="a_tax" checked> 含税费全成本</label>
@@ -151,7 +151,7 @@ JH30314-32, 25.6, 15.6, 7.4, 0.45, FR, 1, 8</textarea>
     <b>③ 临界件数 Q*</b>：本工具会算出「Q≤Q* 发云途 / Q>Q* 发飞特」的拐点，下单系统照此分渠道即可。<br>
     <b>④ 规模化</b>：几千 SKU 时，用谷仓 <code>product/get_product_sku_list</code> 拉全量尺寸 → 预生成「SKU×国家→推荐渠道 + Q*」查表，发货时按订单件数直接命中，无需逐单手算。
   </div>
-  <div class="warn">⚠ 诚实边界：① <b>飞特仅 DE/FR/ES/NL 有报价</b>，其余 21 个欧盟国飞特未覆盖 → 自动发云途；② <b>关税率是最大变量</b>（本批真实账单反推 23%~54%），默认 0（仅算手续费）会系统性低估云途 → 请按 HSCODE 填实际值，点演示SKU芯片会自动带入账单反推关税率；③ 云途「其他费」= 关税 + 手续费(申报×2%)，已按此拆解；④ 体积重规则：云途 ÷10000、飞特 ÷7000（飞特最低 0.05kg）；⑤ <b>费率漂移</b>：内置报价表为当前最新版（云途20260713 / 飞特7-9），演示用真实SKU的估算值会低于其 2–7 月历史账单（历史单含当月费率与燃油附加），属正常漂移，<b>不影响按当前费率下的发货决策</b>。</div>
+  <div class="warn">⚠ 诚实边界：① <b>飞特仅 DE/FR/ES/NL 有报价</b>，其余欧盟国飞特未覆盖；② <b>关税率必须按 HSCODE（海关编码）查表填写</b>——不同 HS CODE 对应不同欧盟进口税率（包包/服装/手机壳一般在 0~15%），填错会直接翻转结论；③ 云途「其他费」= 关税 + 手续费(申报×2%)，已按此拆解；④ 体积重规则：云途 ÷10000、飞特 ÷7000（飞特最低 0.05kg）；⑤ 演示芯片仅带入尺寸/实重/国别/VAT，<b>关税率需自行按 HSCODE 填写</b>（历史反推值仅供参考，不自动带入）。</div>
 </div>
 
 </div>
@@ -334,12 +334,11 @@ function fillAllFromDemo(d){
   document.getElementById('s_L').value=d.L; document.getElementById('s_W').value=d.W; document.getElementById('s_H').value=d.H;
   document.getElementById('s_w').value=d.w; document.getElementById('s_Q').value=1;
   document.getElementById('s_vat').value=DATA.vat[d.iso]||21;
-  document.getElementById('s_duty').value=d.duty;
+  // 关税率不自动填入！反推值仅作参考（见下方提示），请按HSCODE实际填写
   // 全国家
   document.getElementById('a_sku').value=d.sku;
   document.getElementById('a_L').value=d.L; document.getElementById('a_W').value=d.W; document.getElementById('a_H').value=d.H;
   document.getElementById('a_w').value=d.w; document.getElementById('a_Q').value=1;
-  document.getElementById('a_duty').value=d.duty;
 }
 const dr=document.getElementById('demoRow');
 const drA=document.getElementById('demoRowA');
