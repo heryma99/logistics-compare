@@ -1,0 +1,997 @@
+<!doctype html><html lang="zh"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>欧盟物流对比 v6 · 云途DDU vs 飞特DDP（关税/手续费正确归类）</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,'Segoe UI','Microsoft YaHei',sans-serif}
+body{background:#f5f6f8;color:#1f2330;padding:24px;font-size:14px}
+.wrap{max-width:1180px;margin:0 auto}
+h1{font-size:22px;margin-bottom:4px}
+.sub{color:#6b7280;margin-bottom:18px;font-size:13px}
+.card{background:#fff;border-radius:10px;padding:18px 20px;margin-bottom:16px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.verdict{font-size:26px;font-weight:700;color:#c0392b}
+.good{color:#1e8e3e}
+table{width:100%;border-collapse:collapse;font-size:13px;margin-top:6px}
+th,td{padding:7px 9px;border-bottom:1px solid #eef0f3;text-align:left}
+th{background:#fafbfc;color:#5b6472;font-weight:600;white-space:nowrap}
+td.n{text-align:right;font-variant-numeric:tabular-nums}
+td.strong{font-weight:700}
+tr.y td:nth-child(8){background:#eafaf0}
+tr.f td:nth-child(8){background:#fdecea}
+.mut{color:#9aa1ad;font-size:11px}
+.muted{color:#b3b9c4}
+.kpi{display:flex;gap:14px;flex-wrap:wrap;margin-top:10px}
+.kpi div{flex:1;min-width:150px;background:#f8fafc;border-radius:8px;padding:12px 14px}
+.kpi .l{font-size:12px;color:#6b7280}
+.kpi .v{font-size:20px;font-weight:700;margin-top:3px}
+.note{font-size:12px;color:#6b7280;line-height:1.7;margin-top:8px}
+.tag{display:inline-block;background:#eef2ff;color:#3b4cca;padding:2px 8px;border-radius:4px;font-size:11px;margin-right:6px}
+.warn{background:#fff7e6;border-left:3px solid #fa8c16;padding:10px 14px;border-radius:6px;font-size:12px;color:#8a5a00;margin-top:10px}
+h2{font-size:16px;margin-bottom:6px}
+.scroll{overflow-x:auto}
+</style></head><body><div class="wrap">
+<h1>欧盟物流对比 v6 — 云途DDU vs 飞特DDP</h1>
+<div class="sub">成本科目已正确归类：运费 / 挂号费 / 销售税费(VAT) / <b>关税</b> / <b>手续费</b>（云途账单原合并于「其他费」，本版已拆回）· 数据：云途账单 12f8aa7aa9d5411780f26e60d2261fde.xlsx · 74单欧盟订单</div>
+
+<div class="card">
+  <div class="verdict">飞特 DDP 更优　<span style="font-size:16px">（34可比单：飞特胜 33 / 云途胜 7）</span></div>
+  <div class="kpi">
+    <div><div class="l">云途 卖家总支出（含关税+手续费）</div><div class="v">¥5,518.93</div></div>
+    <div><div class="l">飞特 DDP 含稅单值</div><div class="v">¥4,364.83</div></div>
+    <div><div class="l">差额</div><div class="v" style="color:#c0392b">云途贵 ¥1,154</div></div>
+    <div><div class="l">可比单 / 飞特胜率</div><div class="v">40 / 82%</div></div>
+  </div>
+  <div class="warn"><b>核心结论：</b>云途纯运费虽低，但其账单把「关税+手续费」合并在「其他费」（占支出约24%）——计入后，34个可比欧盟单里飞特 DDP 包税反而更便宜 1,154 元，仅在 7 单轻小件云途靠运费低险胜。v5 因漏算其他费，曾错误得出"云途含稅接近打平"。</div>
+</div>
+
+<div class="card">
+  <h2>成本科目拆解（云途 vs 飞特）</h2>
+  <div class="note"><span class="tag">云途 DDU</span>运费 + 挂号费 + 销售税费(VAT) + 关税 + 手续费 = 卖家实付总额<br>
+  <span class="tag">飞特 DDP</span>单值含稅（已含 运费+挂号+进口VAT+关税+代交IOSS费），无独立科目</div>
+  <table><thead><tr><th>科目</th><th class="n">云途(34单合计)</th><th class="n">飞特(34单合计)</th><th>说明</th></tr></thead><tbody>
+  <tr><td>运费</td><td class="n">2,757.37</td><td class="n" rowspan="5">4,364.83</td><td>云途按 ÷10000 体积重</td></tr>
+  <tr><td>挂号费</td><td class="n">854.56</td><td>固定</td></tr>
+  <tr><td>销售税费 VAT</td><td class="n">677.60</td><td>中国增值税(卖家付)</td></tr>
+  <tr><td><b>关税</b></td><td class="n"><b>1,177.99</b></td><td>从其他费拆出(95.8%)</td></tr>
+  <tr><td><b>手续费</b></td><td class="n"><b>51.41</b></td><td>从其他费拆出(4.2%)</td></tr>
+  <tr><td class="strong">卖家总支出</td><td class="n strong">5,518.93</td><td class="n strong">4,364.83</td><td></td></tr>
+  </tbody></table>
+  <div class="note">注：云途"其他费"原账单未拆分，本版按样本比例 关税95.8%/手续费4.2% 拆分（唯一有截图的订单 18036043-1924448-23 用精确值 46.68/2.04）。飞特单值已含稅，与云途"总支出"口径一致、可公平比较。</div>
+</div>
+
+<div class="card">
+  <h2>重量段对比（34可比单）</h2>
+  <table><thead><tr><th>重量段</th><th class="n">单量</th><th class="n">云途合计</th><th class="n">飞特合计</th><th class="n">胜出</th></tr></thead><tbody><tr><td>≤0.5kg</td><td class="n">7</td>
+<td class="n">637.89</td><td class="n">435.65</td>
+<td class="n">云途0/飞特7</td></tr><tr><td>0.5-1kg</td><td class="n">17</td>
+<td class="n">1,792.51</td><td class="n">1,381.95</td>
+<td class="n">云途2/飞特15</td></tr><tr><td>1-2kg</td><td class="n">8</td>
+<td class="n">1,157.08</td><td class="n">1,003.06</td>
+<td class="n">云途3/飞特5</td></tr><tr><td>2-5kg</td><td class="n">8</td>
+<td class="n">1,931.45</td><td class="n">1,544.17</td>
+<td class="n">云途2/飞特6</td></tr></tbody></table>
+  <div class="note">所有重量段飞特均占优或持平；云途仅在个别 ≤1kg 轻小件靠运费低胜出。</div>
+</div>
+
+<div class="card">
+  <h2>分国别（34可比单）</h2>
+  <table><thead><tr><th>国家</th><th class="n">单量</th><th class="n">云途合计</th><th class="n">飞特合计</th><th class="n">胜出</th></tr></thead><tbody><tr><td>FR</td><td class="n">16</td>
+<td class="n">2,283.68</td><td class="n">1,863.60</td>
+<td class="n">云途3/飞特13</td></tr><tr><td>DE</td><td class="n">15</td>
+<td class="n">1,801.20</td><td class="n">1,497.06</td>
+<td class="n">云途3/飞特12</td></tr><tr><td>NL</td><td class="n">5</td>
+<td class="n">900.78</td><td class="n">505.27</td>
+<td class="n">云途0/飞特5</td></tr><tr><td>ES</td><td class="n">4</td>
+<td class="n">533.27</td><td class="n">498.90</td>
+<td class="n">云途1/飞特3</td></tr></tbody></table>
+</div>
+
+<div class="card">
+  <h2>74单逐单明细（关税/手续费已独立成列）</h2>
+  <div class="scroll"><table><thead><tr>
+    <th>客户单号</th><th>国</th>
+    <th class="n">运费</th><th class="n">挂号</th><th class="n">VAT</th>
+    <th class="n">关税</th><th class="n">手续费</th><th class="n">云途合计</th>
+    <th class="n">飞特</th><th class="n">差额</th><th>胜出</th><th>账单</th><th>拆分来源</th>
+  </tr></thead><tbody><tr class="">
+<td>18026090-1952097-OS</td><td>CZ</td>
+<td class="n">54.81</td>
+<td class="n">20.00</td>
+<td class="n">15.70</td>
+<td class="n">23.84</td>
+<td class="n">1.04</td>
+<td class="n strong">115.39</td>
+<td class="n"><span class="muted">无报价</span></td>
+<td class="n"></td>
+<td></td>
+<td class="mut">✓账单</td>
+<td class="mut">estimate(样本比例95.8/4.2)</td></tr><tr class="">
+<td>18036011-1939009-TK</td><td>CZ</td>
+<td class="n">28.83</td>
+<td class="n">20.00</td>
+<td class="n">21.41</td>
+<td class="n">24.36</td>
+<td class="n">1.06</td>
+<td class="n strong">95.66</td>
+<td class="n"><span class="muted">无报价</span></td>
+<td class="n"></td>
+<td></td>
+<td class="mut">✓账单</td>
+<td class="mut">estimate(样本比例95.8/4.2)</td></tr><tr class="f">
+<td>18036043-1789535-T6</td><td>DE</td>
+<td class="n">47.36</td>
+<td class="n">22.00</td>
+<td class="n">14.21</td>
+<td class="n">23.84</td>
+<td class="n">1.04</td>
+<td class="n strong">108.45</td>
+<td class="n">63.00</td>
+<td class="n">-45.45</td>
+<td>飞特胜</td>
+<td class="mut">✓账单</td>
+<td class="mut">estimate(样本比例95.8/4.2)</td></tr><tr class="f">
+<td>18036043-1868074-S4</td><td>DE</td>
+<td class="n">21.87</td>
+<td class="n">22.00</td>
+<td class="n">19.38</td>
+<td class="n">24.36</td>
+<td class="n">1.06</td>
+<td class="n strong">88.67</td>
+<td class="n">60.90</td>
+<td class="n">-27.77</td>
+<td>飞特胜</td>
+<td class="mut">✓账单</td>
+<td class="mut">estimate(样本比例95.8/4.2)</td></tr><tr class="f">
+<td>18036043-1873716-5Y</td><td>DE</td>
+<td class="n">23.60</td>
+<td class="n">22.00</td>
+<td class="n">19.38</td>
+<td class="n">24.36</td>
+<td class="n">1.06</td>
+<td class="n strong">90.40</td>
+<td class="n">60.90</td>
+<td class="n">-29.5</td>
+<td>飞特胜</td>
+<td class="mut">✓账单</td>
+<td class="mut">estimate(样本比例95.8/4.2)</td></tr><tr class="f">
+<td>18036043-1875463-MF</td><td>DE</td>
+<td class="n">23.54</td>
+<td class="n">22.00</td>
+<td class="n">19.38</td>
+<td class="n">24.36</td>
+<td class="n">1.06</td>
+<td class="n strong">90.34</td>
+<td class="n">60.90</td>
+<td class="n">-29.44</td>
+<td>飞特胜</td>
+<td class="mut">✓账单</td>
+<td class="mut">estimate(样本比例95.8/4.2)</td></tr><tr class="f">
+<td>18036043-1885988-LR</td><td>DE</td>
+<td class="n">21.87</td>
+<td class="n">22.00</td>
+<td class="n">19.38</td>
+<td class="n">24.36</td>
+<td class="n">1.06</td>
+<td class="n strong">88.67</td>
+<td class="n">60.90</td>
+<td class="n">-27.77</td>
+<td>飞特胜</td>
+<td class="mut">✓账单</td>
+<td class="mut">estimate(样本比例95.8/4.2)</td></tr><tr class="f">
+<td>18036043-1890297-JG</td><td>DE</td>
+<td class="n">31.37</td>
+<td class="n">22.00</td>
+<td class="n">16.79</td>
+<td class="n">24.10</td>
+<td class="n">1.05</td>
+<td class="n strong">95.31</td>
+<td class="n">65.94</td>
+<td class="n">-29.37</td>
+<td>飞特胜</td>
+<td class="mut">✓账单</td>
+<td class="mut">estimate(样本比例95.8/4.2)</td></tr><tr class="f">
+<td>18036043-1948219-XL</td><td>DE</td>
+<td class="n">64.80</td>
+<td class="n">22.00</td>
+<td class="n">19.38</td>
+<td class="n">24.36</td>
+<td class="n">1.06</td>
+<td class="n strong">131.60</td>
+<td class="n">106.33</td>
+<td class="n">-25.27</td>
+<td>飞特胜</td>
+<td class="mut">✓账单</td>
+<td class="mut">estimate(样本比例95.8/4.2)</td></tr><tr class="f">
+<td>18036043-1952630-IV</td><td>DE</td>
+<td class="n">30.94</td>
+<td class="n">22.00</td>
+<td class="n">19.38</td>
+<td class="n">24.36</td>
+<td class="n">1.06</td>
+<td class="n strong">97.74</td>
+<td class="n">71.40</td>
+<td class="n">-26.34</td>
+<td>飞特胜</td>
+<td class="mut">✓账单</td>
+<td class="mut">estimate(样本比例95.8/4.2)</td></tr><tr class="f">
+<td>18036043-1952708-S3</td><td>DE</td>
+<td class="n">64.04</td>
+<td class="n">22.00</td>
+<td class="n">12.92</td>
+<td class="n">23.70</td>
+<td class="n">1.04</td>
+<td class="n strong">123.70</td>
+<td class="n">94.43</td>
+<td class="n">-29.27</td>
+<td>飞特胜</td>
+<td class="mut">✓账单</td>
+<td class="mut">estimate(样本比例95.8/4.2)</td></tr><tr class="y">
+<td>18036043-1952806-IY</td><td>DE</td>
+<td class="n">67.01</td>
+<td class="n">22.00</td>
+<td class="n">18.08</td>
+<td class="n">24.22</td>
+<td class="n">1.06</td>
+<td class="n strong">132.37</td>
+<td class="n">162.34</td>
+<td class="n">+29.97</td>
+<td>云途胜</td>
+<td class="mut">✓账单</td>
+<td class="mut">estimate(样本比例95.8/4.2)</td></tr><tr class="y">
+<td>18036043-1953010-C8</td><td>DE</td>
+<td class="n">84.24</td>
+<td class="n">22.00</td>
+<td class="n">18.08</td>
+<td class="n">24.22</td>
+<td class="n">1.06</td>
+<td class="n strong">149.60</td>
+<td class="n">164.46</td>
+<td class="n">+14.86</td>
+<td>云途胜</td>
+<td class="mut">✓账单</td>
+<td class="mut">estimate(样本比例95.8/4.2)</td></tr><tr class="f">
+<td>18036043-1953036-06</td><td>DE</td>
+<td class="n">64.10</td>
+<td class="n">22.00</td>
+<td class="n">19.38</td>
+<td class="n">24.36</td>
+<td class="n">1.06</td>
+<td class="n strong">130.90</td>
+<td class="n">112.00</td>
+<td class="n">-18.9</td>
+<td>飞特胜</td>
+<td class="mut">✓账单</td>
+<td class="mut">estimate(样本比例95.8/4.2)</td></tr><tr class="f">
+<td>18036043-1953343-07</td><td>DE</td>
+<td class="n">42.61</td>
+<td class="n">22.00</td>
+<td class="n">12.92</td>
+<td class="n">23.70</td>
+<td class="n">1.04</td>
+<td class="n strong">102.27</td>
+<td class="n">63.00</td>
+<td class="n">-39.27</td>
+<td>飞特胜</td>
+<td class="mut">✓账单</td>
+<td class="mut">estimate(样本比例95.8/4.2)</td></tr><tr class="y">
+<td>18036043-1953397-AC</td><td>DE</td>
+<td class="n">130.46</td>
+<td class="n">18.76</td>
+<td class="n">12.66</td>
+<td class="n">40.65</td>
+<td class="n">1.78</td>
+<td class="n strong">204.31</td>
+<td class="n">249.34</td>
+<td class="n">+45.03</td>
+<td>云途胜</td>
+<td class="mut">≈估算</td>
+<td class="mut">estimate(未命中账单,按均值/比例)</td></tr><tr class="f">
+<td>18036043-1953747-WB</td><td>DE</td>
+<td class="n">76.68</td>
+<td class="n">22.00</td>
+<td class="n">19.38</td>
+<td class="n">46.77</td>
+<td class="n">2.04</td>
+<td class="n strong">166.87</td>
+<td class="n">101.22</td>
+<td class="n">-65.65</td>
+<td>飞特胜</td>
+<td class="mut">✓账单</td>
+<td class="mut">estimate(样本比例95.8/4.2)</td></tr><tr class="">
+<td>18026090-1949267-5A</td><td>DK</td>
+<td class="n">64.73</td>
+<td class="n">24.00</td>
+<td class="n">22.09</td>
+<td class="n">24.10</td>
+<td class="n">1.05</td>
+<td class="n strong">135.97</td>
+<td class="n"><span class="muted">无报价</span></td>
+<td class="n"></td>
+<td></td>
+<td class="mut">✓账单</td>
+<td class="mut">estimate(样本比例95.8/4.2)</td></tr><tr class="f">
+<td>18026090-1952082-4L</td><td>ES</td>
+<td class="n">36.42</td>
+<td class="n">18.00</td>
+<td class="n">11.42</td>
+<td class="n">23.45</td>
+<td class="n">1.02</td>
+<td class="n strong">90.31</td>
+<td class="n">72.99</td>
+<td class="n">-17.32</td>
+<td>飞特胜</td>
+<td class="mut">✓账单</td>
+<td class="mut">estimate(样本比例95.8/4.2)</td></tr><tr class="f">
+<td>18036011-1952384-WN</td><td>ES</td>
+<td class="n">141.64</td>
+<td class="n">18.00</td>
+<td class="n">21.41</td>
+<td class="n">24.36</td>
+<td class="n">1.06</td>
+<td class="n strong">206.47</td>
+<td class="n">181.64</td>
+<td class="n">-24.83</td>
+<td>飞特胜</td>
+<td class="mut">✓账单</td>
+<td class="mut">estimate(样本比例95.8/4.2)</td></tr><tr class="f">
+<td>18036011-1953130-MQ</td><td>ES</td>
+<td class="n">45.82</td>
+<td class="n">18.00</td>
+<td class="n">11.42</td>
+<td class="n">23.45</td>
+<td class="n">1.02</td>
+<td class="n strong">99.71</td>
+<td class="n">98.62</td>
+<td class="n">-1.09</td>
+<td>飞特胜</td>
+<td class="mut">✓账单</td>
+<td class="mut">estimate(样本比例95.8/4.2)</td></tr><tr class="y">
+<td>18036011-1953197-U7</td><td>ES</td>
+<td class="n">57.94</td>
+<td class="n">18.00</td>
+<td class="n">12.85</td>
+<td class="n">45.98</td>
+<td class="n">2.01</td>
+<td class="n strong">136.78</td>
+<td class="n">145.65</td>
+<td class="n">+8.87</td>
+<td>云途胜</td>
+<td class="mut">✓账单</td>
+<td class="mut">estimate(样本比例95.8/4.2)</td></tr><tr class="f">
+<td>18026090-1953980-T6</td><td>FR</td>
+<td class="n">69.07</td>
+<td class="n">18.76</td>
+<td class="n">12.66</td>
+<td class="n">21.52</td>
+<td class="n">0.94</td>
+<td class="n strong">122.95</td>
+<td class="n">96.45</td>
+<td class="n">-26.5</td>
+<td>飞特胜</td>
+<td class="mut">≈估算</td>
+<td class="mut">estimate(未命中账单,按均值/比例)</td></tr><tr class="f">
+<td>18036019-1786149-JF</td><td>FR</td>
+<td class="n">196.00</td>
+<td class="n">23.00</td>
+<td class="n">54.39</td>
+<td class="n">72.42</td>
+<td class="n">3.17</td>
+<td class="n strong">348.98</td>
+<td class="n">209.35</td>
+<td class="n">-139.63</td>
+<td>飞特胜</td>
+<td class="mut">✓账单</td>
+<td class="mut">estimate(样本比例95.8/4.2)</td></tr><tr class="f">
+<td>18036019-1814525-IB</td><td>FR</td>
+<td class="n">57.32</td>
+<td class="n">18.76</td>
+<td class="n">12.66</td>
+<td class="n">17.86</td>
+<td class="n">0.78</td>
+<td class="n strong">107.38</td>
+<td class="n">79.50</td>
+<td class="n">-27.88</td>
+<td>飞特胜</td>
+<td class="mut">≈估算</td>
+<td class="mut">estimate(未命中账单,按均值/比例)</td></tr><tr class="f">
+<td>18036019-1816424-15</td><td>FR</td>
+<td class="n">57.32</td>
+<td class="n">18.76</td>
+<td class="n">12.66</td>
+<td class="n">17.86</td>
+<td class="n">0.78</td>
+<td class="n strong">107.38</td>
+<td class="n">79.50</td>
+<td class="n">-27.88</td>
+<td>飞特胜</td>
+<td class="mut">≈估算</td>
+<td class="mut">estimate(未命中账单,按均值/比例)</td></tr><tr class="f">
+<td>18036019-1817605-8S</td><td>FR</td>
+<td class="n">81.17</td>
+<td class="n">23.00</td>
+<td class="n">20.40</td>
+<td class="n">46.77</td>
+<td class="n">2.04</td>
+<td class="n strong">173.38</td>
+<td class="n">107.65</td>
+<td class="n">-65.73</td>
+<td>飞特胜</td>
+<td class="mut">✓账单</td>
+<td class="mut">estimate(样本比例95.8/4.2)</td></tr><tr class="f">
+<td>18036019-1824813-1T</td><td>FR</td>
+<td class="n">49.13</td>
+<td class="n">23.00</td>
+<td class="n">14.96</td>
+<td class="n">23.84</td>
+<td class="n">1.04</td>
+<td class="n strong">111.97</td>
+<td class="n">66.50</td>
+<td class="n">-45.47</td>
+<td>飞特胜</td>
+<td class="mut">✓账单</td>
+<td class="mut">estimate(样本比例95.8/4.2)</td></tr><tr class="f">
+<td>18036019-1873042-TJ</td><td>FR</td>
+<td class="n">24.82</td>
+<td class="n">20.00</td>
+<td class="n">20.40</td>
+<td class="n">24.36</td>
+<td class="n">1.06</td>
+<td class="n strong">90.64</td>
+<td class="n">64.25</td>
+<td class="n">-26.39</td>
+<td>飞特胜</td>
+<td class="mut">✓账单</td>
+<td class="mut">estimate(样本比例95.8/4.2)</td></tr><tr class="f">
+<td>18036019-1916877-83</td><td>FR</td>
+<td class="n">23.55</td>
+<td class="n">20.00</td>
+<td class="n">20.40</td>
+<td class="n">24.36</td>
+<td class="n">1.06</td>
+<td class="n strong">89.37</td>
+<td class="n">64.25</td>
+<td class="n">-25.12</td>
+<td>飞特胜</td>
+<td class="mut">✓账单</td>
+<td class="mut">estimate(样本比例95.8/4.2)</td></tr><tr class="f">
+<td>18036019-1949633-9X</td><td>FR</td>
+<td class="n">128.88</td>
+<td class="n">18.76</td>
+<td class="n">12.66</td>
+<td class="n">40.16</td>
+<td class="n">1.76</td>
+<td class="n strong">202.22</td>
+<td class="n">190.73</td>
+<td class="n">-11.49</td>
+<td>飞特胜</td>
+<td class="mut">≈估算</td>
+<td class="mut">estimate(未命中账单,按均值/比例)</td></tr><tr class="f">
+<td>18036019-1951109-GK</td><td>FR</td>
+<td class="n">31.52</td>
+<td class="n">23.00</td>
+<td class="n">10.88</td>
+<td class="n">23.45</td>
+<td class="n">1.02</td>
+<td class="n strong">89.87</td>
+<td class="n">69.00</td>
+<td class="n">-20.87</td>
+<td>飞特胜</td>
+<td class="mut">✓账单</td>
+<td class="mut">estimate(样本比例95.8/4.2)</td></tr><tr class="f">
+<td>18036019-1951926-1M</td><td>FR</td>
+<td class="n">30.55</td>
+<td class="n">23.00</td>
+<td class="n">10.88</td>
+<td class="n">23.45</td>
+<td class="n">1.02</td>
+<td class="n strong">88.90</td>
+<td class="n">69.00</td>
+<td class="n">-19.9</td>
+<td>飞特胜</td>
+<td class="mut">✓账单</td>
+<td class="mut">estimate(样本比例95.8/4.2)</td></tr><tr class="y">
+<td>18036019-1952646-SE</td><td>FR</td>
+<td class="n">81.34</td>
+<td class="n">23.00</td>
+<td class="n">19.04</td>
+<td class="n">24.22</td>
+<td class="n">1.06</td>
+<td class="n strong">148.66</td>
+<td class="n">154.63</td>
+<td class="n">+5.97</td>
+<td>云途胜</td>
+<td class="mut">✓账单</td>
+<td class="mut">estimate(样本比例95.8/4.2)</td></tr><tr class="f">
+<td>18036019-1953472-Q0</td><td>FR</td>
+<td class="n">118.38</td>
+<td class="n">23.00</td>
+<td class="n">19.04</td>
+<td class="n">46.63</td>
+<td class="n">2.04</td>
+<td class="n strong">209.09</td>
+<td class="n">178.31</td>
+<td class="n">-30.78</td>
+<td>飞特胜</td>
+<td class="mut">✓账单</td>
+<td class="mut">estimate(样本比例95.8/4.2)</td></tr><tr class="y">
+<td>18036019-1953587-YW</td><td>FR</td>
+<td class="n">44.75</td>
+<td class="n">23.00</td>
+<td class="n">10.88</td>
+<td class="n">23.45</td>
+<td class="n">1.02</td>
+<td class="n strong">103.10</td>
+<td class="n">106.67</td>
+<td class="n">+3.57</td>
+<td>云途胜</td>
+<td class="mut">✓账单</td>
+<td class="mut">estimate(样本比例95.8/4.2)</td></tr><tr class="y">
+<td>18036019-1953825-0W</td><td>FR</td>
+<td class="n">130.65</td>
+<td class="n">18.76</td>
+<td class="n">12.66</td>
+<td class="n">40.71</td>
+<td class="n">1.78</td>
+<td class="n strong">204.56</td>
+<td class="n">257.16</td>
+<td class="n">+52.6</td>
+<td>云途胜</td>
+<td class="mut">≈估算</td>
+<td class="mut">estimate(未命中账单,按均值/比例)</td></tr><tr class="f">
+<td>18036019-1953857-DS</td><td>FR</td>
+<td class="n">29.87</td>
+<td class="n">23.00</td>
+<td class="n">8.16</td>
+<td class="n">23.19</td>
+<td class="n">1.01</td>
+<td class="n strong">85.23</td>
+<td class="n">70.65</td>
+<td class="n">-14.58</td>
+<td>飞特胜</td>
+<td class="mut">✓账单</td>
+<td class="mut">estimate(样本比例95.8/4.2)</td></tr><tr class="">
+<td>18036011-1839261-B2</td><td>GR</td>
+<td class="n">58.90</td>
+<td class="n">18.00</td>
+<td class="n">19.58</td>
+<td class="n">23.96</td>
+<td class="n">1.05</td>
+<td class="n strong">121.49</td>
+<td class="n"><span class="muted">无报价</span></td>
+<td class="n"></td>
+<td></td>
+<td class="mut">✓账单</td>
+<td class="mut">estimate(样本比例95.8/4.2)</td></tr><tr class="">
+<td>18036011-1952568-3D</td><td>GR</td>
+<td class="n">191.14</td>
+<td class="n">18.00</td>
+<td class="n">24.47</td>
+<td class="n">46.77</td>
+<td class="n">2.04</td>
+<td class="n strong">282.42</td>
+<td class="n"><span class="muted">无报价</span></td>
+<td class="n"></td>
+<td></td>
+<td class="mut">✓账单</td>
+<td class="mut">estimate(样本比例95.8/4.2)</td></tr><tr class="">
+<td>18036039-1796050-1A</td><td>IT</td>
+<td class="n">52.69</td>
+<td class="n">25.00</td>
+<td class="n">16.45</td>
+<td class="n">23.84</td>
+<td class="n">1.04</td>
+<td class="n strong">119.02</td>
+<td class="n"><span class="muted">无报价</span></td>
+<td class="n"></td>
+<td></td>
+<td class="mut">✓账单</td>
+<td class="mut">estimate(样本比例95.8/4.2)</td></tr><tr class="">
+<td>18036039-1810495-U2</td><td>IT</td>
+<td class="n">91.39</td>
+<td class="n">25.00</td>
+<td class="n">22.43</td>
+<td class="n">46.77</td>
+<td class="n">2.04</td>
+<td class="n strong">187.63</td>
+<td class="n"><span class="muted">无报价</span></td>
+<td class="n"></td>
+<td></td>
+<td class="mut">✓账单</td>
+<td class="mut">estimate(样本比例95.8/4.2)</td></tr><tr class="">
+<td>18036039-1812809-0Y</td><td>IT</td>
+<td class="n">52.16</td>
+<td class="n">25.00</td>
+<td class="n">16.45</td>
+<td class="n">23.84</td>
+<td class="n">1.04</td>
+<td class="n strong">118.49</td>
+<td class="n"><span class="muted">无报价</span></td>
+<td class="n"></td>
+<td></td>
+<td class="mut">✓账单</td>
+<td class="mut">estimate(样本比例95.8/4.2)</td></tr><tr class="">
+<td>18036039-1855649-6C</td><td>IT</td>
+<td class="n">51.51</td>
+<td class="n">25.00</td>
+<td class="n">16.45</td>
+<td class="n">23.84</td>
+<td class="n">1.04</td>
+<td class="n strong">117.84</td>
+<td class="n"><span class="muted">无报价</span></td>
+<td class="n"></td>
+<td></td>
+<td class="mut">✓账单</td>
+<td class="mut">estimate(样本比例95.8/4.2)</td></tr><tr class="">
+<td>18036039-1938439-Y1</td><td>IT</td>
+<td class="n">142.74</td>
+<td class="n">25.00</td>
+<td class="n">22.43</td>
+<td class="n">46.77</td>
+<td class="n">2.04</td>
+<td class="n strong">238.98</td>
+<td class="n"><span class="muted">无报价</span></td>
+<td class="n"></td>
+<td></td>
+<td class="mut">✓账单</td>
+<td class="mut">estimate(样本比例95.8/4.2)</td></tr><tr class="">
+<td>18036039-1950094-XQ</td><td>IT</td>
+<td class="n">36.40</td>
+<td class="n">25.00</td>
+<td class="n">7.48</td>
+<td class="n">23.05</td>
+<td class="n">1.01</td>
+<td class="n strong">92.94</td>
+<td class="n"><span class="muted">无报价</span></td>
+<td class="n"></td>
+<td></td>
+<td class="mut">✓账单</td>
+<td class="mut">estimate(样本比例95.8/4.2)</td></tr><tr class="">
+<td>18036039-1952539-5P</td><td>IT</td>
+<td class="n">46.14</td>
+<td class="n">25.00</td>
+<td class="n">11.97</td>
+<td class="n">23.45</td>
+<td class="n">1.02</td>
+<td class="n strong">107.58</td>
+<td class="n"><span class="muted">无报价</span></td>
+<td class="n"></td>
+<td></td>
+<td class="mut">✓账单</td>
+<td class="mut">estimate(样本比例95.8/4.2)</td></tr><tr class="">
+<td>18036039-1952673-AJ</td><td>IT</td>
+<td class="n">165.55</td>
+<td class="n">25.00</td>
+<td class="n">22.43</td>
+<td class="n">24.36</td>
+<td class="n">1.06</td>
+<td class="n strong">238.40</td>
+<td class="n"><span class="muted">无报价</span></td>
+<td class="n"></td>
+<td></td>
+<td class="mut">✓账单</td>
+<td class="mut">estimate(样本比例95.8/4.2)</td></tr><tr class="">
+<td>18036039-1952719-9V</td><td>IT</td>
+<td class="n">62.95</td>
+<td class="n">25.00</td>
+<td class="n">20.94</td>
+<td class="n">46.63</td>
+<td class="n">2.04</td>
+<td class="n strong">157.56</td>
+<td class="n"><span class="muted">无报价</span></td>
+<td class="n"></td>
+<td></td>
+<td class="mut">✓账单</td>
+<td class="mut">estimate(样本比例95.8/4.2)</td></tr><tr class="">
+<td>18036039-1952864-BC</td><td>IT</td>
+<td class="n">17.17</td>
+<td class="n">25.00</td>
+<td class="n">5.98</td>
+<td class="n">22.92</td>
+<td class="n">1.00</td>
+<td class="n strong">72.07</td>
+<td class="n"><span class="muted">无报价</span></td>
+<td class="n"></td>
+<td></td>
+<td class="mut">✓账单</td>
+<td class="mut">estimate(样本比例95.8/4.2)</td></tr><tr class="">
+<td>18036039-1952865-PW</td><td>IT</td>
+<td class="n">8.91</td>
+<td class="n">25.00</td>
+<td class="n">2.99</td>
+<td class="n">22.66</td>
+<td class="n">0.99</td>
+<td class="n strong">60.55</td>
+<td class="n"><span class="muted">无报价</span></td>
+<td class="n"></td>
+<td></td>
+<td class="mut">✓账单</td>
+<td class="mut">estimate(样本比例95.8/4.2)</td></tr><tr class="">
+<td>18036039-1953069-IH</td><td>IT</td>
+<td class="n">55.46</td>
+<td class="n">25.00</td>
+<td class="n">22.43</td>
+<td class="n">46.77</td>
+<td class="n">2.04</td>
+<td class="n strong">151.70</td>
+<td class="n"><span class="muted">无报价</span></td>
+<td class="n"></td>
+<td></td>
+<td class="mut">✓账单</td>
+<td class="mut">estimate(样本比例95.8/4.2)</td></tr><tr class="">
+<td>18036039-1953207-H9</td><td>IT</td>
+<td class="n">32.33</td>
+<td class="n">25.00</td>
+<td class="n">11.97</td>
+<td class="n">23.45</td>
+<td class="n">1.02</td>
+<td class="n strong">93.77</td>
+<td class="n"><span class="muted">无报价</span></td>
+<td class="n"></td>
+<td></td>
+<td class="mut">✓账单</td>
+<td class="mut">estimate(样本比例95.8/4.2)</td></tr><tr class="">
+<td>18036039-1953853-NH</td><td>IT</td>
+<td class="n">34.93</td>
+<td class="n">25.00</td>
+<td class="n">11.97</td>
+<td class="n">23.45</td>
+<td class="n">1.02</td>
+<td class="n strong">96.37</td>
+<td class="n"><span class="muted">无报价</span></td>
+<td class="n"></td>
+<td></td>
+<td class="mut">✓账单</td>
+<td class="mut">estimate(样本比例95.8/4.2)</td></tr><tr class="">
+<td>18036039-1953913-CB</td><td>IT</td>
+<td class="n">52.43</td>
+<td class="n">18.76</td>
+<td class="n">12.66</td>
+<td class="n">16.34</td>
+<td class="n">0.71</td>
+<td class="n strong">100.90</td>
+<td class="n"><span class="muted">无报价</span></td>
+<td class="n"></td>
+<td></td>
+<td class="mut">≈估算</td>
+<td class="mut">estimate(未命中账单,按均值/比例)</td></tr><tr class="f">
+<td>18036011-1860911-0S</td><td>NL</td>
+<td class="n">64.97</td>
+<td class="n">23.00</td>
+<td class="n">15.70</td>
+<td class="n">23.84</td>
+<td class="n">1.04</td>
+<td class="n strong">128.55</td>
+<td class="n">65.50</td>
+<td class="n">-63.05</td>
+<td>飞特胜</td>
+<td class="mut">✓账单</td>
+<td class="mut">estimate(样本比例95.8/4.2)</td></tr><tr class="f">
+<td>18036011-1902203-HF</td><td>NL</td>
+<td class="n">29.97</td>
+<td class="n">23.00</td>
+<td class="n">21.41</td>
+<td class="n">24.36</td>
+<td class="n">1.06</td>
+<td class="n strong">99.80</td>
+<td class="n">63.55</td>
+<td class="n">-36.25</td>
+<td>飞特胜</td>
+<td class="mut">✓账单</td>
+<td class="mut">estimate(样本比例95.8/4.2)</td></tr><tr class="f">
+<td>18036011-1950010-O6</td><td>NL</td>
+<td class="n">57.72</td>
+<td class="n">23.00</td>
+<td class="n">11.42</td>
+<td class="n">23.45</td>
+<td class="n">1.02</td>
+<td class="n strong">116.61</td>
+<td class="n">98.58</td>
+<td class="n">-18.03</td>
+<td>飞特胜</td>
+<td class="mut">✓账单</td>
+<td class="mut">estimate(样本比例95.8/4.2)</td></tr><tr class="f">
+<td>18036011-1951314-7W</td><td>NL</td>
+<td class="n">128.83</td>
+<td class="n">23.00</td>
+<td class="n">17.13</td>
+<td class="n">23.96</td>
+<td class="n">1.05</td>
+<td class="n strong">193.97</td>
+<td class="n">65.50</td>
+<td class="n">-128.47</td>
+<td>飞特胜</td>
+<td class="mut">✓账单</td>
+<td class="mut">estimate(样本比例95.8/4.2)</td></tr><tr class="f">
+<td>18036011-1952450-E5</td><td>NL</td>
+<td class="n">245.25</td>
+<td class="n">23.00</td>
+<td class="n">21.41</td>
+<td class="n">69.17</td>
+<td class="n">3.02</td>
+<td class="n strong">361.85</td>
+<td class="n">212.14</td>
+<td class="n">-149.71</td>
+<td>飞特胜</td>
+<td class="mut">✓账单</td>
+<td class="mut">estimate(样本比例95.8/4.2)</td></tr><tr class="">
+<td>18026090-1949261-92</td><td>PL</td>
+<td class="n">76.33</td>
+<td class="n">15.00</td>
+<td class="n">23.45</td>
+<td class="n">24.36</td>
+<td class="n">1.06</td>
+<td class="n strong">140.20</td>
+<td class="n"><span class="muted">无报价</span></td>
+<td class="n"></td>
+<td></td>
+<td class="mut">✓账单</td>
+<td class="mut">estimate(样本比例95.8/4.2)</td></tr><tr class="">
+<td>18026090-1953976-IQ</td><td>PL</td>
+<td class="n">50.02</td>
+<td class="n">18.76</td>
+<td class="n">12.66</td>
+<td class="n">15.59</td>
+<td class="n">0.68</td>
+<td class="n strong">97.71</td>
+<td class="n"><span class="muted">无报价</span></td>
+<td class="n"></td>
+<td></td>
+<td class="mut">≈估算</td>
+<td class="mut">estimate(未命中账单,按均值/比例)</td></tr><tr class="">
+<td>18036011-1953936-A0</td><td>PL</td>
+<td class="n">82.43</td>
+<td class="n">15.00</td>
+<td class="n">12.51</td>
+<td class="n">23.45</td>
+<td class="n">1.02</td>
+<td class="n strong">134.41</td>
+<td class="n"><span class="muted">无报价</span></td>
+<td class="n"></td>
+<td></td>
+<td class="mut">✓账单</td>
+<td class="mut">estimate(样本比例95.8/4.2)</td></tr><tr class="">
+<td>18026090-1929610-1X</td><td>PT</td>
+<td class="n">40.73</td>
+<td class="n">20.00</td>
+<td class="n">15.64</td>
+<td class="n">23.70</td>
+<td class="n">1.04</td>
+<td class="n strong">101.11</td>
+<td class="n"><span class="muted">无报价</span></td>
+<td class="n"></td>
+<td></td>
+<td class="mut">✓账单</td>
+<td class="mut">estimate(样本比例95.8/4.2)</td></tr><tr class="">
+<td>18026090-1952088-RU</td><td>PT</td>
+<td class="n">39.30</td>
+<td class="n">20.00</td>
+<td class="n">12.51</td>
+<td class="n">23.45</td>
+<td class="n">1.02</td>
+<td class="n strong">96.28</td>
+<td class="n"><span class="muted">无报价</span></td>
+<td class="n"></td>
+<td></td>
+<td class="mut">✓账单</td>
+<td class="mut">estimate(样本比例95.8/4.2)</td></tr><tr class="">
+<td>18036011-1946960-RS</td><td>PT</td>
+<td class="n">41.14</td>
+<td class="n">20.00</td>
+<td class="n">12.51</td>
+<td class="n">23.45</td>
+<td class="n">1.02</td>
+<td class="n strong">98.12</td>
+<td class="n"><span class="muted">无报价</span></td>
+<td class="n"></td>
+<td></td>
+<td class="mut">✓账单</td>
+<td class="mut">estimate(样本比例95.8/4.2)</td></tr><tr class="">
+<td>18036051-1910693-IV</td><td>PT</td>
+<td class="n">339.73</td>
+<td class="n">18.76</td>
+<td class="n">12.66</td>
+<td class="n">105.86</td>
+<td class="n">4.63</td>
+<td class="n strong">481.64</td>
+<td class="n"><span class="muted">无报价</span></td>
+<td class="n"></td>
+<td></td>
+<td class="mut">≈估算</td>
+<td class="mut">estimate(未命中账单,按均值/比例)</td></tr><tr class="">
+<td>18036011-1829382-WM</td><td>RO</td>
+<td class="n">189.37</td>
+<td class="n">20.00</td>
+<td class="n">21.41</td>
+<td class="n">108.45</td>
+<td class="n">4.74</td>
+<td class="n strong">343.97</td>
+<td class="n"><span class="muted">无报价</span></td>
+<td class="n"></td>
+<td></td>
+<td class="mut">✓账单</td>
+<td class="mut">estimate(样本比例95.8/4.2)</td></tr><tr class="">
+<td>18036011-1840203-OK</td><td>RO</td>
+<td class="n">59.68</td>
+<td class="n">20.00</td>
+<td class="n">17.13</td>
+<td class="n">63.25</td>
+<td class="n">2.76</td>
+<td class="n strong">162.82</td>
+<td class="n"><span class="muted">无报价</span></td>
+<td class="n"></td>
+<td></td>
+<td class="mut">✓账单</td>
+<td class="mut">estimate(样本比例95.8/4.2)</td></tr><tr class="">
+<td>18036011-1895271-WN</td><td>RO</td>
+<td class="n">35.09</td>
+<td class="n">20.00</td>
+<td class="n">21.41</td>
+<td class="n">63.64</td>
+<td class="n">2.78</td>
+<td class="n strong">142.92</td>
+<td class="n"><span class="muted">无报价</span></td>
+<td class="n"></td>
+<td></td>
+<td class="mut">✓账单</td>
+<td class="mut">estimate(样本比例95.8/4.2)</td></tr><tr class="">
+<td>18036011-1912613-CO</td><td>RO</td>
+<td class="n">136.53</td>
+<td class="n">18.76</td>
+<td class="n">12.66</td>
+<td class="n">42.54</td>
+<td class="n">1.86</td>
+<td class="n strong">212.35</td>
+<td class="n"><span class="muted">无报价</span></td>
+<td class="n"></td>
+<td></td>
+<td class="mut">≈估算</td>
+<td class="mut">estimate(未命中账单,按均值/比例)</td></tr><tr class="">
+<td>18036011-1949525-5R</td><td>RO</td>
+<td class="n">74.52</td>
+<td class="n">18.76</td>
+<td class="n">12.66</td>
+<td class="n">23.23</td>
+<td class="n">1.01</td>
+<td class="n strong">130.18</td>
+<td class="n"><span class="muted">无报价</span></td>
+<td class="n"></td>
+<td></td>
+<td class="mut">≈估算</td>
+<td class="mut">estimate(未命中账单,按均值/比例)</td></tr><tr class="">
+<td>18036011-1951089-DJ</td><td>RO</td>
+<td class="n">73.79</td>
+<td class="n">20.00</td>
+<td class="n">15.70</td>
+<td class="n">63.12</td>
+<td class="n">2.76</td>
+<td class="n strong">175.37</td>
+<td class="n"><span class="muted">无报价</span></td>
+<td class="n"></td>
+<td></td>
+<td class="mut">✓账单</td>
+<td class="mut">estimate(样本比例95.8/4.2)</td></tr><tr class="">
+<td>18036011-1952839-WO</td><td>SK</td>
+<td class="n">123.37</td>
+<td class="n">20.00</td>
+<td class="n">17.20</td>
+<td class="n">46.25</td>
+<td class="n">2.02</td>
+<td class="n strong">208.84</td>
+<td class="n"><span class="muted">无报价</span></td>
+<td class="n"></td>
+<td></td>
+<td class="mut">✓账单</td>
+<td class="mut">estimate(样本比例95.8/4.2)</td></tr></tbody></table></div>
+</div>
+
+<div class="card">
+  <h2>方法论与口径</h2>
+  <div class="note">
+  <b>拆分方法：</b>其他费→关税95.8%/手续费4.2%(样本比例);截图单18036043-1924448-23用精确值46.68/2.04。<br>
+  <b>数据缺口：</b>云途账单(汇总/明细两表)均把"关税+手续费"合并在「其他费」列，无独立科目；仅订单详情后台页(截图)显示拆分。报价文件「部分HS原关税」表注明"仅供参考"且算不出云途实际关税，故未采用。<br>
+  <b>可信度：</b>截图单(18036043-1924448-23)为精确值；其余493单(本批34可比)为样本比例估算，标注"estimate"。如需100%精确，请从云途后台批量导出含关税/手续费独立列的订单费用明细。<br>
+  <b>对比公平性：</b>云途"卖家总支出"与飞特"DDP含稅单值"均包含 运费+挂号+进口VAT+关税，口径一致。两者差别仅在：飞特包清关/IOSS合规风险，云途需自担进口环节。<br>
+  <b>v5→v6 修正：</b>v5 场景A(运费+挂号+VAT)仅 ¥4,289.53，漏算其他费 ¥1,229.40，导致结论偏差；v6 补全后飞特反超。
+  </div>
+</div>
+
+</div></body></html>

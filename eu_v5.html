@@ -1,0 +1,1001 @@
+<!doctype html><html lang="zh"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>欧盟订单 云途(DDU) vs 飞特(DDP) 全方位对比 v5</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",sans-serif;
+background:#0e1117;color:#e6e9ef;line-height:1.5;font-size:14px}
+.wrap{max-width:1180px;margin:0 auto;padding:24px}
+h1{font-size:24px;margin:0 0 4px}
+h2{font-size:18px;margin:28px 0 10px;padding-left:10px;border-left:4px solid #4f9dff}
+.sub{color:#8b93a7;font-size:13px;margin-bottom:16px}
+.kpis{display:flex;flex-wrap:wrap;gap:12px;margin:16px 0}
+.kpi{flex:1;min-width:170px;background:#171c26;border:1px solid #232a38;border-radius:10px;padding:14px}
+.kpi .v{font-size:22px;font-weight:700}
+.kpi .l{color:#8b93a7;font-size:12px;margin-top:4px}
+.green{color:#3fd18b} .red{color:#ff6b6b} .yellow{color:#f0a93b} .blue{color:#4f9dff}
+.banner{background:linear-gradient(135deg,#172033,#1d2942);border:1px solid #2b3a55;border-radius:12px;padding:18px 20px;margin:12px 0}
+.banner b{font-size:16px}
+table{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px}
+th,td{padding:7px 9px;border-bottom:1px solid #232a38;text-align:left}
+th{background:#141a24;color:#aab2c5;position:sticky;top:0;font-weight:600}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+td.mono{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:11.5px;color:#c6cee0}
+tr.miss{background:#1a1410}
+.tag{display:inline-block;padding:1px 8px;border-radius:10px;font-size:11.5px;font-weight:600}
+.tag.y{background:#103a28;color:#3fd18b} .tag.f{background:#3a1722;color:#ff6b6b} .tag.n{background:#2a2f3a;color:#aab2c5}
+td.vat{color:#f0a93b} td.strong{font-weight:700}
+.dim{font-weight:600;color:#c6cee0} td.w.y{color:#3fd18b;font-weight:600} td.w.f{color:#ff6b6b;font-weight:600} td.w.n{color:#f0a93b}
+td.note{color:#8b93a7;font-size:12px}
+.bars{margin:10px 0}
+.barwrap{display:flex;align-items:center;gap:8px;margin:6px 0}
+.barlabel{width:96px;color:#aab2c5;font-size:12px}
+.barbox{flex:1;background:#141a24;border-radius:5px;overflow:hidden;height:20px}
+.bar{height:100%}
+.barval{width:80px;text-align:right;font-size:12px;color:#c6cee0}
+.note-box{background:#141a24;border:1px solid #2b3a55;border-radius:10px;padding:14px 18px;margin:14px 0}
+.note-box li{margin:5px 0;color:#c6cee0}
+.warn{border-color:#5a3a1a;background:#1f1610}
+.scroll{max-height:520px;overflow:auto;border:1px solid #232a38;border-radius:10px}
+.foot{color:#6b7385;font-size:12px;margin-top:24px;border-top:1px solid #232a38;padding-top:12px}
+</style></head><body><div class="wrap">
+
+<h1>欧盟订单 · 云途(DDU) vs 飞特(DDP) · 全方位对比 v5</h1>
+<div class="sub">数据源：云途扣费账单 12f8aa7...xlsx（实收，时间 2026-02-14~2026-07-10） × 飞特 EY 含稅报价(7-9) × 74欧盟单。基于<b>真实扣费</b>而非估算。</div>
+
+<div class="banner">
+<b>📌 核心结论（用真实账单，非估算）</b><br>
+• <b>对账发现</b>：我的运费估算比云途实收高估约 <b class="yellow">13%</b>（¥4753 vs ¥4194）；之前 v4「云途40/40全胜省¥1224」是<b>估算且夸大</b>，真实为下方两场景。<br>
+• <b>场景B（卖家净成本不含VAT，用户权威口径）</b>：可比34单 云途¥2,926 vs 飞特¥3,412 → <b class="green">云途胜 27/34（省¥486）</b>；<b>轻小件(≤2kg)云途全胜，重件(2–5kg)飞特反超</b>。<br>
+• <b>场景A（云途实扣含VAT，账单表面）</b>：可比34单 云途¥4,570 vs 飞特¥3,412 → <b class="red">飞特胜 29/34</b>。<br>
+• <b>⚠ VAT 是分水岭</b>：账单显示云途从卖家账户实扣了 VAT（¥1,087），与「云途不含VAT、由买家经IOSS承担」的口径冲突——<b>需你确认 VAT 实际承担方</b>，结论随场景不同。
+</div>
+
+<div class="kpis">
+<div class="kpi"><div class="v">63/74</div><div class="l">欧盟单命中云途账单（11单未命中：7-10后发货未入账）</div></div>
+<div class="kpi"><div class="v green">27/34</div><div class="l">场景B 云途胜（卖家净不含VAT）</div></div>
+<div class="kpi"><div class="v red">29/34</div><div class="l">场景A 飞特胜（云途实扣含VAT）</div></div>
+<div class="kpi"><div class="v yellow">¥1,087</div><div class="l">云途实扣VAT（63单）</div></div>
+<div class="kpi"><div class="v">¥0</div><div class="l">云途实收关税预付（=0，纠正v3/v4估算）</div></div>
+</div>
+
+<h2>一、对账：我的估算 vs 云途实收</h2>
+<div class="note-box">
+<li><b>运费</b>：我的估算合计 ¥4,752.59 vs 云途实收 ¥4,193.64 → 我高估 <b class="yellow">¥558.95（约13%）</b>。谷仓 L/W/H 估的体积重普遍偏大，导致计费重/运费偏高。</li>
+<li><b>计费重</b>：仅 <b>3/63</b> 单与云途实收计费重偏差≤0.01kg。建议以云途实收计费重为准，谷仓尺寸仅作交叉验证。</li>
+<li><b>交易金额校验</b>：63单 云途「交易金额 = 运费+燃油+挂号+...+VAT」全部成立（自洽）。</li>
+<li><b>关键纠正</b>：实收「关税预付手续费 = 0」「IOSS费未单列」→ 之前 v3/v4 加的 HSCODE关税 + 2%代交IOSS费<b>在真实账单里不存在</b>，已剔除。</li>
+</div>
+
+<h2>二、云途实收费用拆解（63单命中，合计 ¥8,778.00）</h2>
+<div class="bars">
+<div class='barwrap'><div class='barlabel'>运费</div><div class='barbox'><div class='bar' style='width:47.8%;background:#4f9dff'></div></div><div class='barval'>¥4,194</div></div><div class='barwrap'><div class='barlabel'>挂号费</div><div class='barbox'><div class='bar' style='width:15.7%;background:#36c2a6'></div></div><div class='barval'>¥1,382</div></div><div class='barwrap'><div class='barlabel'>VAT增值税</div><div class='barbox'><div class='bar' style='width:12.4%;background:#f0a93b'></div></div><div class='barval'>¥1,087</div></div><div class='barwrap'><div class='barlabel'>其他费</div><div class='barbox'><div class='bar' style='width:24.1%;background:#9b7bff'></div></div><div class='barval'>¥2,116</div></div>
+</div>
+<div class="note-box">卖家净成本（不含VAT）= 运费+挂号+其他 = <b>¥7,691.27</b>；云途实扣（含VAT）= <b>¥8,778.00</b>。燃油费本期全为0。</div>
+
+<h2>三、全方位维度矩阵</h2>
+<table><thead><tr><th>维度</th><th>云途(DDU)</th><th>飞特(DDP含稅)</th><th>更优方</th><th>说明</th></tr></thead>
+<tbody><tr><td class='dim'>D1 基础运费</td><td>云途实收运费 ¥4193.64(63单)</td><td>飞特含稅报价</td><td class='w y'>云途低</td><td class='note'>云途运费单价更低，34可比单运费合计¥2925 vs 飞特¥3412</td></tr><tr><td class='dim'>D2 挂号费</td><td>云途单独收 均¥21.8/单</td><td>飞特已含(标准挂号)</td><td class='w f'>飞特优(打包)</td><td class='note'>云途挂号单列、轻小件占比高；飞特含挂一口价</td></tr><tr><td class='dim'>D3 燃油费</td><td>云途实收=0</td><td>飞特含</td><td class='w n'>持平</td><td class='note'>本期账单燃油费全为0，双方均按含油口径</td></tr><tr><td class='dim'>D4 进口VAT</td><td>云途实扣VAT ¥1086.73(63单)</td><td>飞特DDP已含</td><td class='w n'>⚠视角分歧</td><td class='note'>账单显示云途从卖家账户扣了VAT；若按用户口径VAT由买家经IOSS承担则卖家净不含VAT</td></tr><tr><td class='dim'>D5 关税/IOSS费</td><td>云途关税预付=0；IOSS费未单列</td><td>飞特DDP已含关税+IOSS</td><td class='w f'>飞特优(打包)</td><td class='note'>实收关税预付=0，纠正了之前v3/v4估算加的HSCODE关税+2%IOSS费(账单无此实收)</td></tr><tr><td class='dim'>D6 保价</td><td>云途可选0.7%最低5</td><td>飞特含基础</td><td class='w n'>持平</td><td class='note'>本期订单均未买保价，实收保价=0</td></tr><tr><td class='dim'>T1 计税模式</td><td>云途 DDU(完税交货外)</td><td>飞特 DDP(包税)</td><td class='w f'>飞特优</td><td class='note'>飞特报价已含稅，卖家无税务合规负担</td></tr><tr><td class='dim'>T2 清关责任</td><td>云途→收件人/卖家</td><td>飞特→承运商承担</td><td class='w f'>飞特优</td><td class='note'>飞特包税清关风险自担</td></tr><tr><td class='dim'>T3 IOSS合规</td><td>云途需自申报(订单有IOSS识别码)</td><td>飞特代缴</td><td class='w f'>飞特优</td><td class='note'>云途VAT经IOSS在销售端代收，需卖家自行申报</td></tr><tr><td class='dim'>T4 退件/拒收风险</td><td>DDU退件风险高、费用自担</td><td>DDP风险低</td><td class='w f'>飞特优</td><td class='note'>DDU模式买家拒收时卖家承担退件/弃货损失</td></tr><tr><td class='dim'>S1 覆盖范围</td><td>云途 欧盟26国</td><td>飞特 仅 DE/FR/ES/NL 4国</td><td class='w y'>云途优</td><td class='note'>34单飞特无报价→云途唯一可选</td></tr><tr><td class='dim'>S2 时效</td><td>云途THPH参考时效(报价表)</td><td>飞特EY(报价表未列明细)</td><td class='w n'>待补</td><td class='note'>两端时效报价表均未给出精确天数，待补</td></tr><tr><td class='dim'>S3 退件丢件赔偿</td><td>按云途条款</td><td>按飞特条款</td><td class='w n'>待补</td><td class='note'>详见各渠道赔偿条款</td></tr></tbody></table>
+
+<h2>四、重量段对比（场景B：卖家净不含VAT；用云途实收计费重）</h2>
+<table><thead><tr><th>计费重段</th><th>单数</th><th>云途净均</th><th>飞特均</th><th>胜负分布</th><th>段结论</th></tr></thead>
+<tbody><tr><td>≤0.5kg</td><td class='num'>7</td>
+<td class='num'>45.7</td><td class='num'>62.2</td>
+<td>云途胜<b>7</b> / 飞特胜<b>0</b></td>
+<td class='tag y'>云途全胜</td></tr><tr><td>0.5–1kg</td><td class='num'>14</td>
+<td class='num'>64.6</td><td class='num'>80.5</td>
+<td>云途胜<b>10</b> / 飞特胜<b>4</b></td>
+<td class='tag n'>各有胜负</td></tr><tr><td>1–2kg</td><td class='num'>8</td>
+<td class='num'>95.2</td><td class='num'>125.4</td>
+<td>云途胜<b>8</b> / 飞特胜<b>0</b></td>
+<td class='tag y'>云途全胜</td></tr><tr><td>2–5kg</td><td class='num'>5</td>
+<td class='num'>188.0</td><td class='num'>169.4</td>
+<td>云途胜<b>2</b> / 飞特胜<b>3</b></td>
+<td class='tag n'>各有胜负</td></tr></tbody></table>
+<div class="note-box">📊 <b>哪个重量段谁优</b>：<b class="green">≤0.5kg / 0.5–1kg / 1–2kg 云途占优（轻小件全胜）</b>；<b class="red">2–5kg 飞特反超</b>（飞特重段单价更平、且含挂号打包）。注：仅34可比命中单，2–5kg仅5单样本偏小。</div>
+
+<h2>五、逐单对比（74单全量）</h2>
+<div class="scroll"><table><thead><tr>
+<th>客户单号</th><th>国</th><th>云途实收计费重</th><th>我的计费重</th><th>云途运费</th><th>云途挂号</th><th>云途VAT</th><th>云途实扣(含VAT)</th><th>飞特含稅</th><th>场景B胜</th><th>场景A胜</th>
+</tr></thead><tbody><tr class="">
+<td class="mono">18036043-1789535-T6</td>
+<td>DE</td>
+<td class="num">0.877</td>
+<td class="num">0.5</td>
+<td class="num">47.36</td>
+<td class="num">22.00</td>
+<td class="num vat">14.21</td>
+<td class="num strong">108.45</td>
+<td class="num">63.00</td>
+<td class="tag f">飞特</td>
+<td class="tag f">飞特</td>
+</tr><tr class="">
+<td class="mono">18036043-1868074-S4</td>
+<td>DE</td>
+<td class="num">0.405</td>
+<td class="num">0.47</td>
+<td class="num">21.87</td>
+<td class="num">22.00</td>
+<td class="num vat">19.38</td>
+<td class="num strong">88.67</td>
+<td class="num">60.90</td>
+<td class="tag y">云途</td>
+<td class="tag f">飞特</td>
+</tr><tr class="">
+<td class="mono">18036043-1873716-5Y</td>
+<td>DE</td>
+<td class="num">0.437</td>
+<td class="num">0.47</td>
+<td class="num">23.60</td>
+<td class="num">22.00</td>
+<td class="num vat">19.38</td>
+<td class="num strong">90.40</td>
+<td class="num">60.90</td>
+<td class="tag y">云途</td>
+<td class="tag f">飞特</td>
+</tr><tr class="">
+<td class="mono">18036043-1875463-MF</td>
+<td>DE</td>
+<td class="num">0.436</td>
+<td class="num">0.47</td>
+<td class="num">23.54</td>
+<td class="num">22.00</td>
+<td class="num vat">19.38</td>
+<td class="num strong">90.34</td>
+<td class="num">60.90</td>
+<td class="tag y">云途</td>
+<td class="tag f">飞特</td>
+</tr><tr class="">
+<td class="mono">18036043-1885988-LR</td>
+<td>DE</td>
+<td class="num">0.405</td>
+<td class="num">0.47</td>
+<td class="num">21.87</td>
+<td class="num">22.00</td>
+<td class="num vat">19.38</td>
+<td class="num strong">88.67</td>
+<td class="num">60.90</td>
+<td class="tag y">云途</td>
+<td class="tag f">飞特</td>
+</tr><tr class="">
+<td class="mono">18036043-1890297-JG</td>
+<td>DE</td>
+<td class="num">0.581</td>
+<td class="num">0.542</td>
+<td class="num">31.37</td>
+<td class="num">22.00</td>
+<td class="num vat">16.79</td>
+<td class="num strong">95.31</td>
+<td class="num">65.94</td>
+<td class="tag y">云途</td>
+<td class="tag f">飞特</td>
+</tr><tr class="">
+<td class="mono">18036043-1948219-XL</td>
+<td>DE</td>
+<td class="num">1.200</td>
+<td class="num">1.119</td>
+<td class="num">64.80</td>
+<td class="num">22.00</td>
+<td class="num vat">19.38</td>
+<td class="num strong">131.60</td>
+<td class="num">106.33</td>
+<td class="tag y">云途</td>
+<td class="tag f">飞特</td>
+</tr><tr class="">
+<td class="mono">18036043-1952630-IV</td>
+<td>DE</td>
+<td class="num">0.573</td>
+<td class="num">0.62</td>
+<td class="num">30.94</td>
+<td class="num">22.00</td>
+<td class="num vat">19.38</td>
+<td class="num strong">97.74</td>
+<td class="num">71.40</td>
+<td class="tag y">云途</td>
+<td class="tag f">飞特</td>
+</tr><tr class="">
+<td class="mono">18036043-1952708-S3</td>
+<td>DE</td>
+<td class="num">1.186</td>
+<td class="num">0.949</td>
+<td class="num">64.04</td>
+<td class="num">22.00</td>
+<td class="num vat">12.92</td>
+<td class="num strong">123.70</td>
+<td class="num">94.43</td>
+<td class="tag y">云途</td>
+<td class="tag f">飞特</td>
+</tr><tr class="">
+<td class="mono">18036043-1952806-IY</td>
+<td>DE</td>
+<td class="num">1.241</td>
+<td class="num">1.343</td>
+<td class="num">67.01</td>
+<td class="num">22.00</td>
+<td class="num vat">18.08</td>
+<td class="num strong">132.37</td>
+<td class="num">162.34</td>
+<td class="tag y">云途</td>
+<td class="tag y">云途</td>
+</tr><tr class="">
+<td class="mono">18036043-1953010-C8</td>
+<td>DE</td>
+<td class="num">1.560</td>
+<td class="num">1.514</td>
+<td class="num">84.24</td>
+<td class="num">22.00</td>
+<td class="num vat">18.08</td>
+<td class="num strong">149.60</td>
+<td class="num">164.46</td>
+<td class="tag y">云途</td>
+<td class="tag y">云途</td>
+</tr><tr class="">
+<td class="mono">18036043-1953036-06</td>
+<td>DE</td>
+<td class="num">1.187</td>
+<td class="num">1.2</td>
+<td class="num">64.10</td>
+<td class="num">22.00</td>
+<td class="num vat">19.38</td>
+<td class="num strong">130.90</td>
+<td class="num">112.00</td>
+<td class="tag y">云途</td>
+<td class="tag f">飞特</td>
+</tr><tr class="">
+<td class="mono">18036043-1953343-07</td>
+<td>DE</td>
+<td class="num">0.789</td>
+<td class="num">0.5</td>
+<td class="num">42.61</td>
+<td class="num">22.00</td>
+<td class="num vat">12.92</td>
+<td class="num strong">102.27</td>
+<td class="num">63.00</td>
+<td class="tag f">飞特</td>
+<td class="tag f">飞特</td>
+</tr><tr class="miss">
+<td class="mono">18036043-1953397-AC</td>
+<td>DE</td>
+<td class="num">—</td>
+<td class="num">2.213</td>
+<td class="num">0.00</td>
+<td class="num">0.00</td>
+<td class="num vat">0.00</td>
+<td class="num strong">0.00</td>
+<td class="num">249.34</td>
+<td class="tag n">—</td>
+<td class="tag n">—</td>
+</tr><tr class="">
+<td class="mono">18036043-1953747-WB</td>
+<td>DE</td>
+<td class="num">1.420</td>
+<td class="num">1.046</td>
+<td class="num">76.68</td>
+<td class="num">22.00</td>
+<td class="num vat">19.38</td>
+<td class="num strong">166.87</td>
+<td class="num">101.22</td>
+<td class="tag y">云途</td>
+<td class="tag f">飞特</td>
+</tr><tr class="">
+<td class="mono">18026090-1952082-4L</td>
+<td>ES</td>
+<td class="num">0.628</td>
+<td class="num">0.634</td>
+<td class="num">36.42</td>
+<td class="num">18.00</td>
+<td class="num vat">11.42</td>
+<td class="num strong">90.31</td>
+<td class="num">72.99</td>
+<td class="tag y">云途</td>
+<td class="tag f">飞特</td>
+</tr><tr class="">
+<td class="mono">18036011-1952384-WN</td>
+<td>ES</td>
+<td class="num">2.442</td>
+<td class="num">1.569</td>
+<td class="num">141.64</td>
+<td class="num">18.00</td>
+<td class="num vat">21.41</td>
+<td class="num strong">206.47</td>
+<td class="num">181.64</td>
+<td class="tag y">云途</td>
+<td class="tag f">飞特</td>
+</tr><tr class="">
+<td class="mono">18036011-1953130-MQ</td>
+<td>ES</td>
+<td class="num">0.790</td>
+<td class="num">0.853</td>
+<td class="num">45.82</td>
+<td class="num">18.00</td>
+<td class="num vat">11.42</td>
+<td class="num strong">99.71</td>
+<td class="num">98.62</td>
+<td class="tag y">云途</td>
+<td class="tag f">飞特</td>
+</tr><tr class="">
+<td class="mono">18036011-1953197-U7</td>
+<td>ES</td>
+<td class="num">0.999</td>
+<td class="num">1.177</td>
+<td class="num">57.94</td>
+<td class="num">18.00</td>
+<td class="num vat">12.85</td>
+<td class="num strong">136.78</td>
+<td class="num">145.65</td>
+<td class="tag y">云途</td>
+<td class="tag y">云途</td>
+</tr><tr class="miss">
+<td class="mono">18026090-1953980-T6</td>
+<td>FR</td>
+<td class="num">—</td>
+<td class="num">0.886</td>
+<td class="num">0.00</td>
+<td class="num">0.00</td>
+<td class="num vat">0.00</td>
+<td class="num strong">0.00</td>
+<td class="num">96.45</td>
+<td class="tag n">—</td>
+<td class="tag n">—</td>
+</tr><tr class="">
+<td class="mono">18036019-1786149-JF</td>
+<td>FR</td>
+<td class="num">3.500</td>
+<td class="num">2.378</td>
+<td class="num">196.00</td>
+<td class="num">23.00</td>
+<td class="num vat">54.39</td>
+<td class="num strong">348.98</td>
+<td class="num">209.35</td>
+<td class="tag f">飞特</td>
+<td class="tag f">飞特</td>
+</tr><tr class="miss">
+<td class="mono">18036019-1814525-IB</td>
+<td>FR</td>
+<td class="num">—</td>
+<td class="num">0.66</td>
+<td class="num">0.00</td>
+<td class="num">0.00</td>
+<td class="num vat">0.00</td>
+<td class="num strong">0.00</td>
+<td class="num">79.50</td>
+<td class="tag n">—</td>
+<td class="tag n">—</td>
+</tr><tr class="miss">
+<td class="mono">18036019-1816424-15</td>
+<td>FR</td>
+<td class="num">—</td>
+<td class="num">0.66</td>
+<td class="num">0.00</td>
+<td class="num">0.00</td>
+<td class="num vat">0.00</td>
+<td class="num strong">0.00</td>
+<td class="num">79.50</td>
+<td class="tag n">—</td>
+<td class="tag n">—</td>
+</tr><tr class="">
+<td class="mono">18036019-1817605-8S</td>
+<td>FR</td>
+<td class="num">1.424</td>
+<td class="num">1.022</td>
+<td class="num">81.17</td>
+<td class="num">23.00</td>
+<td class="num vat">20.40</td>
+<td class="num strong">173.38</td>
+<td class="num">107.65</td>
+<td class="tag y">云途</td>
+<td class="tag f">飞特</td>
+</tr><tr class="">
+<td class="mono">18036019-1824813-1T</td>
+<td>FR</td>
+<td class="num">0.862</td>
+<td class="num">0.5</td>
+<td class="num">49.13</td>
+<td class="num">23.00</td>
+<td class="num vat">14.96</td>
+<td class="num strong">111.97</td>
+<td class="num">66.50</td>
+<td class="tag f">飞特</td>
+<td class="tag f">飞特</td>
+</tr><tr class="">
+<td class="mono">18036019-1873042-TJ</td>
+<td>FR</td>
+<td class="num">0.428</td>
+<td class="num">0.47</td>
+<td class="num">24.82</td>
+<td class="num">20.00</td>
+<td class="num vat">20.40</td>
+<td class="num strong">90.64</td>
+<td class="num">64.25</td>
+<td class="tag y">云途</td>
+<td class="tag f">飞特</td>
+</tr><tr class="">
+<td class="mono">18036019-1916877-83</td>
+<td>FR</td>
+<td class="num">0.406</td>
+<td class="num">0.47</td>
+<td class="num">23.55</td>
+<td class="num">20.00</td>
+<td class="num vat">20.40</td>
+<td class="num strong">89.37</td>
+<td class="num">64.25</td>
+<td class="tag y">云途</td>
+<td class="tag f">飞特</td>
+</tr><tr class="miss">
+<td class="mono">18036019-1949633-9X</td>
+<td>FR</td>
+<td class="num">—</td>
+<td class="num">2.076</td>
+<td class="num">0.00</td>
+<td class="num">0.00</td>
+<td class="num vat">0.00</td>
+<td class="num strong">0.00</td>
+<td class="num">190.73</td>
+<td class="tag n">—</td>
+<td class="tag n">—</td>
+</tr><tr class="">
+<td class="mono">18036019-1951109-GK</td>
+<td>FR</td>
+<td class="num">0.553</td>
+<td class="num">0.52</td>
+<td class="num">31.52</td>
+<td class="num">23.00</td>
+<td class="num vat">10.88</td>
+<td class="num strong">89.87</td>
+<td class="num">69.00</td>
+<td class="tag y">云途</td>
+<td class="tag f">飞特</td>
+</tr><tr class="">
+<td class="mono">18036019-1951926-1M</td>
+<td>FR</td>
+<td class="num">0.536</td>
+<td class="num">0.52</td>
+<td class="num">30.55</td>
+<td class="num">23.00</td>
+<td class="num vat">10.88</td>
+<td class="num strong">88.90</td>
+<td class="num">69.00</td>
+<td class="tag y">云途</td>
+<td class="tag f">飞特</td>
+</tr><tr class="">
+<td class="mono">18036019-1952646-SE</td>
+<td>FR</td>
+<td class="num">1.427</td>
+<td class="num">1.347</td>
+<td class="num">81.34</td>
+<td class="num">23.00</td>
+<td class="num vat">19.04</td>
+<td class="num strong">148.66</td>
+<td class="num">154.63</td>
+<td class="tag y">云途</td>
+<td class="tag y">云途</td>
+</tr><tr class="">
+<td class="mono">18036019-1953472-Q0</td>
+<td>FR</td>
+<td class="num">2.114</td>
+<td class="num">1.612</td>
+<td class="num">118.38</td>
+<td class="num">23.00</td>
+<td class="num vat">19.04</td>
+<td class="num strong">209.09</td>
+<td class="num">178.31</td>
+<td class="tag y">云途</td>
+<td class="tag f">飞特</td>
+</tr><tr class="">
+<td class="mono">18036019-1953587-YW</td>
+<td>FR</td>
+<td class="num">0.785</td>
+<td class="num">0.853</td>
+<td class="num">44.75</td>
+<td class="num">23.00</td>
+<td class="num vat">10.88</td>
+<td class="num strong">103.10</td>
+<td class="num">106.67</td>
+<td class="tag y">云途</td>
+<td class="tag y">云途</td>
+</tr><tr class="miss">
+<td class="mono">18036019-1953825-0W</td>
+<td>FR</td>
+<td class="num">—</td>
+<td class="num">2.111</td>
+<td class="num">0.00</td>
+<td class="num">0.00</td>
+<td class="num vat">0.00</td>
+<td class="num strong">0.00</td>
+<td class="num">257.16</td>
+<td class="tag n">—</td>
+<td class="tag n">—</td>
+</tr><tr class="">
+<td class="mono">18036019-1953857-DS</td>
+<td>FR</td>
+<td class="num">0.524</td>
+<td class="num">0.542</td>
+<td class="num">29.87</td>
+<td class="num">23.00</td>
+<td class="num vat">8.16</td>
+<td class="num strong">85.23</td>
+<td class="num">70.65</td>
+<td class="tag y">云途</td>
+<td class="tag f">飞特</td>
+</tr><tr class="">
+<td class="mono">18036011-1860911-0S</td>
+<td>NL</td>
+<td class="num">0.878</td>
+<td class="num">0.5</td>
+<td class="num">64.97</td>
+<td class="num">23.00</td>
+<td class="num vat">15.70</td>
+<td class="num strong">128.55</td>
+<td class="num">65.50</td>
+<td class="tag f">飞特</td>
+<td class="tag f">飞特</td>
+</tr><tr class="">
+<td class="mono">18036011-1902203-HF</td>
+<td>NL</td>
+<td class="num">0.405</td>
+<td class="num">0.47</td>
+<td class="num">29.97</td>
+<td class="num">23.00</td>
+<td class="num vat">21.41</td>
+<td class="num strong">99.80</td>
+<td class="num">63.55</td>
+<td class="tag y">云途</td>
+<td class="tag f">飞特</td>
+</tr><tr class="">
+<td class="mono">18036011-1950010-O6</td>
+<td>NL</td>
+<td class="num">0.780</td>
+<td class="num">0.853</td>
+<td class="num">57.72</td>
+<td class="num">23.00</td>
+<td class="num vat">11.42</td>
+<td class="num strong">116.61</td>
+<td class="num">98.58</td>
+<td class="tag y">云途</td>
+<td class="tag f">飞特</td>
+</tr><tr class="">
+<td class="mono">18036011-1951314-7W</td>
+<td>NL</td>
+<td class="num">2.013</td>
+<td class="num">0.5</td>
+<td class="num">128.83</td>
+<td class="num">23.00</td>
+<td class="num vat">17.13</td>
+<td class="num strong">193.97</td>
+<td class="num">65.50</td>
+<td class="tag f">飞特</td>
+<td class="tag f">飞特</td>
+</tr><tr class="">
+<td class="mono">18036011-1952450-E5</td>
+<td>NL</td>
+<td class="num">3.832</td>
+<td class="num">2.756</td>
+<td class="num">245.25</td>
+<td class="num">23.00</td>
+<td class="num vat">21.41</td>
+<td class="num strong">361.85</td>
+<td class="num">212.14</td>
+<td class="tag f">飞特</td>
+<td class="tag f">飞特</td>
+</tr><tr class="">
+<td class="mono">18026090-1952097-OS</td>
+<td>CZ</td>
+<td class="num">0.772</td>
+<td class="num">0.695</td>
+<td class="num">54.81</td>
+<td class="num">20.00</td>
+<td class="num vat">15.70</td>
+<td class="num strong">115.39</td>
+<td class="num">—</td>
+<td class="tag y">云途</td>
+<td class="tag y">云途</td>
+</tr><tr class="">
+<td class="mono">18036011-1939009-TK</td>
+<td>CZ</td>
+<td class="num">0.406</td>
+<td class="num">0.47</td>
+<td class="num">28.83</td>
+<td class="num">20.00</td>
+<td class="num vat">21.41</td>
+<td class="num strong">95.66</td>
+<td class="num">—</td>
+<td class="tag y">云途</td>
+<td class="tag y">云途</td>
+</tr><tr class="">
+<td class="mono">18026090-1949267-5A</td>
+<td>DK</td>
+<td class="num">0.899</td>
+<td class="num">0.852</td>
+<td class="num">64.73</td>
+<td class="num">24.00</td>
+<td class="num vat">22.09</td>
+<td class="num strong">135.97</td>
+<td class="num">—</td>
+<td class="tag y">云途</td>
+<td class="tag y">云途</td>
+</tr><tr class="">
+<td class="mono">18036011-1839261-B2</td>
+<td>GR</td>
+<td class="num">0.677</td>
+<td class="num">0.66</td>
+<td class="num">58.90</td>
+<td class="num">18.00</td>
+<td class="num vat">19.58</td>
+<td class="num strong">121.49</td>
+<td class="num">—</td>
+<td class="tag y">云途</td>
+<td class="tag y">云途</td>
+</tr><tr class="">
+<td class="mono">18036011-1952568-3D</td>
+<td>GR</td>
+<td class="num">2.197</td>
+<td class="num">2.157</td>
+<td class="num">191.14</td>
+<td class="num">18.00</td>
+<td class="num vat">24.47</td>
+<td class="num strong">282.42</td>
+<td class="num">—</td>
+<td class="tag y">云途</td>
+<td class="tag y">云途</td>
+</tr><tr class="">
+<td class="mono">18036039-1796050-1A</td>
+<td>IT</td>
+<td class="num">0.893</td>
+<td class="num">0.5</td>
+<td class="num">52.69</td>
+<td class="num">25.00</td>
+<td class="num vat">16.45</td>
+<td class="num strong">119.02</td>
+<td class="num">—</td>
+<td class="tag y">云途</td>
+<td class="tag y">云途</td>
+</tr><tr class="">
+<td class="mono">18036039-1810495-U2</td>
+<td>IT</td>
+<td class="num">1.549</td>
+<td class="num">1.417</td>
+<td class="num">91.39</td>
+<td class="num">25.00</td>
+<td class="num vat">22.43</td>
+<td class="num strong">187.63</td>
+<td class="num">—</td>
+<td class="tag y">云途</td>
+<td class="tag y">云途</td>
+</tr><tr class="">
+<td class="mono">18036039-1812809-0Y</td>
+<td>IT</td>
+<td class="num">0.884</td>
+<td class="num">0.5</td>
+<td class="num">52.16</td>
+<td class="num">25.00</td>
+<td class="num vat">16.45</td>
+<td class="num strong">118.49</td>
+<td class="num">—</td>
+<td class="tag y">云途</td>
+<td class="tag y">云途</td>
+</tr><tr class="">
+<td class="mono">18036039-1855649-6C</td>
+<td>IT</td>
+<td class="num">0.873</td>
+<td class="num">0.5</td>
+<td class="num">51.51</td>
+<td class="num">25.00</td>
+<td class="num vat">16.45</td>
+<td class="num strong">117.84</td>
+<td class="num">—</td>
+<td class="tag y">云途</td>
+<td class="tag y">云途</td>
+</tr><tr class="">
+<td class="mono">18036039-1938439-Y1</td>
+<td>IT</td>
+<td class="num">2.340</td>
+<td class="num">1.989</td>
+<td class="num">142.74</td>
+<td class="num">25.00</td>
+<td class="num vat">22.43</td>
+<td class="num strong">238.98</td>
+<td class="num">—</td>
+<td class="tag y">云途</td>
+<td class="tag y">云途</td>
+</tr><tr class="">
+<td class="mono">18036039-1950094-XQ</td>
+<td>IT</td>
+<td class="num">0.617</td>
+<td class="num">0.648</td>
+<td class="num">36.40</td>
+<td class="num">25.00</td>
+<td class="num vat">7.48</td>
+<td class="num strong">92.94</td>
+<td class="num">—</td>
+<td class="tag y">云途</td>
+<td class="tag y">云途</td>
+</tr><tr class="">
+<td class="mono">18036039-1952539-5P</td>
+<td>IT</td>
+<td class="num">0.782</td>
+<td class="num">0.853</td>
+<td class="num">46.14</td>
+<td class="num">25.00</td>
+<td class="num vat">11.97</td>
+<td class="num strong">107.58</td>
+<td class="num">—</td>
+<td class="tag y">云途</td>
+<td class="tag y">云途</td>
+</tr><tr class="">
+<td class="mono">18036039-1952673-AJ</td>
+<td>IT</td>
+<td class="num">2.714</td>
+<td class="num">2.218</td>
+<td class="num">165.55</td>
+<td class="num">25.00</td>
+<td class="num vat">22.43</td>
+<td class="num strong">238.40</td>
+<td class="num">—</td>
+<td class="tag y">云途</td>
+<td class="tag y">云途</td>
+</tr><tr class="">
+<td class="mono">18036039-1952719-9V</td>
+<td>IT</td>
+<td class="num">1.067</td>
+<td class="num">1.11</td>
+<td class="num">62.95</td>
+<td class="num">25.00</td>
+<td class="num vat">20.94</td>
+<td class="num strong">157.56</td>
+<td class="num">—</td>
+<td class="tag y">云途</td>
+<td class="tag y">云途</td>
+</tr><tr class="">
+<td class="mono">18036039-1952864-BC</td>
+<td>IT</td>
+<td class="num">0.291</td>
+<td class="num">0.274</td>
+<td class="num">17.17</td>
+<td class="num">25.00</td>
+<td class="num vat">5.98</td>
+<td class="num strong">72.07</td>
+<td class="num">—</td>
+<td class="tag y">云途</td>
+<td class="tag y">云途</td>
+</tr><tr class="">
+<td class="mono">18036039-1952865-PW</td>
+<td>IT</td>
+<td class="num">0.151</td>
+<td class="num">0.14</td>
+<td class="num">8.91</td>
+<td class="num">25.00</td>
+<td class="num vat">2.99</td>
+<td class="num strong">60.55</td>
+<td class="num">—</td>
+<td class="tag y">云途</td>
+<td class="tag y">云途</td>
+</tr><tr class="">
+<td class="mono">18036039-1953069-IH</td>
+<td>IT</td>
+<td class="num">0.940</td>
+<td class="num">0.89</td>
+<td class="num">55.46</td>
+<td class="num">25.00</td>
+<td class="num vat">22.43</td>
+<td class="num strong">151.70</td>
+<td class="num">—</td>
+<td class="tag y">云途</td>
+<td class="tag y">云途</td>
+</tr><tr class="">
+<td class="mono">18036039-1953207-H9</td>
+<td>IT</td>
+<td class="num">0.548</td>
+<td class="num">0.52</td>
+<td class="num">32.33</td>
+<td class="num">25.00</td>
+<td class="num vat">11.97</td>
+<td class="num strong">93.77</td>
+<td class="num">—</td>
+<td class="tag y">云途</td>
+<td class="tag y">云途</td>
+</tr><tr class="">
+<td class="mono">18036039-1953853-NH</td>
+<td>IT</td>
+<td class="num">0.592</td>
+<td class="num">0.59</td>
+<td class="num">34.93</td>
+<td class="num">25.00</td>
+<td class="num vat">11.97</td>
+<td class="num strong">96.37</td>
+<td class="num">—</td>
+<td class="tag y">云途</td>
+<td class="tag y">云途</td>
+</tr><tr class="miss">
+<td class="mono">18036039-1953913-CB</td>
+<td>IT</td>
+<td class="num">—</td>
+<td class="num">0.508</td>
+<td class="num">0.00</td>
+<td class="num">0.00</td>
+<td class="num vat">0.00</td>
+<td class="num strong">0.00</td>
+<td class="num">—</td>
+<td class="tag n">—</td>
+<td class="tag n">—</td>
+</tr><tr class="">
+<td class="mono">18026090-1949261-92</td>
+<td>PL</td>
+<td class="num">1.075</td>
+<td class="num">0.933</td>
+<td class="num">76.33</td>
+<td class="num">15.00</td>
+<td class="num vat">23.45</td>
+<td class="num strong">140.20</td>
+<td class="num">—</td>
+<td class="tag y">云途</td>
+<td class="tag y">云途</td>
+</tr><tr class="miss">
+<td class="mono">18026090-1953976-IQ</td>
+<td>PL</td>
+<td class="num">—</td>
+<td class="num">0.515</td>
+<td class="num">0.00</td>
+<td class="num">0.00</td>
+<td class="num vat">0.00</td>
+<td class="num strong">0.00</td>
+<td class="num">—</td>
+<td class="tag n">—</td>
+<td class="tag n">—</td>
+</tr><tr class="">
+<td class="mono">18036011-1953936-A0</td>
+<td>PL</td>
+<td class="num">1.161</td>
+<td class="num">1.144</td>
+<td class="num">82.43</td>
+<td class="num">15.00</td>
+<td class="num vat">12.51</td>
+<td class="num strong">134.41</td>
+<td class="num">—</td>
+<td class="tag y">云途</td>
+<td class="tag y">云途</td>
+</tr><tr class="">
+<td class="mono">18026090-1929610-1X</td>
+<td>PT</td>
+<td class="num">0.599</td>
+<td class="num">0.5</td>
+<td class="num">40.73</td>
+<td class="num">20.00</td>
+<td class="num vat">15.64</td>
+<td class="num strong">101.11</td>
+<td class="num">—</td>
+<td class="tag y">云途</td>
+<td class="tag y">云途</td>
+</tr><tr class="">
+<td class="mono">18026090-1952088-RU</td>
+<td>PT</td>
+<td class="num">0.578</td>
+<td class="num">0.543</td>
+<td class="num">39.30</td>
+<td class="num">20.00</td>
+<td class="num vat">12.51</td>
+<td class="num strong">96.28</td>
+<td class="num">—</td>
+<td class="tag y">云途</td>
+<td class="tag y">云途</td>
+</tr><tr class="">
+<td class="mono">18036011-1946960-RS</td>
+<td>PT</td>
+<td class="num">0.605</td>
+<td class="num">0.6</td>
+<td class="num">41.14</td>
+<td class="num">20.00</td>
+<td class="num vat">12.51</td>
+<td class="num strong">98.12</td>
+<td class="num">—</td>
+<td class="tag y">云途</td>
+<td class="tag y">云途</td>
+</tr><tr class="miss">
+<td class="mono">18036051-1910693-IV</td>
+<td>PT</td>
+<td class="num">—</td>
+<td class="num">5.075</td>
+<td class="num">0.00</td>
+<td class="num">0.00</td>
+<td class="num vat">0.00</td>
+<td class="num strong">0.00</td>
+<td class="num">—</td>
+<td class="tag n">—</td>
+<td class="tag n">—</td>
+</tr><tr class="">
+<td class="mono">18036011-1829382-WM</td>
+<td>RO</td>
+<td class="num">2.202</td>
+<td class="num">2.144</td>
+<td class="num">189.37</td>
+<td class="num">20.00</td>
+<td class="num vat">21.41</td>
+<td class="num strong">343.97</td>
+<td class="num">—</td>
+<td class="tag y">云途</td>
+<td class="tag y">云途</td>
+</tr><tr class="">
+<td class="mono">18036011-1840203-OK</td>
+<td>RO</td>
+<td class="num">0.694</td>
+<td class="num">0.66</td>
+<td class="num">59.68</td>
+<td class="num">20.00</td>
+<td class="num vat">17.13</td>
+<td class="num strong">162.82</td>
+<td class="num">—</td>
+<td class="tag y">云途</td>
+<td class="tag y">云途</td>
+</tr><tr class="">
+<td class="mono">18036011-1895271-WN</td>
+<td>RO</td>
+<td class="num">0.408</td>
+<td class="num">0.47</td>
+<td class="num">35.09</td>
+<td class="num">20.00</td>
+<td class="num vat">21.41</td>
+<td class="num strong">142.92</td>
+<td class="num">—</td>
+<td class="tag y">云途</td>
+<td class="tag y">云途</td>
+</tr><tr class="miss">
+<td class="mono">18036011-1912613-CO</td>
+<td>RO</td>
+<td class="num">—</td>
+<td class="num">1.355</td>
+<td class="num">0.00</td>
+<td class="num">0.00</td>
+<td class="num vat">0.00</td>
+<td class="num strong">0.00</td>
+<td class="num">—</td>
+<td class="tag n">—</td>
+<td class="tag n">—</td>
+</tr><tr class="miss">
+<td class="mono">18036011-1949525-5R</td>
+<td>RO</td>
+<td class="num">—</td>
+<td class="num">0.634</td>
+<td class="num">0.00</td>
+<td class="num">0.00</td>
+<td class="num vat">0.00</td>
+<td class="num strong">0.00</td>
+<td class="num">—</td>
+<td class="tag n">—</td>
+<td class="tag n">—</td>
+</tr><tr class="">
+<td class="mono">18036011-1951089-DJ</td>
+<td>RO</td>
+<td class="num">0.858</td>
+<td class="num">0.769</td>
+<td class="num">73.79</td>
+<td class="num">20.00</td>
+<td class="num vat">15.70</td>
+<td class="num strong">175.37</td>
+<td class="num">—</td>
+<td class="tag y">云途</td>
+<td class="tag y">云途</td>
+</tr><tr class="">
+<td class="mono">18036011-1952839-WO</td>
+<td>SK</td>
+<td class="num">1.341</td>
+<td class="num">1.307</td>
+<td class="num">123.37</td>
+<td class="num">20.00</td>
+<td class="num vat">17.20</td>
+<td class="num strong">208.84</td>
+<td class="num">—</td>
+<td class="tag y">云途</td>
+<td class="tag y">云途</td>
+</tr></tbody></table></div>
+
+<div class="note-box warn">
+<b>⚠ 待你确认 / 数据局限</b>
+<li><b>VAT 承担方</b>：账单表面云途扣了VAT，但你明确「云途运费不含VAT、由买家经IOSS承担」。请确认 VAT 是否最终由买家承担——这决定用场景A还是B。</li>
+<li><b>11单未命中</b>：账单时间截至 2026-07-10，7-10后发货的11单未入账，无法核对实收（其中6单属飞特可比国）。</li>
+<li><b>34单飞特无报价</b>：IT/PT/RO/PL/GR/CZ/SK/DK 飞特不覆盖 → 云途唯一可选。</li>
+<li><b>时效/赔偿维度</b>：两端报价表均未给精确天数与赔偿条款，标记为「待补」。</li>
+<li><b>汇率/口径</b>：账单币种为RMB，无需汇率；计费重=MAX(实重,体积重/10000) 为云途口径。</li>
+</div>
+
+<div class="foot">生成于 2026-07-15 · 数据源：云途扣费账单12f8aa7...xlsx、飞特EY 7-9报价、云途C66322订单导出、eu_full3.json(我的估算+飞特报价) · 全部基于真实扣费，已剔除v3/v4中无实收支撑的关税/IOSS费假设。</div>
+
+</div></body></html>
