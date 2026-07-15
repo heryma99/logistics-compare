@@ -185,7 +185,7 @@ function verdictHTML(y, f, mode){
 }
 function twoCol(y, f){
   let fhtml = f ? (
-    '<div class="f"><h3>🟩 飞特（DDP 一口价）</h3><div class="erow"><span>计费重 (÷7000)</span><span class="f">'+f.__cwF__.toFixed(3)+' kg</span></div>'+
+    '<div class="f"><h3>🟩 飞特（DDP 一口价）</h3><div class="erow"><span>计费重 = MAX(实重, 体积÷7000)</span><span class="f">'+f.__cwF__.toFixed(3)+' kg</span></div>'+
     '<div class="erow"><span>运费 = '+f.__cwF__.toFixed(3)+'×¥'+f.kg+'/kg</span><span class="f">¥'+f.freight.toFixed(1)+'</span></div>'+
     '<div class="erow"><span>操作费</span><span class="f">¥'+f.pc.toFixed(1)+'</span></div>'+
     '<div class="erow total"><span>飞特一口价（已含VAT/关税/IOSS）</span><span class="f">¥'+f.total.toFixed(1)+'</span></div></div>'
@@ -194,7 +194,7 @@ function twoCol(y, f){
     '<div class="erow total"><span>→ 自动发云途</span><span class="f">—</span></div></div>'
   );
   return '<div class="twocol"><div class="y"><h3>🟥 云途（DDU，逐项）</h3>'+
-    '<div class="erow"><span>计费重 (÷10000)</span><span class="y">'+y.__cwY__.toFixed(3)+' kg</span></div>'+
+    '<div class="erow"><span>计费重 = MAX(实重, 体积÷10000)</span><span class="y">'+y.__cwY__.toFixed(3)+' kg</span></div>'+
     '<div class="erow"><span>运费 = '+y.__cwY__.toFixed(3)+'×¥'+y.kg+'/kg + 挂号</span><span class="y">¥'+y.freight.toFixed(1)+'</span></div>'+
     '<div class="erow"><span>VAT (申报×'+y.__vat__+'%)</span><span class="y">¥'+y.vat.toFixed(1)+'</span></div>'+
     '<div class="erow"><span>关税 (申报×'+y.__duty__+'%)</span><span class="y">¥'+y.duty.toFixed(1)+'</span></div>'+
@@ -233,8 +233,8 @@ function singleCalc(){
   r.y.__cwY__=r.cwY; r.y.__vat__=vat; r.y.__duty__=duty;
   if(r.f){ r.f.__cwF__=r.cwF; }
   let html = verdictHTML(r.y, r.f, {iso}) + twoCol(r.y, r.f);
-  html += '<div class="kpi"><div><div class="l">云途计费重 (÷10000)</div><div class="v">'+r.cwY.toFixed(3)+' kg</div></div>'+
-    '<div><div class="l">飞特计费重 (÷7000)</div><div class="v">'+r.cwF.toFixed(3)+' kg</div></div>'+
+  html += '<div class="kpi"><div><div class="l">云途计费重 = MAX(实重, 体积÷10000)</div><div class="v">'+r.cwY.toFixed(3)+' kg</div></div>'+
+    '<div><div class="l">飞特计费重 = MAX(实重, 体积÷7000)</div><div class="v">'+r.cwF.toFixed(3)+' kg</div></div>'+
     '<div><div class="l">云途全成本</div><div class="v" style="color:#c0392b">¥'+r.y.total.toFixed(1)+'</div></div>'+
     '<div><div class="l">飞特全成本</div><div class="v" style="color:#1e8e3e">¥'+(r.f?r.f.total.toFixed(1):'—')+'</div></div></div>';
   html += '<div class="note"><b>📌 临界件数：</b>'+breakEven(L,W,H,w,iso,decl,vat,duty,withTax)+'</div>';
