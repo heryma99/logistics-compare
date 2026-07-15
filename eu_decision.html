@@ -135,9 +135,9 @@ JH30314-32, 25.6, 15.6, 7.4, 0.45, FR, 1, 8</textarea>
     </div>
     <div class="row2">
       <label class="toggle"><input type="checkbox" id="a_tax" checked> 含税费全成本</label>
-      <label class="toggle"><input type="checkbox" id="a_onlyf"> 仅看飞特有报价的国（DE/FR/ES/NL）</label>
       <button class="btn alt" onclick="allCalc()">全国家对比</button>
     </div>
+    <div class="note">📌 仅对比<b>两家都有报价的国家</b>（飞特仅覆盖 DE/FR/ES/NL，云途同国也有报价，故只列这 4 国）。其余欧盟国飞特无报价，不在此表体现。</div>
     <div class="demo-row" id="demoRowA"></div>
     <div class="out" id="a_out"></div>
   </div>
@@ -362,34 +362,32 @@ function allCalc(){
   const w=+document.getElementById('a_w').value, Q=Math.max(1,Math.round(+document.getElementById('a_Q').value));
   const decl=+document.getElementById('a_decl').value, duty=+document.getElementById('a_duty').value;
   const withTax=document.getElementById('a_tax').checked;
-  const onlyF=document.getElementById('a_onlyf').checked;
-  const isos=Object.keys(DATA.rates.yuntu).sort();
+  const isos=Object.keys(DATA.rates.feit).sort();
   let rows='', yw=0, fw=0, n=0, best=null;
   isos.forEach(iso=>{
-    const hasF=!!DATA.rates.feit[iso];
-    if(onlyF && !hasF) return;
+    const hasF=true;
     const vat=DATA.vat[iso]||21;
     const r=compute(L,W,H,w,Q,iso,decl,vat,duty,withTax);
-    const win = !hasF ? 'y' : (r.y.total<=r.f.total?'y':'f');
+    const win = (r.y.total<=r.f.total?'y':'f');
     if(win==='y') yw++; else fw++; n++;
     const rec = win==='y'?'发云途':'发飞特';
-    const save = hasF ? Math.abs(r.y.total-r.f.total) : null;
+    const save = Math.abs(r.y.total-r.f.total);
     const actualCost = win==='y' ? r.y.total : r.f.total;
-    if(best===null || actualCost < best.cost) best={iso, cost:actualCost, win, y:r.y.total, f:hasF?r.f.total:null, save};
+    if(best===null || actualCost < best.cost) best={iso, cost:actualCost, win, y:r.y.total, f:r.f.total, save};
     rows+='<tr><td>'+iso+'</td>'+
       '<td class="n">'+r.cwY.toFixed(3)+'</td>'+
-      '<td class="n">'+(hasF?r.cwF.toFixed(3):'—')+'</td>'+
+      '<td class="n">'+r.cwF.toFixed(3)+'</td>'+
       '<td class="n">¥'+r.y.total.toFixed(1)+'</td>'+
-      '<td class="n">'+(hasF?'¥'+r.f.total.toFixed(1):'<span style="color:#9aa1ad">未报价</span>')+'</td>'+
+      '<td class="n">¥'+r.f.total.toFixed(1)+'</td>'+
       '<td class="n '+(win==='y'?'win-y':'win-f')+'">'+rec+'</td>'+
-      '<td class="n">'+(save!==null?'¥'+save.toFixed(1):'<span style="color:#9aa1ad">—</span>')+'</td></tr>';
+      '<td class="n">¥'+save.toFixed(1)+'</td></tr>';
   });
   const html='<h2 style="margin-top:6px"><span class="num">④</span>「'+sku+'」发各国的对比（件数 Q='+Q+'）</h2>'+
     '<div class="kpi"><div><div class="l">对比国家数</div><div class="v">'+n+'</div></div>'+
     '<div><div class="l">发云途</div><div class="v" style="color:#c0392b">'+yw+'</div></div>'+
     '<div><div class="l">发飞特</div><div class="v" style="color:#1e8e3e">'+fw+'</div></div>'+
     '<div><div class="l">最省钱组合</div><div class="v">'+best.iso+(best.win==='y'?'·云途':'·飞特')+' ¥'+best.cost.toFixed(1)+'</div></div></div>'+
-    '<div class="note">📌 同一 SKU 在不同国家的推荐渠道/成本不同（受各国费率与 VAT 影响）。飞特未覆盖的 21 国已自动判云途；带「未报价」的国家飞特不竞争。</div>'+
+    '<div class="note">📌 同一 SKU 在不同国家的推荐渠道/成本不同（受各国费率与 VAT 影响）。本表仅列两家都有报价的国家（DE/FR/ES/NL），其余欧盟国飞特无报价故不体现。</div>'+
     '<table><tr><th>发货国家</th><th class="n">云途计费重</th><th class="n">飞特计费重</th><th class="n">云途全成本</th><th class="n">飞特全成本</th><th>推荐</th><th class="n">省</th></tr>'+rows+'</table>';
   document.getElementById('a_out').innerHTML=html;
 }
