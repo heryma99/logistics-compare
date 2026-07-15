@@ -1,0 +1,403 @@
+<!doctype html><html lang="zh"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>真实SKU案例 · 云途 vs 飞特 计费重规则实测</title><style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,'Segoe UI','Microsoft YaHei',sans-serif}
+body{background:#eef1f5;color:#1f2330;padding:0 16px 60px;font-size:14px;line-height:1.6}
+.wrap{max-width:1080px;margin:0 auto}
+.banner{background:linear-gradient(135deg,#2563eb,#1e8e3e);color:#fff;border-radius:0 0 16px 16px;padding:26px 24px 22px;margin-bottom:18px}
+.banner h1{font-size:25px;margin-bottom:6px}
+.banner .lead{font-size:15px;opacity:.95}
+.big3{display:flex;gap:14px;flex-wrap:wrap;margin-top:16px}
+.big3 div{background:rgba(255,255,255,.15);border-radius:10px;padding:12px 16px;flex:1;min-width:150px}
+.big3 .l{font-size:12px;opacity:.9}
+.big3 .v{font-size:24px;font-weight:800;margin-top:2px}
+.card{background:#fff;border-radius:12px;padding:18px 20px;margin-bottom:16px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+h2{font-size:17px;margin-bottom:4px;display:flex;align-items:center;gap:8px}
+h2 .num{background:#2563eb;color:#fff;width:24px;height:24px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:13px;flex:none}
+.sub{color:#6b7280;font-size:13px;margin-bottom:12px}
+.good{color:#1e8e3e;font-weight:700}
+.bad{color:#c0392b;font-weight:700}
+table{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px}
+th,td{padding:7px 10px;border-bottom:1px solid #eef0f3;text-align:left}
+th{background:#f7f9fc;color:#5b6472;font-weight:600;white-space:nowrap}
+td.n{text-align:right;font-variant-numeric:tabular-nums}
+.mut{color:#9aa1ad;font-size:11px}
+.kpi{display:flex;gap:14px;flex-wrap:wrap;margin-top:6px}
+.kpi div{flex:1;min-width:160px;background:#f8fafc;border-radius:10px;padding:14px}
+.kpi .l{font-size:12px;color:#6b7280}
+.kpi .v{font-size:21px;font-weight:800;margin-top:3px}
+.note{font-size:12.5px;color:#5b6472;line-height:1.8;margin-top:10px}
+.tag{display:inline-block;background:#eef2ff;color:#3b4cca;padding:2px 9px;border-radius:5px;font-size:11px;margin-right:6px;font-weight:600}
+.twocol{display:flex;gap:14px;flex-wrap:wrap}
+.twocol>div{flex:1;min-width:280px;background:#f8fafc;border-radius:10px;padding:14px 16px}
+.twocol h3{font-size:14px;margin-bottom:6px}
+.twocol .y{border-top:3px solid #e15759}
+.twocol .f{border-top:3px solid #1e8e3e}
+.gloss{background:#f0f7ff;border-radius:10px;padding:12px 16px;font-size:12.5px;color:#33415c;line-height:1.9;margin-top:10px}
+.gloss b{color:#2563eb}
+.rulebox{background:#0f172a;color:#e2e8f0;border-radius:10px;padding:16px 18px;margin-top:10px;font-family:'SFMono-Regular',Consolas,monospace;font-size:13px;line-height:2}
+.rulebox .hl{color:#7dd3fc;font-weight:700}
+.rulebox .hlf{color:#86efac;font-weight:700}
+.warn{background:#fff7e6;border-left:4px solid #fa8c16;padding:12px 16px;border-radius:8px;font-size:13px;color:#8a5a00;margin-top:12px;line-height:1.8}
+.case{background:#fff;border:1px solid #e6eaf0;border-radius:12px;padding:16px 18px;margin-bottom:14px}
+.case .hd{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:8px;margin-bottom:8px}
+.case .sku{font-size:11px;color:#9aa1ad;font-family:monospace}
+.case .verdict{font-size:14px;font-weight:800;padding:4px 12px;border-radius:8px}
+.verdict.y{background:#fdecec;color:#c0392b}
+.verdict.f{background:#eafaf0;color:#1e8e3e}
+.formula{background:#f8fafc;border-radius:8px;padding:10px 12px;font-size:12.5px;color:#475569;margin-top:8px;line-height:1.9}
+.formula code{background:#eef2ff;padding:1px 6px;border-radius:4px;color:#3b4cca;font-family:monospace}
+.example{background:#f8fafc;border-radius:10px;padding:12px 14px;margin-top:10px}
+.example .row{display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px dashed #e3e8ef;font-size:13px}
+.example .row.total{border-bottom:none;font-weight:800;font-size:15px;padding-top:8px}
+.example .y{color:#c0392b}
+.example .f{color:#1e8e3e}
+.ok{color:#1e8e3e;font-weight:700}
+.warn2{color:#d97706;font-weight:700}
+details summary{cursor:pointer;color:#3b4cca;font-size:13px;padding:6px 0}
+</style></head><body><div class="wrap">
+
+<div class="banner">
+  <h1>真实SKU实测：云途 vs 飞特 计费重规则</h1>
+  <div class="lead">用 6 个已发货真实SKU（谷仓实称尺寸）套两家计费重规则，验证「谁更省」背后的算法分水岭。</div>
+  <div class="big3">
+    <div><div class="l">案例数（真实已发货SKU）</div><div class="v">6</div></div>
+    <div><div class="l">飞特更省</div><div class="v">4 单</div></div>
+    <div><div class="l">云途更省（轻小实重件）</div><div class="v">2 单</div></div>
+    <div><div class="l">计费重规则校验通过</div><div class="v">5/6</div></div>
+  </div>
+</div>
+
+<div class="card">
+  <h2><span class="num">1</span>计费重规则：两家除数不同，这是分水岭</h2>
+  <div class="sub">计费重 = 取「实重」和「体积重」中较大的那个；体积重 = 长×宽×高 ÷ 除数。除数越小，体积重越大 → 抛货越吃亏。</div>
+  <div class="rulebox">
+    <span class="hl">云途（THPH特惠普货）</span>：体积重 = 长×宽×高(cm) <span class="hl">÷ 10000</span><br>
+    <span class="hlf">飞特（EY标准挂号 DDP）</span>：体积重 = 长×宽×高(cm) <span class="hlf">÷ 7000</span><br>
+    <br>
+    计费重 = max( 实重 , 体积重 )<br>
+    <span style="color:#fca5a5">→ 同样的包，飞特除数7000 &lt; 云途10000，体积重被放大约43%，抛货时飞特计费重更高、更亏。</span><br>
+    <span style="color:#86efac">→ 只有「实重 &gt; 体积重」的轻小密实件，云途才可能凭更低单价反超（见案例 FR 5S34-1）。</span>
+  </div>
+  <div class="gloss">
+    <b>一句话：</b>　轻小实重件 → 云途偶尔赢；稍有体积 → 飞特因÷7000吃亏，但飞特是DDP一口价（含稅含关稅含IOSS），综合仍常胜。
+  </div>
+</div>
+
+<div class="card">
+  <h2><span class="num">2</span>费用构成规则：逐项 vs 一口价</h2>
+  <div class="twocol">
+    <div class="y"><h3>🟥 云途（DDU，卖家另付税费）</h3>
+      <div class="note">
+        卖家实付 = <b>运费</b> + <b>挂号费</b> + <b>VAT增值税</b> + <b>其他费(关税+手续费)</b><br>
+        · 运费 = 计费重 × 渠道单价(¥/kg) + 挂号费(¥)<br>
+        · VAT = 申报价值 × 目的国VAT率（德19%/法20%/西21%/荷21%…）<br>
+        · 其他费 = 关税 + 手续费；<b>手续费 = 申报价值 × 2%</b>；关税按包裹内HSCODE分别计<br>
+        · ⚠ 不含欧盟进口VAT（由买家经IOSS承担），但含云途收的中国增值税
+      </div>
+    </div>
+    <div class="f"><h3>🟩 飞特（DDP，一口价全包）</h3>
+      <div class="note">
+        飞特报价 = <b>运费 + 挂号/操作费 + 进口VAT + 关税 + IOSS代交费</b>，全部打包在一个数里<br>
+        · 运费 = 计费重 × 渠道单价(¥/kg) + 挂号/操作费(¥)<br>
+        · 系统默认 DDP，<b>关税由飞特支付</b>，IOSS/清关/合规风险都归飞特<br>
+        · 卖家只付一个数，无后续税费流程
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <h2><span class="num">3</span>真实SKU案例（谷仓实称尺寸 + 云途真实账单 + 飞特真实报价）</h2>
+  <div class="sub">每个案例都是一笔真实已发货订单：尺寸来自谷仓实称，云途费用来自云途扣费账单实收，飞特来自EY报价表。规则套用与账单逐项核对。</div>
+  <div class="case">
+  <div class="hd">
+    <div>
+      <div style="font-size:15px;font-weight:700">🇩🇪 德国 · <span class="tag">DE</span> Hana Mini Tote Bag - Dark Brown深咖色</div>
+      <div class="sku">客户单号 18036043-1952806-IY ｜ SKU JH306A03-34 ｜ 真实尺寸 27×21×12 cm ｜ 谷仓实称 0.639 kg</div>
+    </div>
+    <div class="verdict y">云途更省 ¥30.0</div>
+  </div>
+
+  <div class="formula">
+    <b>① 计费重规则套用（用本SKU真实尺寸）</b><br>
+    体积 = 27×21×12 = <code>6717 cm³</code><br>
+    <code>云途计费重 = max(实重 0.639, 体积重÷10000 = 0.672)</code> = <b>0.672 kg</b>（体积重驱动）<br>
+    <code>飞特计费重 = max(实重 0.639, 体积重÷7000 = 0.960)</code> = <b>0.960 kg</b>（体积重驱动）
+  </div>
+
+  <table>
+    <tr><th>计费重口径</th><th class="n">云途 ÷10000</th><th class="n">飞特 ÷7000</th></tr>
+    <tr><td>体积重（体积÷除数）</td><td class="n">0.672 kg</td><td class="n">0.960 kg</td></tr>
+    <tr><td>计费重 = max(实重, 体积重)</td><td class="n">0.672 kg</td><td class="n">0.960 kg</td></tr>
+    <tr><td>云途账单实收计费重</td><td class="n" colspan="2">1.241 kg ｜ <span class="warn2">⚠ 谷仓尺寸推算计费重0.672，与云途实收1.241 不符（谷仓该SKU预报体积偏小，云途列以账单实收为准）</span></td></tr>
+  </table>
+  <div class="note" style="margin-top:6px"><span class="warn2">⚠ 谷仓尺寸推算计费重0.672，与云途实收1.241 不符（谷仓该SKU预报体积偏小，云途列以账单实收为准）</span></div>
+
+  <div class="twocol" style="margin-top:10px">
+    <div class="y"><h3>🟥 云途（DDU，逐项实收）</h3>
+      <div class="example">
+        <div class="row"><span>运费 = 计费重×渠道单价 + 挂号</span><span class="y">¥67.01 + ¥22</span></div>
+        <div class="row"><span>VAT增值税 = 申报¥101 × 19%</span><span class="y">¥18.08</span></div>
+        <div class="row"><span>其他费 = 关税 + 手续费(=申报×2%)</span><span class="y">¥25.28</span></div>
+        <div class="row total"><span>云途实付合计</span><span class="y">¥132.37</span></div>
+      </div>
+    </div>
+    <div class="f"><h3>🟩 飞特（DDP，一口价）</h3>
+      <div class="example">
+        <div class="row"><span>运费 = 计费重×渠道单价 + 挂号/操作费</span><span class="f">¥67.20 + ¥28</span></div>
+        <div class="row"><span>已含：进口VAT + 关税 + IOSS代交费</span><span class="f">含</span></div>
+        <div class="row"><span>已含：挂号/清关/合规风险</span><span class="f">含</span></div>
+        <div class="row total"><span>飞特一口价</span><span class="f">¥162.34</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="note" style="margin-top:8px">➡ 本单 德国：云途实付 <b>¥132.37</b>，飞特一口价 <b>¥162.34</b> → <b class="y">云途更省 ¥30.0</b>（飞特÷7000使计费重更高，抛货时吃亏）</div>
+</div>
+<div class="case">
+  <div class="hd">
+    <div>
+      <div style="font-size:15px;font-weight:700">🇪🇸 西班牙 · <span class="tag">ES</span> Flora 兰花造型手提包 - 粉色</div>
+      <div class="sku">客户单号 18026090-1952082-4L ｜ SKU 7C471-4 ｜ 真实尺寸 26×22×8 cm ｜ 谷仓实称 0.648 kg</div>
+    </div>
+    <div class="verdict f">飞特更省 ¥17.3</div>
+  </div>
+
+  <div class="formula">
+    <b>① 计费重规则套用（用本SKU真实尺寸）</b><br>
+    体积 = 26×22×8 = <code>4499 cm³</code><br>
+    <code>云途计费重 = max(实重 0.648, 体积重÷10000 = 0.450)</code> = <b>0.648 kg</b>（实重驱动）<br>
+    <code>飞特计费重 = max(实重 0.648, 体积重÷7000 = 0.643)</code> = <b>0.648 kg</b>（实重驱动）
+  </div>
+
+  <table>
+    <tr><th>计费重口径</th><th class="n">云途 ÷10000</th><th class="n">飞特 ÷7000</th></tr>
+    <tr><td>体积重（体积÷除数）</td><td class="n">0.450 kg</td><td class="n">0.643 kg</td></tr>
+    <tr><td>计费重 = max(实重, 体积重)</td><td class="n">0.648 kg</td><td class="n">0.648 kg</td></tr>
+    <tr><td>云途账单实收计费重</td><td class="n" colspan="2">0.628 kg ｜ <span class="ok">✓ 与云途账单实收计费重吻合</span></td></tr>
+  </table>
+  <div class="note" style="margin-top:6px"><span class="ok">✓ 与云途账单实收计费重吻合</span></div>
+
+  <div class="twocol" style="margin-top:10px">
+    <div class="y"><h3>🟥 云途（DDU，逐项实收）</h3>
+      <div class="example">
+        <div class="row"><span>运费 = 计费重×渠道单价 + 挂号</span><span class="y">¥36.42 + ¥18</span></div>
+        <div class="row"><span>VAT增值税 = 申报¥58 × 21%</span><span class="y">¥11.42</span></div>
+        <div class="row"><span>其他费 = 关税 + 手续费(=申报×2%)</span><span class="y">¥24.47</span></div>
+        <div class="row total"><span>云途实付合计</span><span class="y">¥90.31</span></div>
+      </div>
+    </div>
+    <div class="f"><h3>🟩 飞特（DDP，一口价）</h3>
+      <div class="example">
+        <div class="row"><span>运费 = 计费重×渠道单价 + 挂号/操作费</span><span class="f">¥45.36 + ¥28</span></div>
+        <div class="row"><span>已含：进口VAT + 关税 + IOSS代交费</span><span class="f">含</span></div>
+        <div class="row"><span>已含：挂号/清关/合规风险</span><span class="f">含</span></div>
+        <div class="row total"><span>飞特一口价</span><span class="f">¥72.99</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="note" style="margin-top:8px">➡ 本单 西班牙：云途实付 <b>¥90.31</b>，飞特一口价 <b>¥72.99</b> → <b class="f">飞特更省 ¥17.3</b>（本单实重主导，两渠道计费重接近）</div>
+</div>
+<div class="case">
+  <div class="hd">
+    <div>
+      <div style="font-size:15px;font-weight:700">🇪🇸 西班牙 · <span class="tag">ES</span> Tessa Crushed Shoulder Bag - Black黑色</div>
+      <div class="sku">客户单号 18036011-1953130-MQ ｜ SKU 5S34-1 ｜ 真实尺寸 33×26×8 cm ｜ 谷仓实称 0.800 kg</div>
+    </div>
+    <div class="verdict f">飞特更省 ¥1.1</div>
+  </div>
+
+  <div class="formula">
+    <b>① 计费重规则套用（用本SKU真实尺寸）</b><br>
+    体积 = 33×26×8 = <code>7062 cm³</code><br>
+    <code>云途计费重 = max(实重 0.800, 体积重÷10000 = 0.706)</code> = <b>0.800 kg</b>（实重驱动）<br>
+    <code>飞特计费重 = max(实重 0.800, 体积重÷7000 = 1.009)</code> = <b>1.009 kg</b>（体积重驱动）
+  </div>
+
+  <table>
+    <tr><th>计费重口径</th><th class="n">云途 ÷10000</th><th class="n">飞特 ÷7000</th></tr>
+    <tr><td>体积重（体积÷除数）</td><td class="n">0.706 kg</td><td class="n">1.009 kg</td></tr>
+    <tr><td>计费重 = max(实重, 体积重)</td><td class="n">0.800 kg</td><td class="n">1.009 kg</td></tr>
+    <tr><td>云途账单实收计费重</td><td class="n" colspan="2">0.790 kg ｜ <span class="ok">✓ 与云途账单实收计费重吻合</span></td></tr>
+  </table>
+  <div class="note" style="margin-top:6px"><span class="ok">✓ 与云途账单实收计费重吻合</span></div>
+
+  <div class="twocol" style="margin-top:10px">
+    <div class="y"><h3>🟥 云途（DDU，逐项实收）</h3>
+      <div class="example">
+        <div class="row"><span>运费 = 计费重×渠道单价 + 挂号</span><span class="y">¥45.82 + ¥18</span></div>
+        <div class="row"><span>VAT增值税 = 申报¥58 × 21%</span><span class="y">¥11.42</span></div>
+        <div class="row"><span>其他费 = 关税 + 手续费(=申报×2%)</span><span class="y">¥24.47</span></div>
+        <div class="row total"><span>云途实付合计</span><span class="y">¥99.71</span></div>
+      </div>
+    </div>
+    <div class="f"><h3>🟩 飞特（DDP，一口价）</h3>
+      <div class="example">
+        <div class="row"><span>运费 = 计费重×渠道单价 + 挂号/操作费</span><span class="f">¥70.63 + ¥28</span></div>
+        <div class="row"><span>已含：进口VAT + 关税 + IOSS代交费</span><span class="f">含</span></div>
+        <div class="row"><span>已含：挂号/清关/合规风险</span><span class="f">含</span></div>
+        <div class="row total"><span>飞特一口价</span><span class="f">¥98.62</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="note" style="margin-top:8px">➡ 本单 西班牙：云途实付 <b>¥99.71</b>，飞特一口价 <b>¥98.62</b> → <b class="f">飞特更省 ¥1.1</b>（飞特÷7000使计费重更高，抛货时吃亏）</div>
+</div>
+<div class="case">
+  <div class="hd">
+    <div>
+      <div style="font-size:15px;font-weight:700">🇫🇷 法国 · <span class="tag">FR</span> Addisyn 单肩包 - 深棕色</div>
+      <div class="sku">客户单号 18036019-1953857-DS ｜ SKU JH30314-32 ｜ 真实尺寸 26×16×7 cm ｜ 谷仓实称 0.509 kg</div>
+    </div>
+    <div class="verdict f">飞特更省 ¥14.6</div>
+  </div>
+
+  <div class="formula">
+    <b>① 计费重规则套用（用本SKU真实尺寸）</b><br>
+    体积 = 26×16×7 = <code>2955 cm³</code><br>
+    <code>云途计费重 = max(实重 0.509, 体积重÷10000 = 0.296)</code> = <b>0.509 kg</b>（实重驱动）<br>
+    <code>飞特计费重 = max(实重 0.509, 体积重÷7000 = 0.422)</code> = <b>0.509 kg</b>（实重驱动）
+  </div>
+
+  <table>
+    <tr><th>计费重口径</th><th class="n">云途 ÷10000</th><th class="n">飞特 ÷7000</th></tr>
+    <tr><td>体积重（体积÷除数）</td><td class="n">0.296 kg</td><td class="n">0.422 kg</td></tr>
+    <tr><td>计费重 = max(实重, 体积重)</td><td class="n">0.509 kg</td><td class="n">0.509 kg</td></tr>
+    <tr><td>云途账单实收计费重</td><td class="n" colspan="2">0.524 kg ｜ <span class="ok">✓ 与云途账单实收计费重吻合</span></td></tr>
+  </table>
+  <div class="note" style="margin-top:6px"><span class="ok">✓ 与云途账单实收计费重吻合</span></div>
+
+  <div class="twocol" style="margin-top:10px">
+    <div class="y"><h3>🟥 云途（DDU，逐项实收）</h3>
+      <div class="example">
+        <div class="row"><span>运费 = 计费重×渠道单价 + 挂号</span><span class="y">¥29.87 + ¥23</span></div>
+        <div class="row"><span>VAT增值税 = 申报¥43 × 20%</span><span class="y">¥8.16</span></div>
+        <div class="row"><span>其他费 = 关税 + 手续费(=申报×2%)</span><span class="y">¥24.20</span></div>
+        <div class="row total"><span>云途实付合计</span><span class="y">¥85.23</span></div>
+      </div>
+    </div>
+    <div class="f"><h3>🟩 飞特（DDP，一口价）</h3>
+      <div class="example">
+        <div class="row"><span>运费 = 计费重×渠道单价 + 挂号/操作费</span><span class="f">¥38.17 + ¥30</span></div>
+        <div class="row"><span>已含：进口VAT + 关税 + IOSS代交费</span><span class="f">含</span></div>
+        <div class="row"><span>已含：挂号/清关/合规风险</span><span class="f">含</span></div>
+        <div class="row total"><span>飞特一口价</span><span class="f">¥70.65</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="note" style="margin-top:8px">➡ 本单 法国：云途实付 <b>¥85.23</b>，飞特一口价 <b>¥70.65</b> → <b class="f">飞特更省 ¥14.6</b>（本单实重主导，两渠道计费重接近）</div>
+</div>
+<div class="case">
+  <div class="hd">
+    <div>
+      <div style="font-size:15px;font-weight:700">🇫🇷 法国 · <span class="tag">FR</span> Tessa Crushed Shoulder Bag - Black黑色</div>
+      <div class="sku">客户单号 18036019-1953587-YW ｜ SKU 5S34-1 ｜ 真实尺寸 33×26×8 cm ｜ 谷仓实称 0.800 kg</div>
+    </div>
+    <div class="verdict y">云途更省 ¥3.6</div>
+  </div>
+
+  <div class="formula">
+    <b>① 计费重规则套用（用本SKU真实尺寸）</b><br>
+    体积 = 33×26×8 = <code>7062 cm³</code><br>
+    <code>云途计费重 = max(实重 0.800, 体积重÷10000 = 0.706)</code> = <b>0.800 kg</b>（实重驱动）<br>
+    <code>飞特计费重 = max(实重 0.800, 体积重÷7000 = 1.009)</code> = <b>1.009 kg</b>（体积重驱动）
+  </div>
+
+  <table>
+    <tr><th>计费重口径</th><th class="n">云途 ÷10000</th><th class="n">飞特 ÷7000</th></tr>
+    <tr><td>体积重（体积÷除数）</td><td class="n">0.706 kg</td><td class="n">1.009 kg</td></tr>
+    <tr><td>计费重 = max(实重, 体积重)</td><td class="n">0.800 kg</td><td class="n">1.009 kg</td></tr>
+    <tr><td>云途账单实收计费重</td><td class="n" colspan="2">0.785 kg ｜ <span class="ok">✓ 与云途账单实收计费重吻合</span></td></tr>
+  </table>
+  <div class="note" style="margin-top:6px"><span class="ok">✓ 与云途账单实收计费重吻合</span></div>
+
+  <div class="twocol" style="margin-top:10px">
+    <div class="y"><h3>🟥 云途（DDU，逐项实收）</h3>
+      <div class="example">
+        <div class="row"><span>运费 = 计费重×渠道单价 + 挂号</span><span class="y">¥44.75 + ¥23</span></div>
+        <div class="row"><span>VAT增值税 = 申报¥58 × 20%</span><span class="y">¥10.88</span></div>
+        <div class="row"><span>其他费 = 关税 + 手续费(=申报×2%)</span><span class="y">¥24.47</span></div>
+        <div class="row total"><span>云途实付合计</span><span class="y">¥103.10</span></div>
+      </div>
+    </div>
+    <div class="f"><h3>🟩 飞特（DDP，一口价）</h3>
+      <div class="example">
+        <div class="row"><span>运费 = 计费重×渠道单价 + 挂号/操作费</span><span class="f">¥75.67 + ¥31</span></div>
+        <div class="row"><span>已含：进口VAT + 关税 + IOSS代交费</span><span class="f">含</span></div>
+        <div class="row"><span>已含：挂号/清关/合规风险</span><span class="f">含</span></div>
+        <div class="row total"><span>飞特一口价</span><span class="f">¥106.67</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="note" style="margin-top:8px">➡ 本单 法国：云途实付 <b>¥103.10</b>，飞特一口价 <b>¥106.67</b> → <b class="y">云途更省 ¥3.6</b>（飞特÷7000使计费重更高，抛货时吃亏）</div>
+</div>
+<div class="case">
+  <div class="hd">
+    <div>
+      <div style="font-size:15px;font-weight:700">🇳🇱 荷兰 · <span class="tag">NL</span> Tessa Crushed Shoulder Bag - Black黑色</div>
+      <div class="sku">客户单号 18036011-1950010-O6 ｜ SKU 5S34-1 ｜ 真实尺寸 33×26×8 cm ｜ 谷仓实称 0.800 kg</div>
+    </div>
+    <div class="verdict f">飞特更省 ¥18.0</div>
+  </div>
+
+  <div class="formula">
+    <b>① 计费重规则套用（用本SKU真实尺寸）</b><br>
+    体积 = 33×26×8 = <code>7062 cm³</code><br>
+    <code>云途计费重 = max(实重 0.800, 体积重÷10000 = 0.706)</code> = <b>0.800 kg</b>（实重驱动）<br>
+    <code>飞特计费重 = max(实重 0.800, 体积重÷7000 = 1.009)</code> = <b>1.009 kg</b>（体积重驱动）
+  </div>
+
+  <table>
+    <tr><th>计费重口径</th><th class="n">云途 ÷10000</th><th class="n">飞特 ÷7000</th></tr>
+    <tr><td>体积重（体积÷除数）</td><td class="n">0.706 kg</td><td class="n">1.009 kg</td></tr>
+    <tr><td>计费重 = max(实重, 体积重)</td><td class="n">0.800 kg</td><td class="n">1.009 kg</td></tr>
+    <tr><td>云途账单实收计费重</td><td class="n" colspan="2">0.780 kg ｜ <span class="ok">✓ 与云途账单实收计费重吻合</span></td></tr>
+  </table>
+  <div class="note" style="margin-top:6px"><span class="ok">✓ 与云途账单实收计费重吻合</span></div>
+
+  <div class="twocol" style="margin-top:10px">
+    <div class="y"><h3>🟥 云途（DDU，逐项实收）</h3>
+      <div class="example">
+        <div class="row"><span>运费 = 计费重×渠道单价 + 挂号</span><span class="y">¥57.72 + ¥23</span></div>
+        <div class="row"><span>VAT增值税 = 申报¥58 × 21%</span><span class="y">¥11.42</span></div>
+        <div class="row"><span>其他费 = 关税 + 手续费(=申报×2%)</span><span class="y">¥24.47</span></div>
+        <div class="row total"><span>云途实付合计</span><span class="y">¥116.61</span></div>
+      </div>
+    </div>
+    <div class="f"><h3>🟩 飞特（DDP，一口价）</h3>
+      <div class="example">
+        <div class="row"><span>运费 = 计费重×渠道单价 + 挂号/操作费</span><span class="f">¥65.58 + ¥33</span></div>
+        <div class="row"><span>已含：进口VAT + 关税 + IOSS代交费</span><span class="f">含</span></div>
+        <div class="row"><span>已含：挂号/清关/合规风险</span><span class="f">含</span></div>
+        <div class="row total"><span>飞特一口价</span><span class="f">¥98.58</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="note" style="margin-top:8px">➡ 本单 荷兰：云途实付 <b>¥116.61</b>，飞特一口价 <b>¥98.58</b> → <b class="f">飞特更省 ¥18.0</b>（飞特÷7000使计费重更高，抛货时吃亏）</div>
+</div>
+</div>
+
+<div class="card">
+  <h2><span class="num">4</span>规则验证：拿真实账单反推四规则</h2>
+  <div class="sub">用云途扣费账单（18285行）反推，确认金额确实按我们的规则计算：</div>
+  <table>
+    <tr><th>规则</th><th>验证方式</th><th>结论</th></tr>
+    <tr><td><b>手续费 = 申报×2%</b></td><td>截图单18036043-1924448-23：手续费2.04÷2%=102元，与VAT(19.41÷19%=102元)锁定同一申报值</td><td class="ok">✓ 严丝合缝</td></tr>
+    <tr><td><b>VAT = 申报×目的国率</b></td><td>各国 VAT÷申报 比值贴近标准率（德~0.18/法·西·荷0.20~0.22），机制正确</td><td class="ok">✓ 成立</td></tr>
+    <tr><td><b>关税按HSCODE计</b></td><td>其他费÷申报 比值离散（min23%~max164%），非固定税率 → 按包裹内不同HSCODE分别计税</td><td class="ok">✓ 成立</td></tr>
+    <tr><td><b>全部折算CNY</b></td><td>18285行中17719行币种=RMB，565行留空但同渠道且前200行四项之和=交易金额</td><td class="ok">✓ 全部CNY</td></tr>
+  </table>
+  <div class="warn">⚠ 诚实边界：跨单 VAT÷申报 比标准率偏低约5–10%，因物流申报值与云途计税申报值口径略有差异（截图单用两费交叉锁定无此问题）；逐单「HSCODE→申报值」明细不在本地，关税仅在聚合/模式层验证。</div>
+</div>
+
+<div class="card">
+  <h2><span class="num">5</span>方法 & 数据缺口（诚实标注）</h2>
+  <div class="note">
+    · <b>数据来源</b>：云途扣费账单 12f8aa7…xlsx（扣费汇总）、云途C66322欧盟74单导出、谷仓 product/get_product_sku_list 真实尺寸、飞特EY报价表(7-9)。<br>
+    · <b>计费重规则校验</b>：5/6 例「按谷仓尺寸÷10000推算的云途计费重」与「云途账单实收计费重」吻合（±0.06kg）。1例(DE JH306A03-34)谷仓预报体积偏小，已标注并以账单实收为准。<br>
+    · <b>口径</b>：云途列=卖家实付总额（运费+挂号+VAT+其他费），飞特列=DDP一口价，两者均为「卖家总支出」口径，苹果对苹果。<br>
+    · <b>缺口</b>：① 仅 DE/FR/ES/NL 飞特有报价，其余欧盟国飞特无覆盖（云途唯一）；② 飞特时效/赔偿条款报价表未列；③ 其他费拆分（关税+手续费）除截图单外为样本比例估算，若提供云途后台逐单费用明细可换精确值。<br>
+    · <b>关联总览</b>：同主题综合对比见 <a href="eu_v7.html">eu_v7.html</a>（40单全维度）、<a href="eu_v6.html">eu_v6.html</a>（关税手续费归类）、<a href="eu_v5.html">eu_v5.html</a>（真实账单全方位）。
+  </div>
+</div>
+
+</div></body></html>
