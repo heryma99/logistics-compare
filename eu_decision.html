@@ -38,6 +38,7 @@ h2 .num{background:#2563eb;color:#fff;width:24px;height:24px;border-radius:50%;d
 .erow{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px dashed #e3e8ef;font-size:13px}
 .erow.total{border-bottom:none;font-weight:800;font-size:16px;padding-top:8px}
 .erow .y{color:#c0392b}.erow .f{color:#1e8e3e}
+.erow .sub{color:#8a94a6;font-size:11.5px}
 .note{font-size:12.5px;color:#5b6472;line-height:1.8;margin-top:10px}
 .kpi{display:flex;gap:14px;flex-wrap:wrap;margin-top:10px}
 .kpi div{flex:1;min-width:150px;background:#f8fafc;border-radius:10px;padding:12px}
@@ -48,7 +49,7 @@ th{background:#f7f9fc;color:#5b6472;font-weight:600;white-space:nowrap}
 td.n{text-align:right;font-variant-numeric:tabular-nums}
 .win-y{color:#c0392b;font-weight:800}.win-f{color:#1e8e3e;font-weight:800}.win-n{color:#3b4cca;font-weight:800}
 textarea{width:100%;min-height:120px;border:1px solid #cfd6e0;border-radius:8px;padding:9px;font-family:Consolas,monospace;font-size:12.5px}
-.warn{background:#fff7e6;border-left:4px solid #fa8c16;padding:10px 14px;border-radius:8px;font-size:12.5px;color:#8a5a00;margin-top:10px;line-height:1.8}
+.warn{background:#fff7e6;border-left:4px solid #fa8c16;padding:10px 14px;border-radius:8px;font-size:12.5px;color:#8a5a00;margin-top:10px;line-height:1.85}
 .gloss{background:#f0f7ff;border-radius:10px;padding:12px 16px;font-size:12.5px;color:#33415c;line-height:1.9;margin-top:10px}
 .gloss b{color:#2563eb}
 .hidden{display:none}
@@ -78,10 +79,10 @@ textarea{width:100%;min-height:120px;border:1px solid #cfd6e0;border-radius:8px;
       <div class="fld"><label>件数 Q</label><input id="s_Q" type="number" step="1" value="1"></div>
       <div class="fld"><label>申报 USD/件 <span style="color:#888;font-weight:400">(总额封顶15)</span></label><input id="s_decl" type="number" step="0.5" value="8"></div>
       <div class="fld"><label>VAT率 %</label><input id="s_vat" type="number" step="0.5" value="20"></div>
-      <div class="fld"><label>关税率 % <b style="color:#c0392b">按HSCODE填</b></label><input id="s_duty" type="number" step="0.5" value="0" title="必须按该SKU的HS编码查欧盟进口关税率填写。包包/服装/手机壳一般在0~15%区间，精确值取决于具体HS CODE。"></div>
+      <div class="fld"><label>HSCODE 数 <b style="color:#c0392b">默认1</b></label><input id="s_hs" type="number" step="1" value="1" title="单品=1；多品(不同HSCODE的SKU)=实际数量。欧盟90%为单品，默认填1。关税按 €3×HSCODE数 计（欧盟7.1新政固定费，非按申报%）。"></div>
     </div>
     <div class="row2">
-      <label class="toggle"><input type="checkbox" id="s_tax" checked> 含税费全成本（云途+VAT+关税+手续费 / 飞特DDP一口价）</label>
+      <label class="toggle"><input type="checkbox" id="s_tax" checked> 含税费全成本（买家总承担：云途+VAT+€3关税+IOSS / 飞特DDP一口价）</label>
       <button class="btn" onclick="singleCalc()">算一发谁</button>
     </div>
     <div class="demo-row" id="demoRow"></div>
@@ -90,14 +91,13 @@ textarea{width:100%;min-height:120px;border:1px solid #cfd6e0;border-radius:8px;
 
   <!-- 批量 -->
   <div id="batch" class="hidden">
-    <div class="note">每行一个 SKU：<b>标识, 长, 宽, 高, 实重, 国家, 件数, [申报USD/件]</b>（申报缺省=8）。逗号或空格分隔均可。</div>
+    <div class="note">每行一个 SKU：<b>标识, 长, 宽, 高, 实重, 国家, 件数, [申报USD/件]</b>（申报缺省=8）。逗号或空格分隔均可。<br>⚠ 批量默认每行为<b>单品（1 个 HSCODE）</b>；多品行请先用③混合订单或拆分。</div>
     <textarea id="b_txt">5S34-1, 32.6, 26.1, 8.3, 0.5, FR, 1, 8
 7C471-4, 26.1, 22.1, 7.8, 0.4, ES, 1, 14
 JH30314-32, 25.6, 15.6, 7.4, 0.45, FR, 1, 8</textarea>
     <div class="row2">
-      <label class="toggle"><input type="checkbox" id="b_tax" checked> 含税费全成本</label>
-      <span class="note" style="margin:0">关税率默认 0%（<b>必须按HSCODE填写</b>，可在下方统一设）</span>
-      <input id="b_duty" type="number" step="0.5" value="0" style="width:90px;padding:6px;border:1px solid #cfd6e0;border-radius:7px" title="统一关税率%">
+      <label class="toggle"><input type="checkbox" id="b_tax" checked> 含税费全成本（买家总承担）</label>
+      <span class="note" style="margin:0">关税固定 <b>€3/HSCODE</b>（单品=1 HSCODE）；批量默认每行为单品</span>
       <button class="btn" onclick="batchCalc()">批量计算</button>
       <button class="btn ghost" onclick="exportCSV()">导出 CSV</button>
     </div>
@@ -106,14 +106,13 @@ JH30314-32, 25.6, 15.6, 7.4, 0.45, FR, 1, 8</textarea>
 
   <!-- 混合订单 -->
   <div id="mix" class="hidden">
-    <div class="note">同一包裹多 SKU：每行 <b>长, 宽, 高, 实重, 件数</b>；下方选国家与申报，工具把体积/实重<b>聚合</b>后算一个计费重。<br>例：2件包+3件小配饰同箱发法国。</div>
+    <div class="note">同一包裹多 SKU：每行 <b>长, 宽, 高, 实重, 件数</b>；下方选国家与申报，工具把体积/实重<b>聚合</b>后算一个计费重。<br>例：2件包+3件小配饰同箱发法国。<b>HSCODE 数 = 不同 SKU 行数</b>（每行=1个HSCODE，自动计）。</div>
     <textarea id="m_txt">32.6, 26.1, 8.3, 0.5, 2
 15.0, 10.0, 5.0, 0.12, 3</textarea>
     <div class="row2">
       <div class="fld" style="width:140px"><label>目的国</label><select id="m_iso"></select></div>
       <div class="fld" style="width:130px"><label>申报 USD/件 <span style="color:#888;font-weight:400">(封顶15)</span></label><input id="m_decl" type="number" step="0.5" value="8"></div>
       <div class="fld" style="width:110px"><label>VAT %</label><input id="m_vat" type="number" step="0.5" value="20"></div>
-      <div class="fld" style="width:110px"><label>关税 %</label><input id="m_duty" type="number" step="0.5" value="0"></div>
       <label class="toggle" style="align-self:end"><input type="checkbox" id="m_tax" checked> 含税费</label>
       <button class="btn" onclick="mixCalc()">算这箱发谁</button>
     </div>
@@ -122,7 +121,7 @@ JH30314-32, 25.6, 15.6, 7.4, 0.45, FR, 1, 8</textarea>
 
   <!-- 全国家对比 -->
   <div id="all" class="hidden">
-    <div class="note">放进<b>任意一个 SKU</b>（真实尺寸 / 实重 / 件数），一键展开<b>两家都报价的国家（DE/FR/ES/NL）</b>的并排对比。每个国家的 VAT 按该国标准税率自动取，<b>关税率必须按该 SKU 的 HSCODE 填写</b>。</div>
+    <div class="note">放进<b>任意一个 SKU</b>（真实尺寸 / 实重 / 件数），一键展开<b>两家都报价的国家（DE/FR/ES/NL）</b>的并排对比。每个国家的 VAT 按该国标准税率自动取，<b>关税按 €3×HSCODE数</b>（单品填 1）。</div>
     <div class="formgrid">
       <div class="fld"><label>SKU 标识（选填）</label><input id="a_sku" type="text" placeholder="如 7C471-4" value="7C471-4"></div>
       <div class="fld"><label>长 L (cm)</label><input id="a_L" type="number" step="0.1" value="26.1"></div>
@@ -131,10 +130,10 @@ JH30314-32, 25.6, 15.6, 7.4, 0.45, FR, 1, 8</textarea>
       <div class="fld"><label>实重 (kg/件)</label><input id="a_w" type="number" step="0.01" value="0.648"></div>
       <div class="fld"><label>件数 Q</label><input id="a_Q" type="number" step="1" value="1"></div>
       <div class="fld"><label>申报 USD/件 <span style="color:#888;font-weight:400">(总额封顶15)</span></label><input id="a_decl" type="number" step="0.5" value="8"></div>
-      <div class="fld"><label>关税率 % <b style="color:#c0392b">按HSCODE填</b></label><input id="a_duty" type="number" step="0.5" value="0" title="必须按该SKU的HS编码查欧盟进口关税率填写。包包/服装/手机壳一般在0~15%区间。"></div>
+      <div class="fld"><label>HSCODE 数 <b style="color:#c0392b">默认1</b></label><input id="a_hs" type="number" step="1" value="1" title="单品=1；多品=实际HSCODE数。关税按 €3×HSCODE数 计。"></div>
     </div>
     <div class="row2">
-      <label class="toggle"><input type="checkbox" id="a_tax" checked> 含税费全成本</label>
+      <label class="toggle"><input type="checkbox" id="a_tax" checked> 含税费全成本（买家总承担）</label>
       <button class="btn alt" onclick="allCalc()">全国家对比</button>
     </div>
     <div class="note">📌 仅对比<b>两家都有报价的国家</b>（飞特仅覆盖 DE/FR/ES/NL，云途同国也有报价，故只列这 4 国）。其余欧盟国飞特无报价，不在此表体现。</div>
@@ -147,17 +146,24 @@ JH30314-32, 25.6, 15.6, 7.4, 0.45, FR, 1, 8</textarea>
   <h2><span class="num">★</span>怎么用（给运营/仓管看）</h2>
   <div class="gloss">
     <b>① 单件 vs 多件</b>：计费重对同 SKU 多件是线性的——<code>计费重 = Q × 单件计费重</code>。所以每个 SKU×国家只需记一个「单件计费重」，发货时乘件数 Q 即可，再查报价分档算钱。<br>
-    <b>② 决策公式</b>：云途全成本 = 运费(计费重×¥/kg) + 挂号 + VAT(申报×国别率) + 关税 + 手续费(申报×2%)；飞特全成本 = 运费(计费重×¥/kg) + 操作费（DDP 已含 VAT/关税/IOSS）。谁低发谁。<br>
-    <b>②′ 申报规则</b>：单件 SKU 申报 ≈ <b>8 USD</b>；一个包裹申报总额 <b>封顶 15 USD</b>（多件不是简单 8×件数，而是 min(8×件数, 15) 反推）。VAT/关税/手续费都按这个"封顶后的申报总额"算。<br>
+    <b>② 决策公式（买家总承担口径）</b>：云途全成本 = 运费(计费重×¥/kg) + 挂号 + <b>VAT(申报总额×国别率，USD→CNY)</b> + <b>关税(€3 × HSCODE数，EUR→CNY)</b> + IOSS手续费(申报总额×2%，USD→CNY)；飞特全成本 = 运费(计费重×¥/kg) + 操作费（DDP 已含 VAT/关税/IOSS）。谁低发谁。<br>
+    <b>②′ 申报规则</b>：单件 SKU 申报 ≈ <b>8 USD</b>；一个包裹申报总额 <b>封顶 15 USD</b>（多件不是简单 8×件数，而是 min(8×件数, 15) 反推）。VAT/关税/手续费都按"封顶后的申报总额（折算 CNY）"算。<br>
+    <b>②″ 关税铁律</b>：关税 = <b>每 HSCODE 固定 €3</b>（欧盟 7.1 新政），<u>不是</u>按申报额百分比。单品=1 HSCODE=€3；多品(不同 HSCODE)=€3×数量。我们欧盟 90% 是单品，默认填 1。<br>
+    <b>②‴ 汇率（可调）</b>：申报价/手续费 <b>USD→CNY = 7.3</b>；关税 €3/HSCODE 的 <b>EUR→CNY = 7.9</b>。改脚本顶部常量 <code>RATE_USD_CNY / RATE_EUR_CNY</code> 即可按实际调整。<br>
     <b>③ 临界件数 Q*</b>：本工具会算出「Q≤Q* 发云途 / Q>Q* 发飞特」的拐点，下单系统照此分渠道即可。<br>
     <b>④ 规模化</b>：几千 SKU 时，用谷仓 <code>product/get_product_sku_list</code> 拉全量尺寸 → 预生成「SKU×国家→推荐渠道 + Q*」查表，发货时按订单件数直接命中，无需逐单手算。
   </div>
-  <div class="warn">⚠ 诚实边界：① <b>飞特仅 DE/FR/ES/NL 有报价</b>，其余欧盟国飞特未覆盖；② <b>申报规则</b>：单件≈8USD，一个包裹申报总额封顶15USD（多件按 min(8×件数,15) 反推，VAT/关税/手续费均按此封顶总额算）；③ <b>关税率必须按 HSCODE（海关编码）查表填写</b>——不同 HS CODE 对应不同欧盟进口税率（包包/服装/手机壳一般在 0~15%），填错会直接翻转结论；④ 云途「其他费」= 关税 + 手续费(申报×2%)，已按此拆解；⑤ 体积重规则：云途 ÷10000、飞特 ÷7000（飞特最低 0.05kg）；⑥ 演示芯片仅带入尺寸/实重/国别/VAT，<b>关税率需自行按 HSCODE 填写</b>（历史反推值仅供参考，不自动带入）。</div>
+  <div class="warn">⚠ 诚实边界：① <b>飞特仅 DE/FR/ES/NL 有报价</b>，其余欧盟国飞特未覆盖；② <b>申报规则</b>：单件≈8USD，一个包裹申报总额封顶15USD（多件按 min(8×件数,15) 反推，VAT/关税/手续费均按此封顶总额算）；③ <b>关税 = €3 × HSCODE数</b>（欧盟7.1新政固定费，非按申报%）；单品=1 HSCODE=€3，多品=€3×数量，欧盟90%为单品；④ <b>云途 DDU 的 €3/HSCODE 关税与 2% IOSS 在"含税费全成本"模式下计入</b>——这是"买家总承担"口径，用于和飞特 DDP（全包）对齐；若只看"卖家付承运商"，请取消勾选"含税费"（云途仅运费+挂号，飞特仍是 DDP 一口价）；⑤ 体积重规则：云途 ÷10000、飞特 ÷7000（飞特最低 0.05kg）；⑥ 演示芯片仅带入尺寸/实重/国别/VAT，<b>HSCODE 数需自行确认（默认 1）</b>。</div>
 </div>
 
 </div>
 <script>
-const DATA = {"rates": {"yuntu": {"FR": [{"up": 0.2, "kg": 52.0, "reg": 20.0, "round": 0.001, "minw": 0.0}, {"up": 0.5, "kg": 53.0, "reg": 20.0, "round": 0.001, "minw": 0.0}, {"up": 2.0, "kg": 52.0, "reg": 23.0, "round": 0.001, "minw": 0.0}, {"up": 30.0, "kg": 51.0, "reg": 23.0, "round": 0.001, "minw": 0.0}], "DE": [{"up": 0.1, "kg": 52.0, "reg": 22.0, "round": 0.001, "minw": 0.0}, {"up": 0.3, "kg": 52.0, "reg": 21.0, "round": 0.001, "minw": 0.0}, {"up": 2.0, "kg": 49.0, "reg": 22.0, "round": 0.001, "minw": 0.0}, {"up": 30.0, "kg": 49.0, "reg": 22.0, "round": 0.001, "minw": 0.0}], "IT": [{"up": 2.0, "kg": 54.0, "reg": 25.0, "round": 0.001, "minw": 0.0}, {"up": 30.0, "kg": 56.0, "reg": 25.0, "round": 0.001, "minw": 0.0}], "ES": [{"up": 2.0, "kg": 53.0, "reg": 18.0, "round": 0.001, "minw": 0.0}, {"up": 30.0, "kg": 53.0, "reg": 18.0, "round": 0.001, "minw": 0.0}], "NL": [{"up": 0.1, "kg": 81.0, "reg": 21.0, "round": 0.001, "minw": 0.0}, {"up": 0.2, "kg": 71.0, "reg": 23.0, "round": 0.001, "minw": 0.0}, {"up": 2.0, "kg": 69.0, "reg": 23.0, "round": 0.001, "minw": 0.0}, {"up": 20.0, "kg": 59.0, "reg": 23.0, "round": 0.001, "minw": 0.0}], "BE": [{"up": 0.2, "kg": 76.0, "reg": 23.0, "round": 0.001, "minw": 0.0}, {"up": 2.0, "kg": 71.0, "reg": 21.0, "round": 0.001, "minw": 0.0}, {"up": 20.0, "kg": 67.0, "reg": 21.0, "round": 0.001, "minw": 0.0}], "AT": [{"up": 2.0, "kg": 62.0, "reg": 23.0, "round": 0.001, "minw": 0.0}, {"up": 30.0, "kg": 62.0, "reg": 23.0, "round": 0.001, "minw": 0.0}], "SE": [{"up": 0.3, "kg": 57.0, "reg": 16.0, "round": 0.001, "minw": 0.0}, {"up": 2.0, "kg": 52.0, "reg": 21.0, "round": 0.001, "minw": 0.0}, {"up": 20.0, "kg": 55.0, "reg": 21.0, "round": 0.001, "minw": 0.0}], "PL": [{"up": 0.2, "kg": 72.0, "reg": 11.0, "round": 0.001, "minw": 0.0}, {"up": 2.0, "kg": 68.0, "reg": 15.0, "round": 0.001, "minw": 0.0}, {"up": 30.0, "kg": 68.0, "reg": 15.0, "round": 0.001, "minw": 0.0}], "CY": [{"up": 2.0, "kg": 116.0, "reg": 29.0, "round": 0.001, "minw": 0.0}, {"up": 30.0, "kg": 121.0, "reg": 29.0, "round": 0.001, "minw": 0.0}], "IE": [{"up": 20.0, "kg": 93.0, "reg": 23.0, "round": 0.001, "minw": 0.0}], "GR": [{"up": 30.0, "kg": 87.0, "reg": 18.0, "round": 0.001, "minw": 0.0}], "BG": [{"up": 30.0, "kg": 82.0, "reg": 18.0, "round": 0.001, "minw": 0.0}], "PT": [{"up": 30.0, "kg": 63.0, "reg": 20.0, "round": 0.001, "minw": 0.0}], "HU": [{"up": 30.0, "kg": 75.0, "reg": 21.0, "round": 0.001, "minw": 0.0}], "SK": [{"up": 30.0, "kg": 87.0, "reg": 20.0, "round": 0.001, "minw": 0.0}], "CZ": [{"up": 2.0, "kg": 66.0, "reg": 20.0, "round": 0.001, "minw": 0.0}, {"up": 30.0, "kg": 72.0, "reg": 20.0, "round": 0.001, "minw": 0.0}], "RO": [{"up": 30.0, "kg": 86.0, "reg": 20.0, "round": 0.001, "minw": 0.0}], "FI": [{"up": 30.0, "kg": 79.0, "reg": 26.0, "round": 0.001, "minw": 0.0}], "DK": [{"up": 0.3, "kg": 83.0, "reg": 24.0, "round": 0.001, "minw": 0.0}, {"up": 2.0, "kg": 67.0, "reg": 24.0, "round": 0.001, "minw": 0.0}, {"up": 15.0, "kg": 63.0, "reg": 24.0, "round": 0.001, "minw": 0.0}], "EE": [{"up": 2.0, "kg": 73.0, "reg": 20.0, "round": 0.001, "minw": 0.0}, {"up": 30.0, "kg": 73.0, "reg": 20.0, "round": 0.001, "minw": 0.0}], "LV": [{"up": 2.0, "kg": 74.0, "reg": 20.0, "round": 0.001, "minw": 0.0}, {"up": 30.0, "kg": 76.0, "reg": 20.0, "round": 0.001, "minw": 0.0}], "LT": [{"up": 2.0, "kg": 71.0, "reg": 20.0, "round": 0.001, "minw": 0.0}, {"up": 30.0, "kg": 74.0, "reg": 20.0, "round": 0.001, "minw": 0.0}], "HR": [{"up": 30.0, "kg": 104.0, "reg": 26.0, "round": 0.001, "minw": 0.0}], "SI": [{"up": 30.0, "kg": 96.0, "reg": 26.0, "round": 0.001, "minw": 0.0}]}, "feit": {"DE": [{"up": 2.0, "kg": 70.0, "pc": 28.0, "minw": 0.05}, {"up": 5.0, "kg": 70.0, "pc": 28.0, "minw": 0.05}], "FR": [{"up": 0.25, "kg": 75.0, "pc": 28.0, "minw": 0.05}, {"up": 0.5, "kg": 75.0, "pc": 29.0, "minw": 0.05}, {"up": 1.0, "kg": 75.0, "pc": 30.0, "minw": 0.05}, {"up": 5.0, "kg": 75.0, "pc": 31.0, "minw": 0.05}], "ES": [{"up": 5.0, "kg": 70.0, "pc": 28.0, "minw": 0.05}], "NL": [{"up": 5.0, "kg": 65.0, "pc": 33.0, "minw": 0.05}]}}, "demo": [{"sku": "JH306A03-34", "title": "Hana Mini Tote Bag - Dark Brown深咖色", "L": 26.6, "W": 21.4, "H": 11.8, "w": 0.639, "iso": "DE", "duty": 23.1}, {"sku": "7C471-4", "title": "Flora 兰花造型手提包 - 粉色", "L": 26.1, "W": 22.1, "H": 7.8, "w": 0.648, "iso": "ES", "duty": 40.5}, {"sku": "5S34-1", "title": "Tessa Crushed Shoulder Bag - Black黑色", "L": 32.6, "W": 26.1, "H": 8.3, "w": 0.8, "iso": "ES", "duty": 40.5}, {"sku": "JH30314-32", "title": "Addisyn 单肩包 - 深棕色", "L": 25.6, "W": 15.6, "H": 7.4, "w": 0.509, "iso": "FR", "duty": 54.0}, {"sku": "5S34-1", "title": "Tessa Crushed Shoulder Bag - Black黑色", "L": 32.6, "W": 26.1, "H": 8.3, "w": 0.8, "iso": "FR", "duty": 40.5}, {"sku": "5S34-1", "title": "Tessa Crushed Shoulder Bag - Black黑色", "L": 32.6, "W": 26.1, "H": 8.3, "w": 0.8, "iso": "NL", "duty": 40.5}], "vat": {"DE": 19, "FR": 20, "ES": 21, "NL": 21, "IT": 22, "BE": 21, "AT": 20, "SE": 25, "PL": 23, "CY": 19, "IE": 23, "GR": 24, "PT": 23, "HU": 27, "SK": 23, "CZ": 21, "RO": 21, "FI": 25, "DK": 25, "EE": 22, "LV": 21, "LT": 21, "HR": 25, "SI": 22, "BG": 20}};
+const DATA = {"rates": {"yuntu": {"FR": [{"up": 0.2, "kg": 52.0, "reg": 20.0, "round": 0.001, "minw": 0.0}, {"up": 0.5, "kg": 53.0, "reg": 20.0, "round": 0.001, "minw": 0.0}, {"up": 2.0, "kg": 52.0, "reg": 23.0, "round": 0.001, "minw": 0.0}, {"up": 30.0, "kg": 51.0, "reg": 23.0, "round": 0.001, "minw": 0.0}], "DE": [{"up": 0.1, "kg": 52.0, "reg": 22.0, "round": 0.001, "minw": 0.0}, {"up": 0.3, "kg": 52.0, "reg": 21.0, "round": 0.001, "minw": 0.0}, {"up": 2.0, "kg": 49.0, "reg": 22.0, "round": 0.001, "minw": 0.0}, {"up": 30.0, "kg": 49.0, "reg": 22.0, "round": 0.001, "minw": 0.0}], "IT": [{"up": 2.0, "kg": 54.0, "reg": 25.0, "round": 0.001, "minw": 0.0}, {"up": 30.0, "kg": 56.0, "reg": 25.0, "round": 0.001, "minw": 0.0}], "ES": [{"up": 2.0, "kg": 53.0, "reg": 18.0, "round": 0.001, "minw": 0.0}, {"up": 30.0, "kg": 53.0, "reg": 18.0, "round": 0.001, "minw": 0.0}], "NL": [{"up": 0.1, "kg": 81.0, "reg": 21.0, "round": 0.001, "minw": 0.0}, {"up": 0.2, "kg": 71.0, "reg": 23.0, "round": 0.001, "minw": 0.0}, {"up": 2.0, "kg": 69.0, "reg": 23.0, "round": 0.001, "minw": 0.0}, {"up": 20.0, "kg": 59.0, "reg": 23.0, "round": 0.001, "minw": 0.0}], "BE": [{"up": 0.2, "kg": 76.0, "reg": 23.0, "round": 0.001, "minw": 0.0}, {"up": 2.0, "kg": 71.0, "reg": 21.0, "round": 0.001, "minw": 0.0}, {"up": 20.0, "kg": 67.0, "reg": 21.0, "round": 0.001, "minw": 0.0}], "AT": [{"up": 2.0, "kg": 62.0, "reg": 23.0, "round": 0.001, "minw": 0.0}, {"up": 30.0, "kg": 62.0, "reg": 23.0, "round": 0.001, "minw": 0.0}], "SE": [{"up": 0.3, "kg": 57.0, "reg": 16.0, "round": 0.001, "minw": 0.0}, {"up": 2.0, "kg": 52.0, "reg": 21.0, "round": 0.001, "minw": 0.0}, {"up": 20.0, "kg": 55.0, "reg": 21.0, "round": 0.001, "minw": 0.0}], "PL": [{"up": 0.2, "kg": 72.0, "reg": 11.0, "round": 0.001, "minw": 0.0}, {"up": 2.0, "kg": 68.0, "reg": 15.0, "round": 0.001, "minw": 0.0}, {"up": 30.0, "kg": 68.0, "reg": 15.0, "round": 0.001, "minw": 0.0}], "CY": [{"up": 2.0, "kg": 116.0, "reg": 29.0, "round": 0.001, "minw": 0.0}, {"up": 30.0, "kg": 121.0, "reg": 29.0, "round": 0.001, "minw": 0.0}], "IE": [{"up": 20.0, "kg": 93.0, "reg": 23.0, "round": 0.001, "minw": 0.0}], "GR": [{"up": 30.0, "kg": 87.0, "reg": 18.0, "round": 0.001, "minw": 0.0}], "BG": [{"up": 30.0, "kg": 82.0, "reg": 18.0, "round": 0.001, "minw": 0.0}], "PT": [{"up": 30.0, "kg": 63.0, "reg": 20.0, "round": 0.001, "minw": 0.0}], "HU": [{"up": 30.0, "kg": 75.0, "reg": 21.0, "round": 0.001, "minw": 0.0}], "SK": [{"up": 30.0, "kg": 87.0, "reg": 20.0, "round": 0.001, "minw": 0.0}], "CZ": [{"up": 2.0, "kg": 66.0, "reg": 20.0, "round": 0.001, "minw": 0.0}, {"up": 30.0, "kg": 72.0, "reg": 20.0, "round": 0.001, "minw": 0.0}], "RO": [{"up": 30.0, "kg": 86.0, "reg": 20.0, "round": 0.001, "minw": 0.0}], "FI": [{"up": 30.0, "kg": 79.0, "reg": 26.0, "round": 0.001, "minw": 0.0}], "DK": [{"up": 0.3, "kg": 83.0, "reg": 24.0, "round": 0.001, "minw": 0.0}, {"up": 2.0, "kg": 67.0, "reg": 24.0, "round": 0.001, "minw": 0.0}, {"up": 15.0, "kg": 63.0, "reg": 24.0, "round": 0.001, "minw": 0.0}], "EE": [{"up": 2.0, "kg": 73.0, "reg": 20.0, "round": 0.001, "minw": 0.0}, {"up": 30.0, "kg": 73.0, "reg": 20.0, "round": 0.001, "minw": 0.0}], "LV": [{"up": 2.0, "kg": 74.0, "reg": 20.0, "round": 0.001, "minw": 0.0}, {"up": 30.0, "kg": 76.0, "reg": 20.0, "round": 0.001, "minw": 0.0}], "LT": [{"up": 2.0, "kg": 71.0, "reg": 20.0, "round": 0.001, "minw": 0.0}, {"up": 30.0, "kg": 74.0, "reg": 20.0, "round": 0.001, "minw": 0.0}], "HR": [{"up": 30.0, "kg": 104.0, "reg": 26.0, "round": 0.001, "minw": 0.0}], "SI": [{"up": 30.0, "kg": 96.0, "reg": 26.0, "round": 0.001, "minw": 0.0}]}, "feit": {"DE": [{"up": 2.0, "kg": 70.0, "pc": 28.0, "minw": 0.05}, {"up": 5.0, "kg": 70.0, "pc": 28.0, "minw": 0.05}], "FR": [{"up": 0.25, "kg": 75.0, "pc": 28.0, "minw": 0.05}, {"up": 0.5, "kg": 75.0, "pc": 29.0, "minw": 0.05}, {"up": 1.0, "kg": 75.0, "pc": 30.0, "minw": 0.05}, {"up": 5.0, "kg": 75.0, "pc": 31.0, "minw": 0.05}], "ES": [{"up": 5.0, "kg": 70.0, "pc": 28.0, "minw": 0.05}], "NL": [{"up": 5.0, "kg": 65.0, "pc": 33.0, "minw": 0.05}]}}, "demo": [{"sku": "JH306A03-34", "title": "Hana Mini Tote Bag - Dark Brown深咖色", "L": 26.6, "W": 21.4, "H": 11.8, "w": 0.639, "iso": "DE"}, {"sku": "7C471-4", "title": "Flora 兰花造型手提包 - 粉色", "L": 26.1, "W": 22.1, "H": 7.8, "w": 0.648, "iso": "ES"}, {"sku": "5S34-1", "title": "Tessa Crushed Shoulder Bag - Black黑色", "L": 32.6, "W": 26.1, "H": 8.3, "w": 0.8, "iso": "ES"}, {"sku": "JH30314-32", "title": "Addisyn 单肩包 - 深棕色", "L": 25.6, "W": 15.6, "H": 7.4, "w": 0.509, "iso": "FR"}, {"sku": "5S34-1", "title": "Tessa Crushed Shoulder Bag - Black黑色", "L": 32.6, "W": 26.1, "H": 8.3, "w": 0.8, "iso": "FR"}, {"sku": "5S34-1", "title": "Tessa Crushed Shoulder Bag - Black黑色", "L": 32.6, "W": 26.1, "H": 8.3, "w": 0.8, "iso": "NL"}], "vat": {"DE": 19, "FR": 20, "ES": 21, "NL": 21, "IT": 22, "BE": 21, "AT": 20, "SE": 25, "PL": 23, "CY": 19, "IE": 23, "GR": 24, "PT": 23, "HU": 27, "SK": 23, "CZ": 21, "RO": 21, "FI": 25, "DK": 25, "EE": 22, "LV": 21, "LT": 21, "HR": 25, "SI": 22, "BG": 20}};
+
+// —— 汇率（可调）——
+const RATE_USD_CNY = 7.3;   // 美元→人民币：申报价 / VAT / IOSS手续费 的换算
+const RATE_EUR_CNY = 7.9;   // 欧元→人民币：关税 €3/HSCODE 的核算
+const DUTY_EUR_PER_HS = 3;  // 欧盟7.1新政：每 HSCODE 固定关税 €3
 
 function fillIso(sel){
   const isos = Object.keys(DATA.rates.yuntu).sort();
@@ -173,13 +179,15 @@ function brk(arr, cw){
 // 申报规则（用户铁律）：单件≈8USD，一个包裹申报总额封顶15USD。多件按封顶反推。
 const DECL_CAP = 15;
 function declTotalOf(declPer, Q){ return Math.min(declPer*Q, DECL_CAP); }
-function calcYuntu(cw, iso, declTotal, vatRate, dutyRate, withTax){
+// 云途 DDU：逐项计费。申报价 USD 先折算 CNY 再乘率；关税 = €3×HSCODE数 折算 CNY。
+function calcYuntu(cw, iso, declTotalUSD, vatRate, hsCount, withTax){
   const r = brk(DATA.rates.yuntu[iso], cw);
   const freight = cw*r.kg + r.reg;
-  const vat = withTax ? declTotal*vatRate/100 : 0;
-  const duty = withTax ? declTotal*dutyRate/100 : 0;
-  const fee = withTax ? declTotal*0.02 : 0;
-  return {kg:r.kg, reg:r.reg, freight, vat, duty, fee, total: freight+vat+duty+fee};
+  const declCNY = declTotalUSD * RATE_USD_CNY;
+  const vat = withTax ? declCNY * vatRate/100 : 0;
+  const duty = withTax ? hsCount * DUTY_EUR_PER_HS * RATE_EUR_CNY : 0;
+  const fee = withTax ? declCNY * 0.02 : 0;
+  return {kg:r.kg, reg:r.reg, freight, declCNY, vat, duty, fee, total: freight+vat+duty+fee};
 }
 function calcFeit(cw, iso){
   const arr = DATA.rates.feit[iso];
@@ -188,7 +196,7 @@ function calcFeit(cw, iso){
   const freight = cw*r.kg + r.pc;
   return {kg:r.kg, pc:r.pc, freight, total: freight};
 }
-function compute(L,W,H,w,Q,iso,declPer,vatRate,dutyRate,withTax){
+function compute(L,W,H,w,Q,iso,declPer,vatRate,hsCount,withTax){
   const totalReal = w*Q;
   const totalVol = L*W*H*Q;
   let cwY = Math.max(totalReal, totalVol/10000);
@@ -196,7 +204,7 @@ function compute(L,W,H,w,Q,iso,declPer,vatRate,dutyRate,withTax){
   cwY = Math.round(Math.max(cwY,0)*1000)/1000;
   cwF = Math.round(Math.max(cwF,0.05)*1000)/1000;
   const declTotal = declTotalOf(declPer, Q);
-  const y = calcYuntu(cwY, iso, declTotal, vatRate, dutyRate, withTax);
+  const y = calcYuntu(cwY, iso, declTotal, vatRate, hsCount, withTax);
   const f = calcFeit(cwF, iso);
   return {cwY, cwF, y, f, declTotal, Q};
 }
@@ -210,37 +218,42 @@ function verdictHTML(y, f, mode){
     return '<div class="verdict f">✅ 发飞特（省 ¥'+diff.toFixed(1)+'）</div>';
   }
 }
-function twoCol(y, f){
-  let fhtml = f ? (
-    '<div class="f"><h3>🟩 飞特（DDP 一口价）</h3><div class="erow"><span>计费重 = MAX(实重, 体积÷7000)</span><span class="f">'+f.__cwF__.toFixed(3)+' kg</span></div>'+
+function twoCol(y, f, declTotalUSD, hsCount){
+  const declCNY = (declTotalUSD*RATE_USD_CNY).toFixed(1);
+  const yy = '<div class="y"><h3>🟥 云途（DDU，逐项）</h3>'+
+    '<div class="erow"><span>申报价（封顶后）</span><span class="y">$'+declTotalUSD.toFixed(1)+' ≈ ¥'+declCNY+'</span></div>'+
+    '<div class="erow"><span>计费重 = MAX(实重, 体积÷10000)</span><span class="y">'+y.__cwY__.toFixed(3)+' kg</span></div>'+
+    '<div class="erow"><span>运费 = '+y.__cwY__.toFixed(3)+'×¥'+y.kg+'/kg + 挂号</span><span class="y">¥'+y.freight.toFixed(1)+'</span></div>'+
+    '<div class="erow"><span>VAT（申报¥'+declCNY+' ×'+y.__vat__+'%）</span><span class="y">¥'+y.vat.toFixed(1)+'</span></div>'+
+    '<div class="erow"><span>关税（€3 × '+hsCount+' HSCODE ×'+RATE_EUR_CNY+'）</span><span class="y">¥'+y.duty.toFixed(1)+'</span></div>'+
+    '<div class="erow"><span>IOSS手续费（申报¥'+declCNY+' ×2%）</span><span class="y">¥'+y.fee.toFixed(1)+'</span></div>'+
+    '<div class="erow total"><span>云途全成本（买家总承担）</span><span class="y">¥'+y.total.toFixed(1)+'</span></div></div>';
+  const fhtml = f ? (
+    '<div class="f"><h3>🟩 飞特（DDP 一口价）</h3><div class="erow"><span>申报价（已含，不单列）</span><span class="f">—</span></div>'+
+    '<div class="erow"><span>计费重 = MAX(实重, 体积÷7000)</span><span class="f">'+f.__cwF__.toFixed(3)+' kg</span></div>'+
     '<div class="erow"><span>运费 = '+f.__cwF__.toFixed(3)+'×¥'+f.kg+'/kg</span><span class="f">¥'+f.freight.toFixed(1)+'</span></div>'+
     '<div class="erow"><span>操作费</span><span class="f">¥'+f.pc.toFixed(1)+'</span></div>'+
-    '<div class="erow total"><span>飞特一口价（已含VAT/关税/IOSS）</span><span class="f">¥'+f.total.toFixed(1)+'</span></div></div>'
+    '<div class="erow"><span class="sub">已含 VAT / €3关税 / IOSS（DDP 全包）</span><span class="f"></span></div>'+
+    '<div class="erow total"><span>飞特一口价（已含税费）</span><span class="f">¥'+f.total.toFixed(1)+'</span></div></div>'
   ) : (
     '<div class="f"><h3>🟩 飞特（DDP 一口价）</h3><div class="erow"><span>该国无飞特报价</span><span class="f">—</span></div>'+
     '<div class="erow total"><span>→ 自动发云途</span><span class="f">—</span></div></div>'
   );
-  return '<div class="twocol"><div class="y"><h3>🟥 云途（DDU，逐项）</h3>'+
-    '<div class="erow"><span>计费重 = MAX(实重, 体积÷10000)</span><span class="y">'+y.__cwY__.toFixed(3)+' kg</span></div>'+
-    '<div class="erow"><span>运费 = '+y.__cwY__.toFixed(3)+'×¥'+y.kg+'/kg + 挂号</span><span class="y">¥'+y.freight.toFixed(1)+'</span></div>'+
-    '<div class="erow"><span>VAT (申报×'+y.__vat__+'%)</span><span class="y">¥'+y.vat.toFixed(1)+'</span></div>'+
-    '<div class="erow"><span>关税 (申报×'+y.__duty__+'%)</span><span class="y">¥'+y.duty.toFixed(1)+'</span></div>'+
-    '<div class="erow"><span>手续费 (申报×2%)</span><span class="y">¥'+y.fee.toFixed(1)+'</span></div>'+
-    '<div class="erow total"><span>云途实付合计</span><span class="y">¥'+y.total.toFixed(1)+'</span></div></div>'+ fhtml +'</div>';
+  return '<div class="twocol">'+yy+fhtml+'</div>';
 }
-function breakEven(L,W,H,w,iso,declPer,vatRate,dutyRate,withTax){
+function breakEven(L,W,H,w,iso,declPer,vatRate,hsCount,withTax){
   // 找 Q 使 (y.total - f.total) 变号；飞特无覆盖则恒云途
   if(!DATA.rates.feit[iso]) return '飞特未覆盖 → 始终发云途';
   let prev=null, flip=null;
   for(let Q=1; Q<=40; Q++){
-    const r = compute(L,W,H,w,Q,iso,declPer,vatRate,dutyRate,withTax);
+    const r = compute(L,W,H,w,Q,iso,declPer,vatRate,hsCount,withTax);
     const diff = r.y.total - r.f.total;
     if(prev!==null && (prev>0)!==(diff>0)){
       flip = Q; break;
     }
     prev = diff;
   }
-  if(flip===null) return '40件内无拐点：'+(compute(L,W,H,w,40,iso,declPer,vatRate,dutyRate,withTax).y.total<=compute(L,W,H,w,40,iso,declPer,vatRate,dutyRate,withTax).f.total?'始终发云途':'始终发飞特');
+  if(flip===null) return '40件内无拐点：'+(compute(L,W,H,w,40,iso,declPer,vatRate,hsCount,withTax).y.total<=compute(L,W,H,w,40,iso,declPer,vatRate,hsCount,withTax).f.total?'始终发云途':'始终发飞特');
   const a = flip-1, b = flip;
   return '临界件数 Q* ≈ '+a+'~'+b+'：Q≤'+a+' 发云途，Q≥'+b+' 发飞特';
 }
@@ -254,17 +267,18 @@ function singleCalc(){
   const iso=document.getElementById('s_iso').value;
   const L=+document.getElementById('s_L').value, W=+document.getElementById('s_W').value, H=+document.getElementById('s_H').value;
   const w=+document.getElementById('s_w').value, Q=Math.max(1,Math.round(+document.getElementById('s_Q').value));
-  const decl=+document.getElementById('s_decl').value, vat=+document.getElementById('s_vat').value, duty=+document.getElementById('s_duty').value;
+  const decl=+document.getElementById('s_decl').value, vat=+document.getElementById('s_vat').value;
+  const hs=Math.max(1,Math.round(+document.getElementById('s_hs').value||1));
   const withTax=document.getElementById('s_tax').checked;
-  const r=compute(L,W,H,w,Q,iso,decl,vat,duty,withTax);
-  r.y.__cwY__=r.cwY; r.y.__vat__=vat; r.y.__duty__=duty;
+  const r=compute(L,W,H,w,Q,iso,decl,vat,hs,withTax);
+  r.y.__cwY__=r.cwY; r.y.__vat__=vat;
   if(r.f){ r.f.__cwF__=r.cwF; }
-  let html = verdictHTML(r.y, r.f, {iso}) + twoCol(r.y, r.f);
+  let html = verdictHTML(r.y, r.f, {iso}) + twoCol(r.y, r.f, r.declTotal, hs);
   html += '<div class="kpi"><div><div class="l">云途计费重 = MAX(实重, 体积÷10000)</div><div class="v">'+r.cwY.toFixed(3)+' kg</div></div>'+
     '<div><div class="l">飞特计费重 = MAX(实重, 体积÷7000)</div><div class="v">'+r.cwF.toFixed(3)+' kg</div></div>'+
     '<div><div class="l">云途全成本</div><div class="v" style="color:#c0392b">¥'+r.y.total.toFixed(1)+'</div></div>'+
     '<div><div class="l">飞特全成本</div><div class="v" style="color:#1e8e3e">¥'+(r.f?r.f.total.toFixed(1):'—')+'</div></div></div>';
-  html += '<div class="note"><b>📌 临界件数：</b>'+breakEven(L,W,H,w,iso,decl,vat,duty,withTax)+'</div>';
+  html += '<div class="note"><b>📌 临界件数：</b>'+breakEven(L,W,H,w,iso,decl,vat,hs,withTax)+'</div>';
   document.getElementById('s_out').innerHTML = html;
 }
 function readBatchLine(line){
@@ -275,14 +289,14 @@ function readBatchLine(line){
 let BATCH_RES=[];
 function batchCalc(){
   const withTax=document.getElementById('b_tax').checked;
-  const duty=+document.getElementById('b_duty').value;
   const lines=document.getElementById('b_txt').value.split('\n');
   let rows='', n=0, yw=0, fw=0;
   BATCH_RES=[];
   lines.forEach(ln=>{
     const o=readBatchLine(ln); if(!o) return;
     const vat=DATA.vat[o.iso]||21;
-    const r=compute(o.L,o.W,o.H,o.w,o.Q,o.iso,o.decl,vat,duty,withTax);
+    const hs=1; // 批量默认单品（1 HSCODE）
+    const r=compute(o.L,o.W,o.H,o.w,o.Q,o.iso,o.decl,vat,hs,withTax);
     const hasF=!!r.f;
     const win = !hasF ? 'y' : (r.y.total<=r.f.total?'y':'f');
     if(win==='y') yw++; else fw++;
@@ -310,20 +324,21 @@ function exportCSV(){
 }
 function mixCalc(){
   const iso=document.getElementById('m_iso').value;
-  const decl=+document.getElementById('m_decl').value, vat=+document.getElementById('m_vat').value, duty=+document.getElementById('m_duty').value;
+  const decl=+document.getElementById('m_decl').value, vat=+document.getElementById('m_vat').value;
   const withTax=document.getElementById('m_tax').checked;
-  let totalReal=0, totalVol=0, totalQ=0;
+  let totalReal=0, totalVol=0, totalQ=0, lines=0;
   document.getElementById('m_txt').value.split('\n').forEach(ln=>{
     const p=ln.trim().split(/[,，\s]+/).filter(x=>x.length); if(p.length<5) return;
     const L=+p[0],W=+p[1],H=+p[2],w=+p[3],q=Math.max(1,Math.round(+p[4]));
-    totalReal+=w*q; totalVol+=L*W*H*q; totalQ+=q;
+    totalReal+=w*q; totalVol+=L*W*H*q; totalQ+=q; lines++;
   });
+  const hsCount=Math.max(1,lines); // 每行=1个HSCODE
   let cwY=Math.round(Math.max(totalReal,totalVol/10000)*1000)/1000;
   let cwF=Math.round(Math.max(totalReal,totalVol/7000)*1000)/1000; cwF=Math.max(cwF,0.05);
   const declTotal=declTotalOf(decl,totalQ);
-  const y=calcYuntu(cwY,iso,declTotal,vat,duty,withTax); y.__cwY__=cwY; y.__vat__=vat; y.__duty__=duty;
+  const y=calcYuntu(cwY,iso,declTotal,vat,hsCount,withTax); y.__cwY__=cwY; y.__vat__=vat;
   const f=calcFeit(cwF,iso); if(f) f.__cwF__=cwF;
-  let html=verdictHTML(y,f,{iso})+'<div class="note">本箱共 '+totalQ+' 件，聚合实重 '+totalReal.toFixed(3)+'kg，聚合体积 '+totalVol.toFixed(0)+'cm³</div>'+twoCol(y,f);
+  let html=verdictHTML(y,f,{iso})+'<div class="note">本箱共 '+totalQ+' 件，'+hsCount+' 个SKU(= '+hsCount+' 个HSCODE)，聚合实重 '+totalReal.toFixed(3)+'kg，聚合体积 '+totalVol.toFixed(0)+'cm³</div>'+twoCol(y,f,declTotal,hsCount);
   document.getElementById('m_out').innerHTML=html;
 }
 // init
@@ -331,18 +346,19 @@ fillIso(document.getElementById('s_iso'));
 fillIso(document.getElementById('m_iso'));
 document.getElementById('s_iso').value='FR';
 document.getElementById('m_iso').value='FR';
-// demo chips（单SKU + 全国家 共用一套尺寸/关税率）
+// demo chips（单SKU + 全国家 共用一套尺寸）
 function fillAllFromDemo(d){
   // 单SKU
   document.getElementById('s_iso').value=d.iso;
   document.getElementById('s_L').value=d.L; document.getElementById('s_W').value=d.W; document.getElementById('s_H').value=d.H;
   document.getElementById('s_w').value=d.w; document.getElementById('s_Q').value=1;
   document.getElementById('s_vat').value=DATA.vat[d.iso]||21;
-  // 关税率不自动填入！反推值仅作参考（见下方提示），请按HSCODE实际填写
+  document.getElementById('s_hs').value=1;
   // 全国家
   document.getElementById('a_sku').value=d.sku;
   document.getElementById('a_L').value=d.L; document.getElementById('a_W').value=d.W; document.getElementById('a_H').value=d.H;
   document.getElementById('a_w').value=d.w; document.getElementById('a_Q').value=1;
+  document.getElementById('a_hs').value=1;
 }
 const dr=document.getElementById('demoRow');
 const drA=document.getElementById('demoRowA');
@@ -363,14 +379,15 @@ function allCalc(){
   const sku=document.getElementById('a_sku').value||'(未命名SKU)';
   const L=+document.getElementById('a_L').value, W=+document.getElementById('a_W').value, H=+document.getElementById('a_H').value;
   const w=+document.getElementById('a_w').value, Q=Math.max(1,Math.round(+document.getElementById('a_Q').value));
-  const decl=+document.getElementById('a_decl').value, duty=+document.getElementById('a_duty').value;
+  const decl=+document.getElementById('a_decl').value;
+  const hs=Math.max(1,Math.round(+document.getElementById('a_hs').value||1));
   const withTax=document.getElementById('a_tax').checked;
   const isos=Object.keys(DATA.rates.feit).sort();
   let rows='', yw=0, fw=0, n=0, best=null;
   isos.forEach(iso=>{
     const hasF=true;
     const vat=DATA.vat[iso]||21;
-    const r=compute(L,W,H,w,Q,iso,decl,vat,duty,withTax);
+    const r=compute(L,W,H,w,Q,iso,decl,vat,hs,withTax);
     const win = (r.y.total<=r.f.total?'y':'f');
     if(win==='y') yw++; else fw++; n++;
     const rec = win==='y'?'发云途':'发飞特';
@@ -385,7 +402,7 @@ function allCalc(){
       '<td class="n '+(win==='y'?'win-y':'win-f')+'">'+rec+'</td>'+
       '<td class="n">¥'+save.toFixed(1)+'</td></tr>';
   });
-  const html='<h2 style="margin-top:6px"><span class="num">④</span>「'+sku+'」发各国的对比（件数 Q='+Q+'）</h2>'+
+  const html='<h2 style="margin-top:6px"><span class="num">④</span>「'+sku+'」发各国的对比（件数 Q='+Q+'，HSCODE='+hs+'）</h2>'+
     '<div class="kpi"><div><div class="l">对比国家数</div><div class="v">'+n+'</div></div>'+
     '<div><div class="l">发云途</div><div class="v" style="color:#c0392b">'+yw+'</div></div>'+
     '<div><div class="l">发飞特</div><div class="v" style="color:#1e8e3e">'+fw+'</div></div>'+
