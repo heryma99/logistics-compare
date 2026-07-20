@@ -22,7 +22,27 @@ td.mut,span.mut{color:#999;font-weight:400;font-size:12px}
 .cat-textile{background:#fff3e0}
 </style></head><body><div class="wrap">
 <h1>跨境物流报价对比看板</h1><div class="sub">每日自动同步 · 生成 2026-07-20</div>
-<div class='card'><h2>对比页清单</h2><ul><li><a href="ca_ey_yuntu.html">ca_ey_yuntu.html</a></li><li><a href="eu_air_21kg.html">eu_air_21kg.html</a></li><li><a href="us_air.html">us_air.html</a></li><li><a href="us_clx.html">us_clx.html</a></li><li><a href="eu_small.html">eu_small.html</a></li><li><a href="yuntu_internal.html">yuntu_internal.html</a></li><li><a href="zhongyun_express_compare.html">zhongyun_express_compare.html</a></li><li><a href="price_change.html">price_change.html</a></li><li><a href="price_change_small.html">price_change_small.html</a></li><li><a href="price_change_big.html">price_change_big.html</a></li></ul><p class='note'>看板由 auto_compare.py 每日 09:00 自动化驱动：fetch→detect→report→deploy。公网地址 https://heryma99.github.io/logistics-compare/index.html</p></div></div>
+
+<style>
+.wrap{max-width:960px;margin:0 auto;padding:24px 20px 60px}
+h1{font-size:24px;margin:0 0 4px;color:#1e293b}
+.sub{color:#64748b;font-size:13px;margin-bottom:24px}
+.igroup{margin-bottom:28px}
+.igroup-label{font-size:15px;font-weight:700;color:#475569;margin-bottom:10px;
+  padding-left:2px;border-left:3px solid #2563eb;padding-left:10px}
+.icards{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px}
+.icard{display:block;background:#fff;border:1px solid #e2e8f0;border-radius:10px;
+  padding:14px 16px;text-decoration:none;transition:all .15s;position:relative}
+.icard:hover{border-color:#2563eb;box-shadow:0 4px 12px rgba(37,99,235,.1);transform:translateY(-1px)}
+.icard-title{font-size:14.5px;font-weight:700;color:#1e293b;margin-bottom:4px}
+.icard-desc{font-size:12.5px;color:#64748b;line-height:1.4}
+.note{background:#fffbeb;border:1px solid #fcd34d;border-radius:8px;
+  padding:12px 16px;margin-top:20px;font-size:12.5px;color:#92400e;line-height:1.6}
+.badge{display:inline-block;background:#dbeafe;color:#1d4ed8;font-size:11px;
+  font-weight:600;padding:2px 8px;border-radius:10px;vertical-align:middle;margin-left:6px}
+</style>
+<h1>跨境物流报价对比看板</h1><div class="sub">共 <span class="badge">10</span> 个对比页 · 数据源 wl02@leading-trade.com 邮箱最新报价 · 每日 09:00 自动化驱动</div>
+<div class="igroup"><div class="igroup-label">🇺🇸 北美</div><div class="icards"><a href="ca_ey_yuntu.html" class="icard"><div class="icard-title">加拿大 德翼 vs 云途</div><div class="icard-desc">海派·双清含税·FBA入仓</div></a><a href="us_air.html" class="icard"><div class="icard-title">美国 空派对比</div><div class="icard-desc">德翼 vs 中运通达·空运快线/经济线</div></a><a href="us_clx.html" class="icard"><div class="icard-title">美森限时达 CLX 对比</div><div class="icard-desc">德翼(璞景) vs 中运通达·Matson快船包税</div></a></div></div><div class="igroup"><div class="igroup-label">🇪🇺 欧洲</div><div class="icards"><a href="eu_air_21kg.html" class="icard"><div class="icard-title">欧盟 空派 21kg+</div><div class="icard-desc">德翼 vs 飞特 vs 云途·空派大货</div></a><a href="eu_small.html" class="icard"><div class="icard-title">欧盟 小包对比</div><div class="icard-desc">云途DDU vs 飞特DDP·真实账单逐单核对</div></a></div></div><div class="igroup"><div class="igroup-label">📦 快递&内部</div><div class="icards"><a href="zhongyun_express_compare.html" class="icard"><div class="icard-title">中运 商业快递对比</div><div class="icard-desc">DHL vs FedEx vs UPS·美国专线</div></a><a href="yuntu_internal.html" class="icard"><div class="icard-title">云途 内部渠道对比</div><div class="icard-desc">THPHR vs QYTHPH vs A01·同渠道不同价</div></a></div></div><div class="igroup"><div class="igroup-label">📈 趋势</div><div class="icards"><a href="price_change.html" class="icard"><div class="icard-title">报价变动看板</div><div class="icard-desc">全渠道·全国家·期对期价格涨跌追踪</div></a><a href="price_change_small.html" class="icard"><div class="icard-title">小包报价变动</div><div class="icard-desc">云途/飞特/中运·小包渠道环比</div></a><a href="price_change_big.html" class="icard"><div class="icard-title">大货报价变动</div><div class="icard-desc">德翼/中运/飞特·大货海派/空派环比</div></a></div></div><p class="note">&#x1f4a1; 点击卡片进入对应对比页。所有页面由 <code>auto_compare.py</code> 自动生成并部署至 GitHub Pages。公网地址：<code>https://heryma99.github.io/logistics-compare/index.html</code></p></div>
 <script>
 function filterCat(cat){
   document.querySelectorAll('.fbtn').forEach(function(b){b.classList.toggle('active', b.getAttribute('onclick').indexOf("'"+cat+"'")>=0 || (cat==='all' && b.getAttribute('onclick').indexOf('all')>=0));});
