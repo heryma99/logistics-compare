@@ -31,32 +31,39 @@ td.mut,span.mut{color:#999;font-weight:400;font-size:12px}
   cursor:pointer;font-size:13px;font-weight:600;color:#334155;transition:all .15s}
 .mbtn:hover{border-color:#94a3b8}
 .mbtn.active{background:#2563eb;color:#fff;border-color:#2563eb}
-.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
-table{width:100%;border-collapse:collapse;font-size:13px}
-th,td{padding:10px 10px;text-align:center;border-bottom:1px solid #e8ecf1;vertical-align:middle}
-thead th{background:#f1f5f9;color:#475569;font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.3px}
-thead tr:nth-child(2) th{font-size:11px;font-weight:500;color:#94a3b8}
-td.zname{text-align:left;font-weight:700;color:#1e293b;background:#f8fafc;min-width:50px}
-.col-d,.col-sur{min-width:64px}
-.col-d .p-win{background:#dcfce7;color:#166534;display:block;padding:4px 8px;border-radius:6px}
-.col-d .p-lose{color:#64748b;display:block;padding:4px 8px}
-.col-sur .p-win{background:#fef3c7;color:#92400e;display:block;padding:4px 8px;border-radius:6px}
-.col-sur .p-lose{color:#64748b;display:block;padding:4px 8px}
-.carrier-label{font-size:10px;color:#94a3b8;font-weight:500;margin-bottom:1px}
-.price-val{font-size:15px;font-weight:700}
-.p-win .price-val{font-size:16px}
-.delta-cell{text-align:center;min-width:46px}
-.badge{display:inline-block;padding:3px 8px;border-radius:10px;font-size:12px;font-weight:700}
-.badge-good{background:#dcfce7;color:#166534}
-.badge-bad{background:#fee2e2;color:#991b1b}
-.badge-neutral{background:#f1f5f9;color:#64748b}
+/* 分区对决卡片 */
+.zones{display:flex;flex-direction:column;gap:14px;margin-top:6px}
+.zone-card{background:#fff;border:1px solid #e8ecf1;border-radius:12px;overflow:hidden}
+.zone-head{display:flex;align-items:center;justify-content:space-between;
+  padding:10px 16px;background:#f8fafc;border-bottom:1px solid #eef2f6}
+.zone-name{font-size:15px;font-weight:700;color:#1e293b}
+.zone-tag{font-size:12px;font-weight:600;padding:3px 10px;border-radius:20px}
+.zone-tag.win-deyi{background:#dcfce7;color:#166534}
+.zone-tag.win-zytd{background:#fee2e2;color:#991b1b}
+.zone-tag.tie{background:#f1f5f9;color:#64748b}
+.w-row{display:flex;align-items:center;padding:10px 16px;gap:12px;border-bottom:1px solid #f3f6f9}
+.w-row:last-child{border-bottom:none}
+.w-label{width:62px;flex-shrink:0;font-size:12px;font-weight:600;color:#64748b;text-align:right}
+.vs{flex:1;display:flex;flex-direction:column;gap:6px}
+.carrier{display:flex;align-items:center;gap:8px}
+.c-name{width:32px;flex-shrink:0;font-size:11px;font-weight:600;color:#64748b}
+.c-bar-wrap{flex:1;background:#f1f5f9;border-radius:6px;height:22px;position:relative;overflow:hidden}
+.c-bar{height:100%;border-radius:6px;transition:width .3s ease}
+.c-bar.deyi{background:linear-gradient(90deg,#3b82f6,#2563eb)}
+.c-bar.zytd{background:linear-gradient(90deg,#fb923c,#f97316)}
+.c-price{width:46px;flex-shrink:0;font-size:14px;font-weight:700;text-align:right}
+.c-price.deyi{color:#1d4ed8}
+.c-price.zytd{color:#c2410c}
+.win-badge{width:78px;flex-shrink:0;text-align:center;font-size:12px;font-weight:700;padding:5px 0;border-radius:8px}
+.win-badge.deyi{background:#dcfce7;color:#166534}
+.win-badge.zytd{background:#fee2e2;color:#991b1b}
+.win-badge.tie{background:#f1f5f9;color:#64748b}
 .concl .concl-line{font-size:15px;line-height:1.5}
 .concl .concl-sub{font-size:13px;color:#dbe7fb;margin-top:6px}
 .concl .concl-raw{font-family:monospace;font-size:11px;color:#bfdbfe;margin-top:8px;
   padding:6px 10px;background:rgba(255,255,255,.1);border-radius:6px;display:none}
 .note{background:#fffbeb;border:1px solid #fcd34d;padding:10px 12px;border-radius:8px;
   font-size:12px;color:#92400e;margin-top:14px;line-height:1.6}
-.col-sur{display:none}.delta-s{display:none}
 </style>
 
         <div class="card concl">
@@ -66,26 +73,65 @@ td.zname{text-align:left;font-weight:700;color:#1e293b;background:#f8fafc;min-wi
         </div>
         <div class="modebar"><span class="mode-label">价格模式：</span><button class="mbtn active" id="btn-normal" onclick="switchMode('normal')">📦 普货单价</button><button class="mbtn" id="btn-sur" onclick="switchMode('sur')">🧵 含附加费（纺织品/鞋子/手提包 +1.0/KG | 中运约+2.0/KG）</button></div>
         <div class="card">
-          <h2>分区 × 单价对比（元/KG）</h2>
-          <div class="table-wrap">
-          <table><thead><tr><th rowspan="2">分区</th><th colspan="3">≤51 KG</th><th colspan="3">≤100 KG</th><th colspan="3">>100 KG</th></tr>
-          <tr><th>德翼</th><th class="col-sur">德翼(+)</th><th>Δ</th><th>德翼</th><th class="col-sur">德翼(+)</th><th>Δ</th><th>德翼</th><th class="col-sur">德翼(+)</th><th>Δ</th></tr>
-          </thead><tbody><tr><td class="zname">美西</td><td class="col-d"><span class="carrier-label">德翼</span><span class="price-val p-win">18.2</span><br><span class="mut" style="font-size:11px;color:#94a3b8">中运 20.4</span></td><td class="col-s"><span class="carrier-label">德翼</span><span class="price-val p-win">19.2</span><br><span class="mut" style="font-size:11px;color:#94a3b8">中运 22.4</span></td><td class="delta-cell"><span class="badge badge-good delta-n" style="display:">-2.2</span><span class="badge badge-good delta-s" style="display:none">-3.2</span></td><td class="col-d"><span class="carrier-label">德翼</span><span class="price-val p-win">16.2</span><br><span class="mut" style="font-size:11px;color:#94a3b8">中运 17.9</span></td><td class="col-s"><span class="carrier-label">德翼</span><span class="price-val p-win">17.2</span><br><span class="mut" style="font-size:11px;color:#94a3b8">中运 19.9</span></td><td class="delta-cell"><span class="badge badge-good delta-n" style="display:">-1.7</span><span class="badge badge-good delta-s" style="display:none">-2.7</span></td><td class="col-d"><span class="carrier-label">德翼</span><span class="price-val p-win">15.2</span><br><span class="mut" style="font-size:11px;color:#94a3b8">中运 16.4</span></td><td class="col-s"><span class="carrier-label">德翼</span><span class="price-val p-win">16.2</span><br><span class="mut" style="font-size:11px;color:#94a3b8">中运 18.4</span></td><td class="delta-cell"><span class="badge badge-good delta-n" style="display:">-1.2</span><span class="badge badge-good delta-s" style="display:none">-2.2</span></td></tr><tr><td class="zname">美中</td><td class="col-d"><span class="carrier-label">德翼</span><span class="price-val p-win">19.6</span><br><span class="mut" style="font-size:11px;color:#94a3b8">中运 21.9</span></td><td class="col-s"><span class="carrier-label">德翼</span><span class="price-val p-win">20.6</span><br><span class="mut" style="font-size:11px;color:#94a3b8">中运 23.9</span></td><td class="delta-cell"><span class="badge badge-good delta-n" style="display:">-2.3</span><span class="badge badge-good delta-s" style="display:none">-3.3</span></td><td class="col-d"><span class="carrier-label">德翼</span><span class="price-val p-win">17.6</span><br><span class="mut" style="font-size:11px;color:#94a3b8">中运 19.4</span></td><td class="col-s"><span class="carrier-label">德翼</span><span class="price-val p-win">18.6</span><br><span class="mut" style="font-size:11px;color:#94a3b8">中运 21.4</span></td><td class="delta-cell"><span class="badge badge-good delta-n" style="display:">-1.8</span><span class="badge badge-good delta-s" style="display:none">-2.8</span></td><td class="col-d"><span class="carrier-label">德翼</span><span class="price-val p-win">16.6</span><br><span class="mut" style="font-size:11px;color:#94a3b8">中运 17.9</span></td><td class="col-s"><span class="carrier-label">德翼</span><span class="price-val p-win">17.6</span><br><span class="mut" style="font-size:11px;color:#94a3b8">中运 19.9</span></td><td class="delta-cell"><span class="badge badge-good delta-n" style="display:">-1.3</span><span class="badge badge-good delta-s" style="display:none">-2.3</span></td></tr><tr><td class="zname">美东</td><td class="col-d"><span class="carrier-label">德翼</span><span class="price-val p-win">20.6</span><br><span class="mut" style="font-size:11px;color:#94a3b8">中运 22.9</span></td><td class="col-s"><span class="carrier-label">德翼</span><span class="price-val p-win">21.6</span><br><span class="mut" style="font-size:11px;color:#94a3b8">中运 24.9</span></td><td class="delta-cell"><span class="badge badge-good delta-n" style="display:">-2.3</span><span class="badge badge-good delta-s" style="display:none">-3.3</span></td><td class="col-d"><span class="carrier-label">德翼</span><span class="price-val p-win">18.6</span><br><span class="mut" style="font-size:11px;color:#94a3b8">中运 20.4</span></td><td class="col-s"><span class="carrier-label">德翼</span><span class="price-val p-win">19.6</span><br><span class="mut" style="font-size:11px;color:#94a3b8">中运 22.4</span></td><td class="delta-cell"><span class="badge badge-good delta-n" style="display:">-1.8</span><span class="badge badge-good delta-s" style="display:none">-2.8</span></td><td class="col-d"><span class="carrier-label">德翼</span><span class="price-val p-win">17.6</span><br><span class="mut" style="font-size:11px;color:#94a3b8">中运 18.9</span></td><td class="col-s"><span class="carrier-label">德翼</span><span class="price-val p-win">18.6</span><br><span class="mut" style="font-size:11px;color:#94a3b8">中运 20.9</span></td><td class="delta-cell"><span class="badge badge-good delta-n" style="display:">-1.3</span><span class="badge badge-good delta-s" style="display:none">-2.3</span></td></tr></tbody></table>
-          </div>
-          <p class="note">★ 绿底 = 该分区最低价 &nbsp;|&nbsp; Δ = 德翼−中运（负值=德翼便宜）<br>
-          切换上方「含附加费」按钮查看加收后的实际应付单价。</p>
+          <h2>分区对决 · 德翼 vs 中运通达（元/KG）</h2>
+          <div class="zones" id="zones"></div>
+          <p class="note">蓝条=德翼，橙条=中运，条越长越贵；右侧徽章标该重量段谁更省。<br>
+          切换上方「含附加费」查看加收后的实际应付单价（德翼+1.0 / 中运约+2 元/KG）。</p>
         </div>
         <script>
-        function switchMode(m){
-          document.querySelectorAll('.mbtn').forEach(b=>b.classList.remove('active'));
-          document.getElementById(m==='normal'?'btn-normal':'btn-sur').classList.add('active');
-          var sur = m==='sur';
-          document.querySelectorAll('.col-d').forEach(e=>e.style.display=sur?'none':'');
-          document.querySelectorAll('.col-sur').forEach(e=>e.style.display=sur?'':'none');
-          document.querySelectorAll('.delta-n').forEach(e=>e.style.display=sur?'none':'');
-          document.querySelectorAll('.delta-s').forEach(e=>e.style.display=sur?'':'none');
-          document.getElementById('sur-raw').style.display = sur ? '' : 'none';
+        const DATA = {"zones": ["美西", "美中", "美东"], "weights": [{"w": "51.0", "label": "≤51"}, {"w": "100.0", "label": "≤100"}, {"w": "1000.0", "label": ">100"}], "sur_cats": ["纺织品", "鞋子", "手提包"], "sur_amount": 1.0, "zytd_sur": 2.0, "rows": {"美西": {"51.0": {"dp": 18.2, "zp": 20.4, "dp_s": 19.2, "zp_s": 22.4, "delta": -2.2, "delta_s": -3.2}, "100.0": {"dp": 16.2, "zp": 17.9, "dp_s": 17.2, "zp_s": 19.9, "delta": -1.7, "delta_s": -2.7}, "1000.0": {"dp": 15.2, "zp": 16.4, "dp_s": 16.2, "zp_s": 18.4, "delta": -1.2, "delta_s": -2.2}}, "美中": {"51.0": {"dp": 19.6, "zp": 21.9, "dp_s": 20.6, "zp_s": 23.9, "delta": -2.3, "delta_s": -3.3}, "100.0": {"dp": 17.6, "zp": 19.4, "dp_s": 18.6, "zp_s": 21.4, "delta": -1.8, "delta_s": -2.8}, "1000.0": {"dp": 16.6, "zp": 17.9, "dp_s": 17.6, "zp_s": 19.9, "delta": -1.3, "delta_s": -2.3}}, "美东": {"51.0": {"dp": 20.6, "zp": 22.9, "dp_s": 21.6, "zp_s": 24.9, "delta": -2.3, "delta_s": -3.3}, "100.0": {"dp": 18.6, "zp": 20.4, "dp_s": 19.6, "zp_s": 22.4, "delta": -1.8, "delta_s": -2.8}, "1000.0": {"dp": 17.6, "zp": 18.9, "dp_s": 18.6, "zp_s": 20.9, "delta": -1.3, "delta_s": -2.3}}}};
+        function fmt(v){return v===null||v===undefined?'—':v.toFixed(1);}
+        function render(mode){
+          var sur = mode==='sur';
+          var html = '';
+          DATA.zones.forEach(function(zone){
+            var rows = DATA.rows[zone];
+            var allWin = [];
+            var rowsHtml = '';
+            DATA.weights.forEach(function(wt){
+              var r = rows[wt.w];
+              var d = sur ? r.dp_s : r.dp;
+              var z = sur ? r.zps : r.zp;
+              var delta = sur ? r.delta_s : r.delta;
+              var maxv = Math.max(d||0, z||0) || 1;
+              var dw = d!=null ? (d/maxv*100).toFixed(0) : 0;
+              var zw = z!=null ? (z/maxv*100).toFixed(0) : 0;
+              var winCls, winTxt;
+              if(delta===null||delta===undefined){winCls='tie';winTxt='—';}
+              else if(delta<-0.01){winCls='deyi';winTxt='德翼省'+Math.abs(delta).toFixed(1);}
+              else if(delta>0.01){winCls='zytd';winTxt='中运省'+delta.toFixed(1);}
+              else {winCls='tie';winTxt='持平';}
+              allWin.push(winCls);
+              rowsHtml += '<div class="w-row"><div class="w-label">'+wt.label+' KG</div>'
+                + '<div class="vs">'
+                + '<div class="carrier"><span class="c-name">德翼</span>'
+                + '<div class="c-bar-wrap"><div class="c-bar deyi" style="width:'+dw+'%"></div></div>'
+                + '<span class="c-price deyi">'+fmt(d)+'</span></div>'
+                + '<div class="carrier"><span class="c-name">中运</span>'
+                + '<div class="c-bar-wrap"><div class="c-bar zytd" style="width:'+zw+'%"></div></div>'
+                + '<span class="c-price zytd">'+fmt(z)+'</span></div>'
+                + '</div>'
+                + '<div class="win-badge '+winCls+'">'+winTxt+'</div></div>';
+            });
+            // 分区总标签：多数德翼便宜 -> 德翼赢
+            var deyiCnt = allWin.filter(function(x){return x==='deyi';}).length;
+            var zytdCnt = allWin.filter(function(x){return x==='zytd';}).length;
+            var tagCls = deyiCnt>zytdCnt?'win-deyi':(zytdCnt>deyiCnt?'win-zytd':'tie');
+            var tagTxt = deyiCnt>zytdCnt?('德翼全段省 '+deyiCnt+'/'+DATA.weights.length)
+                        :(zytdCnt>deyiCnt?('中运全段省 '+zytdCnt+'/'+DATA.weights.length):'互有胜负');
+            html += '<div class="zone-card"><div class="zone-head"><span class="zone-name">'+zone
+                  + '</span><span class="zone-tag '+tagCls+'">'+tagTxt+'</span></div>'
+                  + rowsHtml + '</div>';
+          });
+          document.getElementById('zones').innerHTML = html;
         }
+        function switchMode(m){
+          document.querySelectorAll('.mbtn').forEach(function(b){b.classList.remove('active');});
+          document.getElementById(m==='normal'?'btn-normal':'btn-sur').classList.add('active');
+          render(m);
+          document.getElementById('sur-raw').style.display = (m==='sur') ? '' : 'none';
+        }
+        render('normal');
         </script>
         </div>
 <script>
