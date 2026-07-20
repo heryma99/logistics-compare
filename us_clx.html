@@ -23,14 +23,70 @@ td.mut,span.mut{color:#999;font-weight:400;font-size:12px}
 </style></head><body><div class="wrap">
 <h1>美森限时达 CLX 对比 · 德翼 vs 中运通达</h1><div class="sub">双清含税 · FBA入仓 · 数据源：wl02@leading-trade.com 邮箱最新报价 · 生成 2026-07-20</div>
 
-        <div class="card concl"><h2>一句话结论</h2><p>德翼美森限时达对 <b>纺织品/鞋子/手提包</b> 加收 <b>1.0 元/KG</b> 产品附加费（中运海派纺织品/皮革/鞋类另计，约 2 元/KG，已计入含附加列）；普货档两家接近，含附加费品类德翼单价需 +1.0。</p>
-          <p class="sub">德翼CLX动态附加费原文：<span class="raw">单件起重12KG,最重不超22KG一件/纺织品/鞋子/手提包，附加1元/KG</span></p></div>
-        <div class="filterbar">品类筛选：<button class="fbtn active" onclick="filterCat('all')">全部</button><button class="fbtn" onclick="filterCat('普通货')">普货(免附加)</button><button class="fbtn" onclick="filterCat('纺织品')">纺织品 +1.0/KG</button><button class="fbtn" onclick="filterCat('鞋子')">鞋子 +1.0/KG</button><button class="fbtn" onclick="filterCat('手提包')">手提包 +1.0/KG</button></div>
-        <div class="card"><h2>分区 × 重量段 单价对比（元/KG）</h2>
-        <table><thead><tr><th>分区</th><th>≤51 KG</th><th class='cat-textile' style='display:none'>51.0 KG(含附加)</th><th>≤100 KG</th><th class='cat-textile' style='display:none'>100.0 KG(含附加)</th><th>('>100', '>100') KG</th><th class='cat-textile' style='display:none'>1000.0 KG(含附加)</th></tr></thead>
-        <tbody><tr data-cat="纺织品 鞋子 手提包"><td class="zname">美西</td><td data-cat="general">德翼 <b>18.2</b><br><span class="mut">中运 20.4</span></td><td class="cat-textile" data-cat="textile" style="display:none">德翼 <b>19.2</b><br><span class="mut">中运 22.4</span></td><td data-cat="general">德翼 <b>16.2</b><br><span class="mut">中运 17.9</span></td><td class="cat-textile" data-cat="textile" style="display:none">德翼 <b>17.2</b><br><span class="mut">中运 19.9</span></td><td data-cat="general">德翼 <b>15.2</b><br><span class="mut">中运 16.4</span></td><td class="cat-textile" data-cat="textile" style="display:none">德翼 <b>16.2</b><br><span class="mut">中运 18.4</span></td></tr><tr data-cat="纺织品 鞋子 手提包"><td class="zname">美中</td><td data-cat="general">德翼 <b>19.6</b><br><span class="mut">中运 21.9</span></td><td class="cat-textile" data-cat="textile" style="display:none">德翼 <b>20.6</b><br><span class="mut">中运 23.9</span></td><td data-cat="general">德翼 <b>17.6</b><br><span class="mut">中运 19.4</span></td><td class="cat-textile" data-cat="textile" style="display:none">德翼 <b>18.6</b><br><span class="mut">中运 21.4</span></td><td data-cat="general">德翼 <b>16.6</b><br><span class="mut">中运 17.9</span></td><td class="cat-textile" data-cat="textile" style="display:none">德翼 <b>17.6</b><br><span class="mut">中运 19.9</span></td></tr><tr data-cat="纺织品 鞋子 手提包"><td class="zname">美东</td><td data-cat="general">德翼 <b>20.6</b><br><span class="mut">中运 22.9</span></td><td class="cat-textile" data-cat="textile" style="display:none">德翼 <b>21.6</b><br><span class="mut">中运 24.9</span></td><td data-cat="general">德翼 <b>18.6</b><br><span class="mut">中运 20.4</span></td><td class="cat-textile" data-cat="textile" style="display:none">德翼 <b>19.6</b><br><span class="mut">中运 22.4</span></td><td data-cat="general">德翼 <b>17.6</b><br><span class="mut">中运 18.9</span></td><td class="cat-textile" data-cat="textile" style="display:none">德翼 <b>18.6</b><br><span class="mut">中运 20.9</span></td></tr></tbody></table>
-        <p class="note">表格默认显示「普货单价」。点击上方品类按钮，含附加费列（cat-textile）即时显示该品类应付单价。
-        中运海派附加费未全部结构化，按公开备注约 2 元/KG 估算，实际以报价表为准。</p></div>
+<style>
+.modebar{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:14px 0;padding:12px 16px;
+  background:#f8fafc;border-radius:10px;border:1px solid #e2e8f0}
+.mode-label{font-size:13px;color:#64748b;font-weight:600}
+.mbtn{padding:8px 18px;border:2px solid #e2e8f0;border-radius:10px;background:#fff;
+  cursor:pointer;font-size:13px;font-weight:600;color:#334155;transition:all .15s}
+.mbtn:hover{border-color:#94a3b8}
+.mbtn.active{background:#2563eb;color:#fff;border-color:#2563eb}
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{padding:10px 10px;text-align:center;border-bottom:1px solid #e8ecf1;vertical-align:middle}
+thead th{background:#f1f5f9;color:#475569;font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.3px}
+thead tr:nth-child(2) th{font-size:11px;font-weight:500;color:#94a3b8}
+td.zname{text-align:left;font-weight:700;color:#1e293b;background:#f8fafc;min-width:50px}
+.col-d,.col-sur{min-width:64px}
+.col-d .p-win{background:#dcfce7;color:#166534;display:block;padding:4px 8px;border-radius:6px}
+.col-d .p-lose{color:#64748b;display:block;padding:4px 8px}
+.col-sur .p-win{background:#fef3c7;color:#92400e;display:block;padding:4px 8px;border-radius:6px}
+.col-sur .p-lose{color:#64748b;display:block;padding:4px 8px}
+.carrier-label{font-size:10px;color:#94a3b8;font-weight:500;margin-bottom:1px}
+.price-val{font-size:15px;font-weight:700}
+.p-win .price-val{font-size:16px}
+.delta-cell{text-align:center;min-width:46px}
+.badge{display:inline-block;padding:3px 8px;border-radius:10px;font-size:12px;font-weight:700}
+.badge-good{background:#dcfce7;color:#166534}
+.badge-bad{background:#fee2e2;color:#991b1b}
+.badge-neutral{background:#f1f5f9;color:#64748b}
+.concl .concl-line{font-size:15px;line-height:1.5}
+.concl .concl-sub{font-size:13px;color:#dbe7fb;margin-top:6px}
+.concl .concl-raw{font-family:monospace;font-size:11px;color:#bfdbfe;margin-top:8px;
+  padding:6px 10px;background:rgba(255,255,255,.1);border-radius:6px;display:none}
+.note{background:#fffbeb;border:1px solid #fcd34d;padding:10px 12px;border-radius:8px;
+  font-size:12px;color:#92400e;margin-top:14px;line-height:1.6}
+.col-sur{display:none}.delta-s{display:none}
+</style>
+
+        <div class="card concl">
+          <div class="concl-line"><b>结论：</b>德翼对 <b>纺织品/鞋子/手提包</b> 加收 <b>1.0 元/KG</b></div>
+          <div class="concl-sub">普货全分区德翼更便宜；含附加后德翼仍优（德翼+1.0 vs 中运+2）</div>
+          <div class="concl-raw" id="sur-raw"><span class="raw">原文：单件起重12KG,最重不超22KG一件/纺织品/鞋子/手提包，附加1元/KG</span></div>
+        </div>
+        <div class="modebar"><span class="mode-label">价格模式：</span><button class="mbtn active" id="btn-normal" onclick="switchMode('normal')">📦 普货单价</button><button class="mbtn" id="btn-sur" onclick="switchMode('sur')">🧵 含附加费（纺织品/鞋子/手提包 +1.0/KG | 中运约+2.0/KG）</button></div>
+        <div class="card">
+          <h2>分区 × 单价对比（元/KG）</h2>
+          <div class="table-wrap">
+          <table><thead><tr><th rowspan="2">分区</th><th colspan="3">≤51 KG</th><th colspan="3">≤100 KG</th><th colspan="3">>100 KG</th></tr>
+          <tr><th>德翼</th><th class="col-sur">德翼(+)</th><th>Δ</th><th>德翼</th><th class="col-sur">德翼(+)</th><th>Δ</th><th>德翼</th><th class="col-sur">德翼(+)</th><th>Δ</th></tr>
+          </thead><tbody><tr><td class="zname">美西</td><td class="col-d"><span class="carrier-label">德翼</span><span class="price-val p-win">18.2</span><br><span class="mut" style="font-size:11px;color:#94a3b8">中运 20.4</span></td><td class="col-s"><span class="carrier-label">德翼</span><span class="price-val p-win">19.2</span><br><span class="mut" style="font-size:11px;color:#94a3b8">中运 22.4</span></td><td class="delta-cell"><span class="badge badge-good delta-n" style="display:">-2.2</span><span class="badge badge-good delta-s" style="display:none">-3.2</span></td><td class="col-d"><span class="carrier-label">德翼</span><span class="price-val p-win">16.2</span><br><span class="mut" style="font-size:11px;color:#94a3b8">中运 17.9</span></td><td class="col-s"><span class="carrier-label">德翼</span><span class="price-val p-win">17.2</span><br><span class="mut" style="font-size:11px;color:#94a3b8">中运 19.9</span></td><td class="delta-cell"><span class="badge badge-good delta-n" style="display:">-1.7</span><span class="badge badge-good delta-s" style="display:none">-2.7</span></td><td class="col-d"><span class="carrier-label">德翼</span><span class="price-val p-win">15.2</span><br><span class="mut" style="font-size:11px;color:#94a3b8">中运 16.4</span></td><td class="col-s"><span class="carrier-label">德翼</span><span class="price-val p-win">16.2</span><br><span class="mut" style="font-size:11px;color:#94a3b8">中运 18.4</span></td><td class="delta-cell"><span class="badge badge-good delta-n" style="display:">-1.2</span><span class="badge badge-good delta-s" style="display:none">-2.2</span></td></tr><tr><td class="zname">美中</td><td class="col-d"><span class="carrier-label">德翼</span><span class="price-val p-win">19.6</span><br><span class="mut" style="font-size:11px;color:#94a3b8">中运 21.9</span></td><td class="col-s"><span class="carrier-label">德翼</span><span class="price-val p-win">20.6</span><br><span class="mut" style="font-size:11px;color:#94a3b8">中运 23.9</span></td><td class="delta-cell"><span class="badge badge-good delta-n" style="display:">-2.3</span><span class="badge badge-good delta-s" style="display:none">-3.3</span></td><td class="col-d"><span class="carrier-label">德翼</span><span class="price-val p-win">17.6</span><br><span class="mut" style="font-size:11px;color:#94a3b8">中运 19.4</span></td><td class="col-s"><span class="carrier-label">德翼</span><span class="price-val p-win">18.6</span><br><span class="mut" style="font-size:11px;color:#94a3b8">中运 21.4</span></td><td class="delta-cell"><span class="badge badge-good delta-n" style="display:">-1.8</span><span class="badge badge-good delta-s" style="display:none">-2.8</span></td><td class="col-d"><span class="carrier-label">德翼</span><span class="price-val p-win">16.6</span><br><span class="mut" style="font-size:11px;color:#94a3b8">中运 17.9</span></td><td class="col-s"><span class="carrier-label">德翼</span><span class="price-val p-win">17.6</span><br><span class="mut" style="font-size:11px;color:#94a3b8">中运 19.9</span></td><td class="delta-cell"><span class="badge badge-good delta-n" style="display:">-1.3</span><span class="badge badge-good delta-s" style="display:none">-2.3</span></td></tr><tr><td class="zname">美东</td><td class="col-d"><span class="carrier-label">德翼</span><span class="price-val p-win">20.6</span><br><span class="mut" style="font-size:11px;color:#94a3b8">中运 22.9</span></td><td class="col-s"><span class="carrier-label">德翼</span><span class="price-val p-win">21.6</span><br><span class="mut" style="font-size:11px;color:#94a3b8">中运 24.9</span></td><td class="delta-cell"><span class="badge badge-good delta-n" style="display:">-2.3</span><span class="badge badge-good delta-s" style="display:none">-3.3</span></td><td class="col-d"><span class="carrier-label">德翼</span><span class="price-val p-win">18.6</span><br><span class="mut" style="font-size:11px;color:#94a3b8">中运 20.4</span></td><td class="col-s"><span class="carrier-label">德翼</span><span class="price-val p-win">19.6</span><br><span class="mut" style="font-size:11px;color:#94a3b8">中运 22.4</span></td><td class="delta-cell"><span class="badge badge-good delta-n" style="display:">-1.8</span><span class="badge badge-good delta-s" style="display:none">-2.8</span></td><td class="col-d"><span class="carrier-label">德翼</span><span class="price-val p-win">17.6</span><br><span class="mut" style="font-size:11px;color:#94a3b8">中运 18.9</span></td><td class="col-s"><span class="carrier-label">德翼</span><span class="price-val p-win">18.6</span><br><span class="mut" style="font-size:11px;color:#94a3b8">中运 20.9</span></td><td class="delta-cell"><span class="badge badge-good delta-n" style="display:">-1.3</span><span class="badge badge-good delta-s" style="display:none">-2.3</span></td></tr></tbody></table>
+          </div>
+          <p class="note">★ 绿底 = 该分区最低价 &nbsp;|&nbsp; Δ = 德翼−中运（负值=德翼便宜）<br>
+          切换上方「含附加费」按钮查看加收后的实际应付单价。</p>
+        </div>
+        <script>
+        function switchMode(m){
+          document.querySelectorAll('.mbtn').forEach(b=>b.classList.remove('active'));
+          document.getElementById(m==='normal'?'btn-normal':'btn-sur').classList.add('active');
+          var sur = m==='sur';
+          document.querySelectorAll('.col-d').forEach(e=>e.style.display=sur?'none':'');
+          document.querySelectorAll('.col-sur').forEach(e=>e.style.display=sur?'':'none');
+          document.querySelectorAll('.delta-n').forEach(e=>e.style.display=sur?'none':'');
+          document.querySelectorAll('.delta-s').forEach(e=>e.style.display=sur?'':'none');
+          document.getElementById('sur-raw').style.display = sur ? '' : 'none';
+        }
+        </script>
         </div>
 <script>
 function filterCat(cat){
