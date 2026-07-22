@@ -1,39 +1,148 @@
-<!DOCTYPE html>
-<html lang="zh-CN"><head><meta charset="UTF-8">
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>物流报价环比看板 · price_change_small.html</title>
+<title>物流价格变动看板 · 小包环比</title>
 <style>
-*{box-sizing:border-box}body{margin:0;font-family:-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;background:#f5f7fa;color:#222}
-.wrap{max-width:1120px;margin:0 auto;padding:22px 18px 60px}
-h1{font-size:22px;margin:0 0 4px} .sub{color:#888;font-size:13px;margin-bottom:18px}
-.card{background:#fff;border-radius:12px;padding:18px 20px;margin:14px 0;box-shadow:0 1px 4px rgba(0,0,0,.06)}
-.concl{background:linear-gradient(135deg,#2c6ecb,#1a4f97);color:#fff}
-.concl h2{margin:0 0 8px;font-size:18px} .concl p{margin:6px 0;line-height:1.6;font-size:14px}
-.concl .sub{color:#dbe7fb}
-table{width:100%;border-collapse:collapse;font-size:13px;margin-top:6px}
-th,td{padding:9px 8px;text-align:center;border-bottom:1px solid #eee}
-th{background:#f0f3f7;color:#555;font-weight:600} td.zname{text-align:left;font-weight:600;background:#fafbff}
-td.mut,span.mut{color:#999;font-weight:400;font-size:12px}
-.note{background:#fff8e6;border:1px solid #ffe1a8;padding:10px 12px;border-radius:6px;font-size:12px;margin-top:12px;color:#7a5b00}
-.raw{font-family:monospace;font-size:12px}
-.filterbar{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
-.fbtn{padding:7px 14px;border:1px solid #cfd6df;border-radius:20px;background:#fff;cursor:pointer;font-size:13px}
-.fbtn.active{background:#2c6ecb;color:#fff;border-color:#2c6ecb}
-.cat-textile{background:#fff3e0}
-</style></head><body><div class="wrap">
-<h1>物流报价环比看板 · price_change_small.html</h1><div class="sub">生成 2026-07-20</div>
-<div class='card'><h2>当前有效单价快照</h2><table><thead><tr><th>渠道·分区</th><th>当前(元/KG)</th><th>环比</th></tr></thead><tbody><tr><td class='zname'>德翼CLX-美东</td><td>20.6</td><td>持平</td></tr><tr><td class='zname'>德翼CLX-美中</td><td>19.6</td><td>持平</td></tr><tr><td class='zname'>德翼CLX-美西</td><td>18.2</td><td>持平</td></tr></tbody></table><p class='note'>环比基线取自上次成功运行的 quotes_history/price_snapshot.json；首跑显示『新增』。完整 6 渠道哈希比对见自动化日报。</p></div></div>
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,'Microsoft YaHei',sans-serif;background:#f4f6f9;color:#1f2d3d;line-height:1.6}
+.wrap{max-width:1180px;margin:0 auto;padding:22px 18px 60px}
+.hero{background:linear-gradient(135deg,#1a2a6c,#2a5298);color:#fff;border-radius:16px;padding:24px 30px;margin-bottom:18px}
+.hero h1{font-size:22px;margin:0 0 6px}.hero .sub{opacity:.85;font-size:13px}
+.banner{background:#fff7ed;border:1px solid #fdba74;border-left:5px solid #ea580c;border-radius:12px;padding:14px 20px;margin-bottom:18px;font-size:13.5px;line-height:1.7}
+.banner b{color:#ea580c}
+.kpi{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin-bottom:18px}
+.kpi .k{background:#fff;border-radius:12px;padding:14px 8px;text-align:center;box-shadow:0 2px 10px rgba(0,0,0,.05)}
+.kpi .v{font-size:24px;font-weight:800;color:#2a5298}.kpi .l{font-size:12px;color:#8a94a6;margin-top:4px}
+.tabs{display:flex;gap:8px;margin-bottom:16px}
+.tab{border:1px solid #d6dde8;background:#fff;border-radius:20px;padding:7px 20px;font-size:14px;cursor:pointer;color:#5a6577}
+.tab.on{background:#2a5298;color:#fff;border-color:#2a5298;font-weight:600}
+.grphead{margin:22px 0 12px;padding:10px 16px;border-left:5px solid #2a5298;background:#eef2f8;border-radius:0 10px 10px 0}
+.grphead .gt{font-size:17px;font-weight:700}.grphead .gd{font-size:12.5px;color:#6b7585;margin-top:2px}
+.chcard{background:#fff;border-radius:14px;padding:18px 20px;margin-bottom:16px;box-shadow:0 2px 12px rgba(0,0,0,.05);border-top:3px solid #e3e8f0}
+.chcard[data-group='yuntu']{border-top-color:#1f6fe0}
+.chcard[data-group='feit']{border-top-color:#1a8c6e}
+.chcard[data-group='deyi']{border-top-color:#4a4ad8}
+.chcard[data-group='zytd']{border-top-color:#d9651f}
+.chcard.collapsed{border-top-style:dashed;box-shadow:none;background:#fcfcfd}
+.ch-body{}
+.chcard.collapsed .ch-body{display:none}
+.chev{cursor:pointer;font-size:13px;color:#8a94a6;margin-left:6px;transition:transform .15s;user-select:none;display:inline-block}
+.chcard.collapsed .chev{transform:rotate(-90deg)}
+.status-tag{font-size:11px;border-radius:6px;padding:2px 8px;font-weight:600;margin-left:6px}
+.st-chg{background:#fdeaea;color:#c0392b}.st-flat{background:#eef1f5;color:#8a94a6}.st-wait{background:#fffbeb;color:#92400e}
+.ch-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px}
+.ch-name{font-size:16.5px;font-weight:700}
+.badge{font-size:11px;background:#eef2f8;color:#5a6577;border-radius:6px;padding:2px 9px;font-weight:600}
+.badge.b-yuntu{background:#e8f1ff;color:#1f6fe0}
+.badge.b-feit{background:#e6f9ef;color:#1a8c6e}
+.badge.b-deyi{background:#eeefff;color:#4a4ad8}
+.badge.b-zytd{background:#fff0e6;color:#d9651f}
+.ch-base{margin-left:auto}
+.base-sel{border:1px solid #cdd6e4;border-radius:8px;padding:6px 10px;font-size:13px;color:#33405a;background:#fbfcfe}
+.timeline{font-size:12px;color:#8a94a6;margin:4px 0 8px}
+.ch-sum{font-size:13px;color:#5a6577;margin:4px 0 10px}
+.ch-sum b.up{color:#c0392b}.ch-sum b.down{color:#1a8c6e}
+.ch-note{font-size:13px;color:#92400e;background:#fffbeb;border-left:4px solid #f59e0b;border-radius:8px;padding:10px 14px;margin-bottom:10px}
+.flat-toggle{cursor:pointer;font-size:12.5px;color:#1f6fe0;font-weight:600;background:#eef4ff;border:1px solid #cfe0ff;border-radius:7px;padding:4px 12px;display:inline-block;margin:2px 0 8px;user-select:none}
+.flat-toggle:hover{background:#e2edff}
+.tbl-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{padding:7px 10px;text-align:center;border-bottom:1px solid #eef1f5}
+th{background:#f8fafc;color:#5a6577;font-weight:600;font-size:12px;position:sticky;top:0}
+td.pl{text-align:left;font-weight:600;color:#2d3748}
+td.num{font-variant-numeric:tabular-nums}
+.up{color:#c0392b;font-weight:700}.down{color:#1a8c6e;font-weight:700}
+.eq{color:#8a94a6}.new{color:#1d4ed8;font-weight:700}.rm{color:#9ca3af;font-weight:700}
+.chcard .up{background:#fdeaea;border-radius:6px}.chcard .down{background:#e6f9ef;border-radius:6px}
+.ch-empty{color:#1a8c6e;background:#f0fdf4;font-weight:600;padding:14px 10px !important}
+.foot{color:#9ca3af;font-size:12px;margin-top:20px;text-align:center}
+@media(max-width:760px){.kpi{grid-template-columns:repeat(3,1fr)}.ch-base{margin-left:0;width:100%}}
+</style></head>
+<body><div class="wrap">
+<div class="hero"><h1>物流价格变动看板 · 小包环比</h1>
+<div class="sub">小包渠道报价分版本存档，可切换基准逐（国家×重量段）比对运费/kg ｜ 生成于 2026-07-22 12:10</div></div>
+<div class='banner'><b>说明：</b>本页仅含<b>小包</b>渠道。本看板追踪 ☁️ 云途专线（3 渠道，最多 10 版）；🟢 飞特 EY（1 渠道，最多 3 版）。各渠道已载入历史报价版本（见卡片时间轴），可下拉切换基准做真实环比；<b style='color:#c0392b'>红＝涨价</b>、<b style='color:#1a8c6e'>绿＝降价</b>（均指运费/kg 变动）。<b>每个渠道默认只显示「有变动」的国家×重量段明细</b>（涨/跌/新增/移除），持平项不显示；<b>有对比的渠道默认展开</b>，<b>仅「仅1版·无对比」的渠道默认折叠</b>（点击卡片头 ▾ 展开）。</div>
+<div class='kpi'><div class='k'><div class='v'>4</div><div class='l'>追踪渠道</div></div><div class='k'><div class='v'>112</div><div class='l'>最新价记录条</div></div><div class='k'><div class='v' style='color:#c0392b'>0</div><div class='l'>涨价项</div></div><div class='k'><div class='v' style='color:#1a8c6e'>41</div><div class='l'>降价项</div></div><div class='k'><div class='v'>0/0</div><div class='l'>新增/移除</div></div><div class='k'><div class='v'>6</div><div class='l'>最大单跳(元)</div></div></div>
+
+<div class='grphead' data-group='yuntu' style='border-left-color:#1f6fe0'><div class='gt' style='color:#1f6fe0'>☁️ 云途专线</div><div class='gd'>云途自家产品渠道</div></div><div class='chcard' data-code='yuntu_thphr' data-cat='小包' data-group='yuntu'><div class='ch-head'><span class='ch-name'>云途 全球特惠普货 THPHR</span><span class='badge b-yuntu'>THPHR</span><span class='status-tag st-chg'>有变动</span><span class='chev' onclick='toggleCard("yuntu_thphr")' title='展开/折叠'>▾</span><span class='ch-base'><select class='base-sel' id='base_yuntu_thphr' onchange='renderCard("yuntu_thphr")'><option value='0'>对比基准：2026-06-15</option><option value='1'>对比基准：2026-06-29</option><option value='2' selected>对比基准：2026-07-06</option></select></span></div><div class='ch-body'><div class='timeline'>📅 版本时间轴：2026-06-15 → 2026-06-29 → 2026-07-06 → 2026-07-07</div><span class='flat-toggle' id='ft_yuntu_thphr' onclick='toggleFlat("yuntu_thphr")'>⊕ 显示持平项（查看全部国家×重量段价格）</span><div class='ch-sum' id='sum_yuntu_thphr'></div><div class='tbl-wrap'><table id='tbl_yuntu_thphr'><thead><tr><th>国家/地区</th><th>重量段</th><th>基准运费/kg</th><th>最新运费/kg</th><th>Δ元</th><th>±%</th><th>方向</th></tr></thead><tbody></tbody></table></div></div></div><div class='chcard' data-code='yuntu_c66322' data-cat='小包' data-group='yuntu'><div class='ch-head'><span class='ch-name'>云途 C66322 特殊方案 QYTHPH</span><span class='badge b-yuntu'>QYTHPH</span><span class='status-tag st-flat'>无变动</span><span class='chev' onclick='toggleCard("yuntu_c66322")' title='展开/折叠'>▾</span><span class='ch-base'><select class='base-sel' id='base_yuntu_c66322' onchange='renderCard("yuntu_c66322")'><option value='0'>对比基准：2026-06-15</option><option value='1'>对比基准：2026-06-29</option><option value='2' selected>对比基准：2026-07-06</option></select></span></div><div class='ch-body'><div class='timeline'>📅 版本时间轴：2026-06-15 → 2026-06-29 → 2026-07-06 → 2026-07-07</div><span class='flat-toggle' id='ft_yuntu_c66322' onclick='toggleFlat("yuntu_c66322")'>⊕ 显示持平项（查看全部国家×重量段价格）</span><div class='ch-sum' id='sum_yuntu_c66322'></div><div class='tbl-wrap'><table id='tbl_yuntu_c66322'><thead><tr><th>国家/地区</th><th>重量段</th><th>基准运费/kg</th><th>最新运费/kg</th><th>Δ元</th><th>±%</th><th>方向</th></tr></thead><tbody></tbody></table></div></div></div><div class='chcard' data-code='yuntu_a01' data-cat='小包' data-group='yuntu'><div class='ch-head'><span class='ch-name'>云途 A01 特惠普货（区域特殊方案）</span><span class='badge b-yuntu'>A01</span><span class='status-tag st-chg'>有变动</span><span class='chev' onclick='toggleCard("yuntu_a01")' title='展开/折叠'>▾</span><span class='ch-base'><select class='base-sel' id='base_yuntu_a01' onchange='renderCard("yuntu_a01")'><option value='0'>对比基准：2026-01-05</option><option value='1'>对比基准：2026-01-12</option><option value='2'>对比基准：2026-01-26</option><option value='3'>对比基准：2026-02-02</option><option value='4'>对比基准：2026-02-09</option><option value='5'>对比基准：2026-02-25</option><option value='6'>对比基准：2026-03-23</option><option value='7'>对比基准：2026-04-20</option><option value='8' selected>对比基准：2026-06-01</option></select></span></div><div class='ch-body'><div class='timeline'>📅 版本时间轴：2026-01-05 → 2026-01-12 → 2026-01-26 → 2026-02-02 → 2026-02-09 → 2026-02-25 → 2026-03-23 → 2026-04-20 → 2026-06-01 → 2026-06-29</div><span class='flat-toggle' id='ft_yuntu_a01' onclick='toggleFlat("yuntu_a01")'>⊕ 显示持平项（查看全部国家×重量段价格）</span><div class='ch-sum' id='sum_yuntu_a01'></div><div class='tbl-wrap'><table id='tbl_yuntu_a01'><thead><tr><th>国家/地区</th><th>重量段</th><th>基准运费/kg</th><th>最新运费/kg</th><th>Δ元</th><th>±%</th><th>方向</th></tr></thead><tbody></tbody></table></div></div></div><div class='grphead' data-group='feit' style='border-left-color:#1a8c6e'><div class='gt' style='color:#1a8c6e'>🟢 飞特 EY</div><div class='gd'>飞特标准挂号小包</div></div><div class='chcard' data-code='feit_ca' data-cat='小包' data-group='feit'><div class='ch-head'><span class='ch-name'>飞特 加拿大(EY)</span><span class='badge b-feit'>feit</span><span class='status-tag st-chg'>有变动</span><span class='chev' onclick='toggleCard("feit_ca")' title='展开/折叠'>▾</span><span class='ch-base'><select class='base-sel' id='base_feit_ca' onchange='renderCard("feit_ca")'><option value='0'>对比基准：2026-04-23</option><option value='1' selected>对比基准：2026-07-08</option></select></span></div><div class='ch-body'><div class='timeline'>📅 版本时间轴：2026-04-23 → 2026-07-08 → 2026-07-09</div><span class='flat-toggle' id='ft_feit_ca' onclick='toggleFlat("feit_ca")'>⊕ 显示持平项（查看全部国家×重量段价格）</span><div class='ch-sum' id='sum_feit_ca'></div><div class='tbl-wrap'><table id='tbl_feit_ca'><thead><tr><th>国家/地区</th><th>重量段</th><th>基准运费/kg</th><th>最新运费/kg</th><th>Δ元</th><th>±%</th><th>方向</th></tr></thead><tbody></tbody></table></div></div></div>
+<div class="foot">数据源：各物流商多版报价文件 ｜ 由 price_change_engine.py 自动生成</div>
+</div>
 <script>
-function filterCat(cat){
-  document.querySelectorAll('.fbtn').forEach(function(b){b.classList.toggle('active', b.getAttribute('onclick').indexOf("'"+cat+"'")>=0 || (cat==='all' && b.getAttribute('onclick').indexOf('all')>=0));});
-  document.querySelectorAll('tr[data-cat]').forEach(function(tr){
-    var cats = (tr.getAttribute('data-cat')||'').split(' ');
-    var show = (cat==='all') || cats.indexOf(cat)>=0 || cats.indexOf('普通货')>=0;
-    tr.style.display = show ? '' : 'none';
+var DATA = {"yuntu_thphr": {"name": "云途 全球特惠普货 THPHR", "short": "THPHR", "cat": "小包", "group": "yuntu", "versions": [{"eff": "2026-06-15", "matrix": {"美国": [["0＜W≤0.1", 120.0, 23.0], ["0.1＜W≤0.2", 115.0, 21.0], ["0.2＜W≤0.3", 113.0, 19.0], ["0.3＜W≤0.45", 112.0, 19.0], ["0.45＜W≤0.7", 111.0, 19.0], ["0.7＜W≤2", 110.0, 12.0], ["2＜W≤30", 105.0, 12.0]], "英国": [["0＜W≤0.3", 42.0, 16.0], ["0.3＜W≤0.5", 44.0, 16.0], ["0.5＜W≤1", 44.0, 16.0], ["1＜W≤20", 46.0, 16.0]], "法国": [["0＜W≤0.2", 62.0, 20.0], ["0.2＜W≤0.5", 63.0, 20.0], ["0.5＜W≤2", 62.0, 23.0], ["2＜W≤30", 61.0, 23.0]], "德国": [["0＜W≤0.1", 62.0, 22.0], ["0.1＜W≤0.3", 62.0, 21.0], ["0.3＜W≤2", 59.0, 22.0], ["2＜W≤30", 59.0, 22.0]], "意大利": [["0＜W≤2", 65.0, 25.0], ["2＜W≤30", 67.0, 25.0]], "西班牙": [["0＜W≤2", 63.0, 18.0], ["2＜W≤30", 63.0, 18.0]], "荷兰": [["0＜W≤0.1", 89.0, 21.0], ["0.1＜W≤0.2", 79.0, 23.0], ["0.2＜W≤2", 77.0, 23.0], ["2＜W≤20", 67.0, 23.0]], "墨西哥": [["0＜W≤0.2", 70.0, 17.0], ["0.2＜W≤0.5", 70.0, 18.0], ["0.5＜W≤1", 70.0, 18.0], ["1＜W≤3", 70.0, 20.0], ["3＜W≤10", 70.0, 20.0]], "巴西": [["0＜W≤0.2", 102.0, 46.0], ["0.2＜W≤0.5", 102.0, 46.0], ["0.5＜W≤1", 102.0, 46.0], ["1＜W≤1.5", 102.0, 46.0], ["1.5＜W≤2", 102.0, 49.0], ["2＜W≤5", 102.0, 60.0], ["5＜W≤20", 102.0, 100.0]], "新西兰": [["0＜W≤25", 83.0, 17.0]], "加拿大": [["0＜W≤0.15", 61.0, 21.0], ["0.15＜W≤0.3", 62.0, 21.0], ["0.3＜W≤0.45", 62.0, 21.0], ["0.45＜W≤0.75", 63.0, 22.0], ["0.75＜W≤1", 64.0, 22.0], ["1＜W≤1.5", 64.0, 23.0], ["1.5＜W≤2", 64.0, 23.0], ["2＜W≤30", 68.0, 23.0]], "澳大利亚": [["0＜W≤0.3", 30.0, 21.0], ["0.3＜W≤0.5", 30.0, 24.0], ["0.5＜W≤1", 30.0, 25.0], ["1＜W≤3", 30.0, 27.0], ["3＜W≤20", 30.0, 42.0], ["0＜W≤0.3", 30.0, 29.0], ["0.3＜W≤0.5", 30.0, 30.0], ["0.5＜W≤1", 30.0, 34.0], ["1＜W≤3", 30.0, 36.0], ["3＜W≤20", 30.0, 53.0], ["0＜W≤0.3", 35.0, 55.0], ["0.3＜W≤0.5", 35.0, 56.0], ["0.5＜W≤1", 35.0, 79.0], ["1＜W≤3", 35.0, 81.0], ["3＜W≤20", 35.0, 120.0], ["0＜W≤0.3", 42.0, 62.0], ["0.3＜W≤0.5", 42.0, 62.0], ["0.5＜W≤1", 42.0, 105.0], ["1＜W≤3", 50.0, 130.0], ["3＜W≤20", 50.0, 160.0]], "日本": [["0＜W≤2", 30.0, 5.0], ["2＜W≤10", 30.0, 6.0]]}}, {"eff": "2026-06-29", "matrix": {"美国": [["0＜W≤0.1", 115.0, 23.0], ["0.1＜W≤0.2", 110.0, 21.0], ["0.2＜W≤0.3", 108.0, 19.0], ["0.3＜W≤0.45", 107.0, 19.0], ["0.45＜W≤0.7", 106.0, 19.0], ["0.7＜W≤2", 105.0, 12.0], ["2＜W≤30", 100.0, 12.0]], "英国": [["0＜W≤0.3", 42.0, 16.0], ["0.3＜W≤0.5", 44.0, 16.0], ["0.5＜W≤1", 44.0, 16.0], ["1＜W≤20", 46.0, 16.0]], "法国": [["0＜W≤0.2", 62.0, 20.0], ["0.2＜W≤0.5", 63.0, 20.0], ["0.5＜W≤2", 62.0, 23.0], ["2＜W≤30", 61.0, 23.0]], "德国": [["0＜W≤0.1", 62.0, 22.0], ["0.1＜W≤0.3", 62.0, 21.0], ["0.3＜W≤2", 59.0, 22.0], ["2＜W≤30", 59.0, 22.0]], "意大利": [["0＜W≤2", 65.0, 25.0], ["2＜W≤30", 67.0, 25.0]], "西班牙": [["0＜W≤2", 63.0, 18.0], ["2＜W≤30", 63.0, 18.0]], "荷兰": [["0＜W≤0.1", 89.0, 21.0], ["0.1＜W≤0.2", 79.0, 23.0], ["0.2＜W≤2", 77.0, 23.0], ["2＜W≤20", 67.0, 23.0]], "墨西哥": [["0＜W≤0.2", 70.0, 17.0], ["0.2＜W≤0.5", 70.0, 18.0], ["0.5＜W≤1", 70.0, 18.0], ["1＜W≤3", 70.0, 20.0], ["3＜W≤10", 70.0, 20.0]], "巴西": [["0＜W≤0.2", 102.0, 46.0], ["0.2＜W≤0.5", 102.0, 46.0], ["0.5＜W≤1", 102.0, 46.0], ["1＜W≤1.5", 102.0, 46.0], ["1.5＜W≤2", 102.0, 49.0], ["2＜W≤5", 102.0, 60.0], ["5＜W≤20", 102.0, 100.0]], "新西兰": [["0＜W≤25", 83.0, 17.0]], "加拿大": [["0＜W≤0.15", 61.0, 21.0], ["0.15＜W≤0.3", 62.0, 21.0], ["0.3＜W≤0.45", 62.0, 21.0], ["0.45＜W≤0.75", 63.0, 22.0], ["0.75＜W≤1", 64.0, 22.0], ["1＜W≤1.5", 64.0, 23.0], ["1.5＜W≤2", 64.0, 23.0], ["2＜W≤30", 68.0, 23.0]], "澳大利亚": [["0＜W≤0.3", 30.0, 21.0], ["0.3＜W≤0.5", 30.0, 24.0], ["0.5＜W≤1", 30.0, 25.0], ["1＜W≤3", 30.0, 27.0], ["3＜W≤20", 30.0, 42.0], ["0＜W≤0.3", 30.0, 29.0], ["0.3＜W≤0.5", 30.0, 30.0], ["0.5＜W≤1", 30.0, 34.0], ["1＜W≤3", 30.0, 36.0], ["3＜W≤20", 30.0, 53.0], ["0＜W≤0.3", 35.0, 55.0], ["0.3＜W≤0.5", 35.0, 56.0], ["0.5＜W≤1", 35.0, 79.0], ["1＜W≤3", 35.0, 81.0], ["3＜W≤20", 35.0, 120.0], ["0＜W≤0.3", 42.0, 62.0], ["0.3＜W≤0.5", 42.0, 62.0], ["0.5＜W≤1", 42.0, 105.0], ["1＜W≤3", 50.0, 130.0], ["3＜W≤20", 50.0, 160.0]], "日本": [["0＜W≤2", 30.0, 5.0], ["2＜W≤10", 30.0, 6.0]]}}, {"eff": "2026-07-06", "matrix": {"美国": [["0＜W≤0.1", 115.0, 23.0], ["0.1＜W≤0.2", 110.0, 21.0], ["0.2＜W≤0.3", 108.0, 19.0], ["0.3＜W≤0.45", 107.0, 19.0], ["0.45＜W≤0.7", 106.0, 19.0], ["0.7＜W≤2", 105.0, 12.0], ["2＜W≤30", 100.0, 12.0]], "英国": [["0＜W≤0.3", 42.0, 16.0], ["0.3＜W≤0.5", 44.0, 16.0], ["0.5＜W≤1", 44.0, 16.0], ["1＜W≤20", 46.0, 16.0]], "法国": [["0＜W≤0.2", 62.0, 20.0], ["0.2＜W≤0.5", 63.0, 20.0], ["0.5＜W≤2", 62.0, 23.0], ["2＜W≤30", 61.0, 23.0]], "德国": [["0＜W≤0.1", 62.0, 22.0], ["0.1＜W≤0.3", 62.0, 21.0], ["0.3＜W≤2", 59.0, 22.0], ["2＜W≤30", 59.0, 22.0]], "意大利": [["0＜W≤2", 65.0, 25.0], ["2＜W≤30", 67.0, 25.0]], "西班牙": [["0＜W≤2", 63.0, 18.0], ["2＜W≤30", 63.0, 18.0]], "荷兰": [["0＜W≤0.1", 89.0, 21.0], ["0.1＜W≤0.2", 79.0, 23.0], ["0.2＜W≤2", 77.0, 23.0], ["2＜W≤20", 67.0, 23.0]], "墨西哥": [["0＜W≤0.2", 65.0, 17.0], ["0.2＜W≤0.5", 65.0, 18.0], ["0.5＜W≤1", 65.0, 18.0], ["1＜W≤3", 65.0, 20.0], ["3＜W≤10", 65.0, 20.0]], "巴西": [["0＜W≤0.2", 102.0, 46.0], ["0.2＜W≤0.5", 102.0, 46.0], ["0.5＜W≤1", 102.0, 46.0], ["1＜W≤1.5", 102.0, 46.0], ["1.5＜W≤2", 102.0, 49.0], ["2＜W≤5", 102.0, 60.0], ["5＜W≤20", 102.0, 100.0]], "新西兰": [["0＜W≤25", 83.0, 17.0]], "加拿大": [["0＜W≤0.15", 61.0, 21.0], ["0.15＜W≤0.3", 62.0, 21.0], ["0.3＜W≤0.45", 62.0, 21.0], ["0.45＜W≤0.75", 63.0, 22.0], ["0.75＜W≤1", 64.0, 22.0], ["1＜W≤1.5", 64.0, 23.0], ["1.5＜W≤2", 64.0, 23.0], ["2＜W≤30", 68.0, 23.0]], "澳大利亚": [["0＜W≤0.3", 30.0, 21.0], ["0.3＜W≤0.5", 30.0, 24.0], ["0.5＜W≤1", 30.0, 25.0], ["1＜W≤3", 30.0, 27.0], ["3＜W≤20", 30.0, 42.0], ["0＜W≤0.3", 30.0, 29.0], ["0.3＜W≤0.5", 30.0, 30.0], ["0.5＜W≤1", 30.0, 34.0], ["1＜W≤3", 30.0, 36.0], ["3＜W≤20", 30.0, 53.0], ["0＜W≤0.3", 35.0, 55.0], ["0.3＜W≤0.5", 35.0, 56.0], ["0.5＜W≤1", 35.0, 79.0], ["1＜W≤3", 35.0, 81.0], ["3＜W≤20", 35.0, 120.0], ["0＜W≤0.3", 42.0, 62.0], ["0.3＜W≤0.5", 42.0, 62.0], ["0.5＜W≤1", 42.0, 105.0], ["1＜W≤3", 50.0, 130.0], ["3＜W≤20", 50.0, 160.0]], "日本": [["0＜W≤2", 30.0, 5.0], ["2＜W≤10", 30.0, 6.0]]}}, {"eff": "2026-07-07", "matrix": {"美国": [["0＜W≤0.1", 115.0, 23.0], ["0.1＜W≤0.2", 110.0, 21.0], ["0.2＜W≤0.3", 108.0, 19.0], ["0.3＜W≤0.45", 107.0, 19.0], ["0.45＜W≤0.7", 106.0, 19.0], ["0.7＜W≤2", 105.0, 12.0], ["2＜W≤30", 100.0, 12.0]], "英国": [["0＜W≤0.3", 42.0, 16.0], ["0.3＜W≤0.5", 44.0, 16.0], ["0.5＜W≤1", 44.0, 16.0], ["1＜W≤20", 46.0, 16.0]], "法国": [["0＜W≤0.2", 57.0, 20.0], ["0.2＜W≤0.5", 58.0, 20.0], ["0.5＜W≤2", 57.0, 23.0], ["2＜W≤30", 56.0, 23.0]], "德国": [["0＜W≤0.1", 57.0, 22.0], ["0.1＜W≤0.3", 57.0, 21.0], ["0.3＜W≤2", 54.0, 22.0], ["2＜W≤30", 54.0, 22.0]], "意大利": [["0＜W≤2", 59.0, 25.0], ["2＜W≤30", 61.0, 25.0]], "西班牙": [["0＜W≤2", 58.0, 18.0], ["2＜W≤30", 58.0, 18.0]], "荷兰": [["0＜W≤0.1", 86.0, 21.0], ["0.1＜W≤0.2", 76.0, 23.0], ["0.2＜W≤2", 74.0, 23.0], ["2＜W≤20", 64.0, 23.0]], "墨西哥": [["0＜W≤0.2", 65.0, 17.0], ["0.2＜W≤0.5", 65.0, 18.0], ["0.5＜W≤1", 65.0, 18.0], ["1＜W≤3", 65.0, 20.0], ["3＜W≤10", 65.0, 20.0]], "巴西": [["0＜W≤0.2", 102.0, 46.0], ["0.2＜W≤0.5", 102.0, 46.0], ["0.5＜W≤1", 102.0, 46.0], ["1＜W≤1.5", 102.0, 46.0], ["1.5＜W≤2", 102.0, 49.0], ["2＜W≤5", 102.0, 60.0], ["5＜W≤20", 102.0, 100.0]], "新西兰": [["0＜W≤25", 83.0, 17.0]], "加拿大": [["0＜W≤0.15", 61.0, 21.0], ["0.15＜W≤0.3", 62.0, 21.0], ["0.3＜W≤0.45", 62.0, 21.0], ["0.45＜W≤0.75", 63.0, 22.0], ["0.75＜W≤1", 64.0, 22.0], ["1＜W≤1.5", 64.0, 23.0], ["1.5＜W≤2", 64.0, 23.0], ["2＜W≤30", 68.0, 23.0]], "澳大利亚": [["0＜W≤0.3", 30.0, 21.0], ["0.3＜W≤0.5", 30.0, 24.0], ["0.5＜W≤1", 30.0, 25.0], ["1＜W≤3", 30.0, 27.0], ["3＜W≤20", 30.0, 42.0], ["0＜W≤0.3", 30.0, 29.0], ["0.3＜W≤0.5", 30.0, 30.0], ["0.5＜W≤1", 30.0, 34.0], ["1＜W≤3", 30.0, 36.0], ["3＜W≤20", 30.0, 53.0], ["0＜W≤0.3", 35.0, 55.0], ["0.3＜W≤0.5", 35.0, 56.0], ["0.5＜W≤1", 35.0, 79.0], ["1＜W≤3", 35.0, 81.0], ["3＜W≤20", 35.0, 120.0], ["0＜W≤0.3", 42.0, 62.0], ["0.3＜W≤0.5", 42.0, 62.0], ["0.5＜W≤1", 42.0, 105.0], ["1＜W≤3", 50.0, 130.0], ["3＜W≤20", 50.0, 160.0]], "日本": [["0＜W≤2", 30.0, 5.0], ["2＜W≤10", 30.0, 6.0]]}}]}, "yuntu_c66322": {"name": "云途 C66322 特殊方案 QYTHPH", "short": "QYTHPH", "cat": "小包", "group": "yuntu", "versions": [{"eff": "2026-06-15", "matrix": {"墨西哥": [["0＜W≤0.5", 60.0, 15.0], ["0.5＜W≤1", 65.0, 15.0], ["1＜W≤3", 65.0, 15.0], ["3＜W≤5", 65.0, 15.0]], "巴西": [["0＜W≤1", 86.0, 30.0], ["1＜W≤4", 86.0, 35.0], ["4＜W≤10", 86.0, 40.0]], "澳大利亚": [["0＜W≤0.3", 24.0, 21.0], ["0.3＜W≤0.5", 24.0, 24.0], ["0.5＜W≤1", 24.0, 25.0], ["1＜W≤3", 24.0, 27.0], ["3＜W≤20", 24.0, 42.0], ["0＜W≤0.3", 24.0, 29.0], ["0.3＜W≤0.5", 24.0, 30.0], ["0.5＜W≤1", 24.0, 34.0], ["1＜W≤3", 24.0, 36.0], ["3＜W≤20", 24.0, 53.0]]}}, {"eff": "2026-06-29", "matrix": {"墨西哥": [["0＜W≤0.5", 60.0, 15.0], ["0.5＜W≤1", 65.0, 15.0], ["1＜W≤3", 65.0, 15.0], ["3＜W≤5", 65.0, 15.0]], "巴西": [["0＜W≤1", 86.0, 30.0], ["1＜W≤4", 86.0, 35.0], ["4＜W≤10", 86.0, 40.0]], "澳大利亚": [["0＜W≤0.3", 28.0, 21.0], ["0.3＜W≤0.5", 28.0, 24.0], ["0.5＜W≤1", 28.0, 25.0], ["1＜W≤3", 28.0, 27.0], ["3＜W≤20", 28.0, 42.0], ["0＜W≤0.3", 28.0, 29.0], ["0.3＜W≤0.5", 28.0, 30.0], ["0.5＜W≤1", 28.0, 34.0], ["1＜W≤3", 28.0, 36.0], ["3＜W≤20", 28.0, 53.0]]}}, {"eff": "2026-07-06", "matrix": {"墨西哥": [["0＜W≤0.5", 55.0, 15.0], ["0.5＜W≤1", 60.0, 15.0], ["1＜W≤3", 60.0, 15.0], ["3＜W≤5", 60.0, 15.0]], "巴西": [["0＜W≤1", 86.0, 30.0], ["1＜W≤4", 86.0, 35.0], ["4＜W≤10", 86.0, 40.0]], "澳大利亚": [["0＜W≤0.3", 28.0, 21.0], ["0.3＜W≤0.5", 28.0, 24.0], ["0.5＜W≤1", 28.0, 25.0], ["1＜W≤3", 28.0, 27.0], ["3＜W≤20", 28.0, 42.0], ["0＜W≤0.3", 28.0, 29.0], ["0.3＜W≤0.5", 28.0, 30.0], ["0.5＜W≤1", 28.0, 34.0], ["1＜W≤3", 28.0, 36.0], ["3＜W≤20", 28.0, 53.0]]}}, {"eff": "2026-07-07", "matrix": {"墨西哥": [["0＜W≤0.5", 55.0, 15.0], ["0.5＜W≤1", 60.0, 15.0], ["1＜W≤3", 60.0, 15.0], ["3＜W≤5", 60.0, 15.0]], "巴西": [["0＜W≤1", 86.0, 30.0], ["1＜W≤4", 86.0, 35.0], ["4＜W≤10", 86.0, 40.0]], "澳大利亚": [["0＜W≤0.3", 28.0, 21.0], ["0.3＜W≤0.5", 28.0, 24.0], ["0.5＜W≤1", 28.0, 25.0], ["1＜W≤3", 28.0, 27.0], ["3＜W≤20", 28.0, 42.0], ["0＜W≤0.3", 28.0, 29.0], ["0.3＜W≤0.5", 28.0, 30.0], ["0.5＜W≤1", 28.0, 34.0], ["1＜W≤3", 28.0, 36.0], ["3＜W≤20", 28.0, 53.0]]}}]}, "yuntu_a01": {"name": "云途 A01 特惠普货（区域特殊方案）", "short": "A01", "cat": "小包", "group": "yuntu", "versions": [{"eff": "2026-01-05", "matrix": {"美国": [["0＜W≤0.1", 81.0, 28.0], ["0.1＜W≤0.2", 81.0, 24.0], ["0.2＜W≤0.3", 81.0, 22.0], ["0.3＜W≤0.45", 81.0, 22.0], ["0.45＜W≤0.7", 85.0, 20.0], ["0.7＜W≤2", 85.0, 9.0], ["2＜W≤30", 84.0, 9.0]]}}, {"eff": "2026-01-12", "matrix": {"美国": [["0＜W≤0.1", 73.0, 28.0], ["0.1＜W≤0.2", 73.0, 24.0], ["0.2＜W≤0.3", 73.0, 22.0], ["0.3＜W≤0.45", 73.0, 22.0], ["0.45＜W≤0.7", 77.0, 20.0], ["0.7＜W≤2", 77.0, 9.0], ["2＜W≤30", 76.0, 9.0]]}}, {"eff": "2026-01-26", "matrix": {"美国": [["0＜W≤0.1", 73.0, 28.0], ["0.1＜W≤0.2", 73.0, 24.0], ["0.2＜W≤0.3", 73.0, 22.0], ["0.3＜W≤0.45", 73.0, 22.0], ["0.45＜W≤0.7", 77.0, 20.0], ["0.7＜W≤2", 77.0, 9.0], ["2＜W≤30", 76.0, 9.0]]}}, {"eff": "2026-02-02", "matrix": {"美国": [["0＜W≤0.1", 73.0, 28.0], ["0.1＜W≤0.2", 73.0, 24.0], ["0.2＜W≤0.3", 73.0, 22.0], ["0.3＜W≤0.45", 73.0, 22.0], ["0.45＜W≤0.7", 77.0, 20.0], ["0.7＜W≤2", 77.0, 9.0], ["2＜W≤30", 76.0, 9.0]]}}, {"eff": "2026-02-09", "matrix": {"美国": [["0＜W≤0.1", 73.0, 28.0], ["0.1＜W≤0.2", 73.0, 24.0], ["0.2＜W≤0.3", 73.0, 22.0], ["0.3＜W≤0.45", 73.0, 22.0], ["0.45＜W≤0.7", 77.0, 20.0], ["0.7＜W≤2", 77.0, 9.0], ["2＜W≤30", 76.0, 9.0]]}}, {"eff": "2026-02-25", "matrix": {"美国": [["0＜W≤0.1", 71.0, 28.0], ["0.1＜W≤0.2", 71.0, 24.0], ["0.2＜W≤0.3", 71.0, 22.0], ["0.3＜W≤0.45", 71.0, 22.0], ["0.45＜W≤0.7", 75.0, 20.0], ["0.7＜W≤2", 75.0, 9.0], ["2＜W≤30", 74.0, 9.0]]}}, {"eff": "2026-03-23", "matrix": {"美国": [["0＜W≤0.1", 71.0, 28.0], ["0.1＜W≤0.2", 71.0, 24.0], ["0.2＜W≤0.3", 71.0, 22.0], ["0.3＜W≤0.45", 71.0, 22.0], ["0.45＜W≤0.7", 75.0, 20.0], ["0.7＜W≤2", 75.0, 9.0], ["2＜W≤30", 74.0, 9.0]]}}, {"eff": "2026-04-20", "matrix": {"美国": [["0＜W≤0.1", 93.0, 28.0], ["0.1＜W≤0.2", 93.0, 24.0], ["0.2＜W≤0.3", 93.0, 22.0], ["0.3＜W≤0.45", 93.0, 22.0], ["0.45＜W≤0.7", 97.0, 20.0], ["0.7＜W≤2", 97.0, 9.0], ["2＜W≤30", 96.0, 9.0]]}}, {"eff": "2026-06-01", "matrix": {"美国": [["0＜W≤0.1", 98.0, 28.0], ["0.1＜W≤0.2", 98.0, 24.0], ["0.2＜W≤0.3", 98.0, 22.0], ["0.3＜W≤0.45", 98.0, 22.0], ["0.45＜W≤0.7", 102.0, 20.0], ["0.7＜W≤2", 102.0, 9.0], ["2＜W≤30", 101.0, 9.0]]}}, {"eff": "2026-06-29", "matrix": {"美国": [["0＜W≤0.1", 93.0, 28.0], ["0.1＜W≤0.2", 93.0, 24.0], ["0.2＜W≤0.3", 93.0, 22.0], ["0.3＜W≤0.45", 93.0, 22.0], ["0.45＜W≤0.7", 97.0, 20.0], ["0.7＜W≤2", 97.0, 9.0], ["2＜W≤30", 96.0, 9.0]]}}]}, "feit_ca": {"name": "飞特 加拿大(EY)", "short": "", "cat": "小包", "group": "feit", "versions": [{"eff": "2026-04-23", "matrix": {"加拿大": [["0kg≤包裹重量≤0.15kg", 60.0, 18.0], ["0.15kg≤包裹重量≤0.2kg", 60.0, 18.0], ["0.2kg≤包裹重量≤0.3kg", 61.5, 18.0], ["0.3kg≤包裹重量≤0.45kg", 61.5, 18.0], ["0.45kg≤包裹重量≤0.5kg", 65.0, 19.0], ["0.5kg≤包裹重量≤0.7kg", 65.0, 19.0], ["0.7kg≤包裹重量≤0.75kg", 65.0, 19.0], ["0.75kg≤包裹重量≤0.8kg", 65.0, 19.0], ["0.8kg<包裹重量≤1kg", 65.0, 19.0], ["1kg<包裹重量≤1.5kg", 70.0, 22.0], ["1.5kg≤包裹重量≤2kg", 70.0, 22.0], ["2kg<包裹重量≤2.5kg", 70.0, 22.0], ["2.5kg<包裹重量≤3kg", 70.0, 22.0], ["3kg<包裹重量≤3.5kg", 70.0, 25.0], ["3.5kg<包裹重量≤4kg", 70.0, 25.0], ["4kg<包裹重量≤4.5kg", 70.0, 25.0], ["4.5kg<包裹重量≤5kg", 70.0, 25.0], ["5kg<包裹重量≤30kg", 70.0, 25.0]]}}, {"eff": "2026-07-08", "matrix": {"加拿大": [["0kg≤包裹重量≤0.15kg", 65.0, 18.0], ["0.15kg≤包裹重量≤0.2kg", 65.0, 18.0], ["0.2kg≤包裹重量≤0.3kg", 66.5, 18.0], ["0.3kg≤包裹重量≤0.45kg", 66.5, 18.0], ["0.45kg≤包裹重量≤0.5kg", 70.0, 19.0], ["0.5kg≤包裹重量≤0.7kg", 70.0, 19.0], ["0.7kg≤包裹重量≤0.75kg", 70.0, 19.0], ["0.75kg≤包裹重量≤0.8kg", 70.0, 19.0], ["0.8kg<包裹重量≤1kg", 70.0, 19.0], ["1kg<包裹重量≤1.5kg", 75.0, 22.0], ["1.5kg≤包裹重量≤2kg", 75.0, 22.0], ["2kg<包裹重量≤2.5kg", 75.0, 22.0], ["2.5kg<包裹重量≤3kg", 75.0, 22.0], ["3kg<包裹重量≤3.5kg", 75.0, 25.0], ["3.5kg<包裹重量≤4kg", 75.0, 25.0], ["4kg<包裹重量≤4.5kg", 75.0, 25.0], ["4.5kg<包裹重量≤5kg", 75.0, 25.0], ["5kg<包裹重量≤30kg", 75.0, 25.0]]}}, {"eff": "2026-07-09", "matrix": {"加拿大": [["0kg≤包裹重量≤0.15kg", 61.0, 18.0], ["0.15kg≤包裹重量≤0.2kg", 61.0, 18.0], ["0.2kg≤包裹重量≤0.3kg", 62.5, 18.0], ["0.3kg≤包裹重量≤0.45kg", 62.5, 18.0], ["0.45kg≤包裹重量≤0.5kg", 66.0, 19.0], ["0.5kg≤包裹重量≤0.7kg", 66.0, 19.0], ["0.7kg≤包裹重量≤0.75kg", 66.0, 19.0], ["0.75kg≤包裹重量≤0.8kg", 66.0, 19.0], ["0.8kg<包裹重量≤1kg", 66.0, 19.0], ["1kg<包裹重量≤1.5kg", 71.0, 22.0], ["1.5kg≤包裹重量≤2kg", 71.0, 22.0], ["2kg<包裹重量≤2.5kg", 71.0, 22.0], ["2.5kg<包裹重量≤3kg", 71.0, 22.0], ["3kg<包裹重量≤3.5kg", 71.0, 25.0], ["3.5kg<包裹重量≤4kg", 71.0, 25.0], ["4kg<包裹重量≤4.5kg", 71.0, 25.0], ["4.5kg<包裹重量≤5kg", 71.0, 25.0], ["5kg<包裹重量≤30kg", 71.0, 25.0]]}}]}};
+function flatten(mat){var d={};for(var c in mat){for(var i=0;i<mat[c].length;i++){var b=mat[c][i];d[c+'||'+b[0]]={fr:b[1],reg:b[2]};}}return d;}
+function renderCard(code){
+  var ch=DATA[code]; if(!ch||!ch.versions.length) return;
+  var vs=ch.versions, latest=vs[vs.length-1];
+  var sel=document.getElementById('base_'+code);
+  var bi = sel? parseInt(sel.value) : (vs.length-2);
+  if(isNaN(bi)||bi<0) bi=vs.length-2;
+  var base=vs[bi]||vs[0];
+  var fb=flatten(base.matrix), fl=flatten(latest.matrix);
+  var showAll = !!window.__showAll[code];
+  var keys=Object.keys(fl);
+  Object.keys(fb).forEach(function(k){if(keys.indexOf(k)<0)keys.push(k);});
+  function countryOf(k){return k.split('||')[0];}
+  keys.sort(function(a,b){var ca=countryOf(a),cb=countryOf(b);if(ca!=cb)return ca<cb?-1:1;return a<b?-1:1;});
+  var u=d=e=a=r=mj=0; var trs='';
+  keys.forEach(function(k){
+    var of=fb[k]?fb[k].fr:null, nf=fl[k]?fl[k].fr:null;
+    var c=k.split('||')[0], band=k.split('||')[1];
+    if(of!=null&&nf!=null){
+      var delta=Math.round((nf-of)*100)/100;
+      var pct=of?Math.round(delta/of*1000)/10:null;
+      var dir=delta>0?'涨':(delta<0?'跌':'平');
+      if(dir=='涨')u++;else if(dir=='跌')d++;else e++;
+      mj=Math.max(mj,Math.abs(delta));
+      if(dir=='平' && !showAll) return; // 持平行默认不显示，开启「显示持平项」才显示
+      var cls = dir=='涨'?'up':(dir=='跌'?'down':'eq'); // 涨=红(up) 跌=绿(down) 平=灰(eq)
+      var ds=delta>0?('+'+delta.toFixed(1)):delta.toFixed(1);
+      var ps=pct==null?'—':(pct>0?('+'+pct.toFixed(1)+'%'):pct.toFixed(1)+'%');
+      if(dir=='平') ds='0';
+      trs+='<tr><td class="pl">'+c+'</td><td>'+band+'</td><td class="num">'+of.toFixed(1)+'</td><td class="num">'+nf.toFixed(1)+'</td><td class="num '+cls+'">'+ds+'</td><td class="num '+cls+'">'+ps+'</td><td class="'+cls+'">'+dir+'</td></tr>';
+    } else if(nf!=null&&of==null){
+      a++; trs+='<tr><td class="pl">'+c+'</td><td>'+band+'</td><td class="num">—</td><td class="num">'+nf.toFixed(1)+'</td><td class="num new">新增</td><td class="num new">—</td><td class="new">新增</td></tr>';
+    } else if(of!=null&&nf==null){
+      r++; trs+='<tr><td class="pl">'+c+'</td><td>'+band+'</td><td class="num">'+of.toFixed(1)+'</td><td class="num">—</td><td class="num rm">移除</td><td class="num rm">—</td><td class="rm">移除</td></tr>';
+    }
   });
-  document.querySelectorAll('td.cat-textile').forEach(function(td){
-    td.style.display = (cat==='all' || cat==='普通货') ? 'none' : '';
-  });
+  if(!trs) trs='<tr><td colspan="7" class="ch-empty">✅ 本期无价格变动（所有 国家×重量段 运费均持平）</td></tr>';
+  var tb=document.querySelector('#tbl_'+code+' tbody'); if(tb) tb.innerHTML=trs;
+  var sm=document.getElementById('sum_'+code);
+  if(sm){
+    if(showAll)
+      sm.innerHTML='对比基准 <b>'+base.eff+'</b> → 最新 <b>'+latest.eff+'</b> ｜ 已显示全部：涨 <b class="up">'+u+'</b> ｜ 跌 <b class="down">'+d+'</b> ｜ 持平 <span class="eq">'+e+'</span> ｜ 新增 '+a+' ｜ 移除 '+r;
+    else
+      sm.innerHTML='对比基准 <b>'+base.eff+'</b> → 最新 <b>'+latest.eff+'</b> ｜ 仅列出有变动项：涨 <b class="up">'+u+'</b> ｜ 跌 <b class="down">'+d+'</b> ｜ 新增 '+a+' ｜ 移除 '+r+' ｜（另有 <span class="eq">'+e+'</span> 项持平未显示，点上方「显示持平项」查看）';
+  }
 }
+// 「显示持平项」开关状态（按渠道独立记忆）
+window.__showAll = {};
+function toggleFlat(code){
+  window.__showAll[code] = !window.__showAll[code];
+  var el=document.getElementById('ft_'+code);
+  if(el) el.innerHTML = window.__showAll[code] ? '⊖ 隐藏持平项（仅看变动）' : '⊕ 显示持平项（查看全部国家×重量段价格）';
+  renderCard(code);
+}
+// 初始渲染
+Object.keys(DATA).forEach(renderCard);
+// 卡片折叠/展开
+function toggleCard(code){
+  var el=document.querySelector('.chcard[data-code="'+code+'"]');
+  if(el) el.classList.toggle('collapsed');
+}
+// tab 切换
+document.querySelectorAll('.tab').forEach(function(t){
+  t.onclick=function(){
+    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));
+    t.classList.add('on');
+    var cat=t.getAttribute('data-cat');
+    document.querySelectorAll('.chcard').forEach(function(c){c.style.display=(cat=='all'||c.getAttribute('data-cat')===cat)?'':'none';});
+    document.querySelectorAll('.grphead').forEach(function(h){
+      var g=h.getAttribute('data-group');
+      var any=false;
+      document.querySelectorAll('.chcard').forEach(function(c){if(c.getAttribute('data-group')===g&&c.style.display!=='none')any=true;});
+      h.style.display=any?'':'none';
+    });
+  };
+});
 </script>
 </body></html>
